@@ -6,12 +6,16 @@ private:
 	int key;
 
 public:
-	Posto();	
+	Posto();
+	Posto(int key); 
 	Posto(const Posto &p);
 	~Posto();
 
 	int getKey() const;
 	void setKey(int k);
+
+	virtual Posto & Posto :: operator = (const Posto &p);
+	virtual void escreve(ostream &out) const;
 };
 
 Posto::Posto(){
@@ -31,6 +35,23 @@ int Posto::getKey() const{
 
 void Posto::setKey(int k){
 	key=k;
+}
+
+Posto & Posto::operator=(const Posto &p){
+	if (this != &p){
+		Posto::operator=(p);
+		key = p.key;
+	}
+	return *this;
+}
+
+void Posto::escreve(ostream &out) const{
+	out << "Posto: <- Key:" << key << endl;
+}
+
+ostream & operator << (ostream &out, const Posto &p){
+	p.escreve(out);
+	return out;
 }
 
 #endif

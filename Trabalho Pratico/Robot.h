@@ -25,6 +25,9 @@ public:
 	float getQntStock() const;
 	float getLimite() const;
 	Posto* getPosicao() const;
+
+	virtual Robot & operator = (const Robot &r);
+	virtual void escreve(ostream &out) const;	
 };
 
 Robot::Robot(){
@@ -43,8 +46,8 @@ Robot::Robot(float lim, float qntS, Posto &p){
 
 Robot::Robot(const Robot &r){
 	setKey(r.key);
-	setQntStock(k.qntStock);
-	setLimite(k.limite);
+	setQntStock(r.qntStock);
+	setLimite(r.limite);
 	setPosicao(r.posicao);
 }
 
@@ -81,6 +84,25 @@ float Robot::getLimite() const{
 
 Posto* Robot::getPosicao() const{
 	return posicao;
+}
+
+Robot & Robot:: operator = (const Robot &r){
+	if (this != &r){
+		Robot::operator=(r);
+		key = r.key;
+		limite = r.limite;
+		qntStock = r.qntStock;
+		posicao = r.posicao;
+	}
+}
+
+void Robot:: escreve(ostream &out) const {
+	out << "Robot: <- Key: " << key << "; Limite: " << limite << ";Quantidade stock: " << qntStock << "; Posicao: " << posicao << endl;
+}
+
+ostream & operator << (ostream &out, Robot &r){
+	r.escreve(out);
+	return out;
 }
 
 #endif
