@@ -15,7 +15,7 @@ public:
 };
 
 Posto::Posto(){
-	setKey(0); //adição automatica da key... adição manual necessária?
+	setKey(0);
 }
 
 Posto::Posto(const Posto &p){
