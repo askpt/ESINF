@@ -21,6 +21,9 @@ public:
 	void setQntStock(float qntS);
 	void setQntReq(float qntR);
 	void setVel(float v);
+
+	virtual Automatico & operator = (const Automatico &t);
+	virtual void escreve(ostream &out) const;
 };
 
 Automatico::Automatico():Posto(){
@@ -67,4 +70,25 @@ void Automatico::setQntReq(float qntR){
 void Automatico::setVel(float v){
 	vel=v;
 }
+
+Automatico & Automatico :: operator = (const Automatico &t){
+	if(this != &t){
+		Automatico::operator=(t);
+		qntStock = t.qntStock;
+		qntReq = t.qntReq;
+		vel = t.vel;
+	}
+	return *this;
+}
+
+void Automatico::escreve(ostream &out) const{
+	out << "Automatico: " << endl;
+	out << "Quantidade Stock: " << qntStock << "; Quantidade Req: " << qntReq << "; Vel: " << vel << endl;
+}
+
+ostream & operator << (ostream &out, Automatico &t){
+	t.escreve(out);
+	return out;
+}
+
 #endif

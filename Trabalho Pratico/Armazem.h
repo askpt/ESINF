@@ -22,6 +22,10 @@ public:
 	float getQntStock() const;
 	float getQntSeq() const;
 	//get LL robot
+
+	virtual Armazem & operator = (const Armazem &a);
+	virtual void escreve(ostream &out) const;
+
 };
 
 Armazem::Armazem(){
@@ -61,6 +65,25 @@ float Armazem::getQntStock() const{
 
 float Armazem::getQntSeg() const{
 	return qntSeg;
+}
+
+Armazem & Armazem::operator=(const Armazem &a){
+	if(this != &a){
+		Armazem::operator=(a);
+		qntSeg = a.qntSeg;
+		qntStock = a.qntStock;
+	}
+	return *this;
+}
+
+void Armazem:: escreve(ostream &out) const{
+	out << "Armazem: " << endl;
+	out << "Quantidade em Stock: " << qntStock << "; Quantidade Seg: " << qntSeg << endl;
+}
+
+ostream & operator << (ostream &out, Armazem &a){
+	a.escreve(out);
+	return out;
 }
 
 //get LL
