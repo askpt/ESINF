@@ -22,6 +22,10 @@ Posto::Posto(){
 	setKey(0);
 }
 
+Posto::Posto(int key){
+	setKey(key);
+}
+
 Posto::Posto(const Posto &p){
 	setKey(p.key);
 }
