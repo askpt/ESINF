@@ -12,14 +12,14 @@ private:
 
 public:
 	Robot();
-	Robot(float lim, float qntS, Posto &p);
+	Robot(int key, float lim, float qntS, Posto *p);
 	Robot(const Robot &r);
 	~Robot();
 
 	void setKey(int k);
 	void setLimite(float lim);
 	void setQntStock(float qntS);
-	void setPosicao(Posto &p);
+	void setPosicao(Posto *p);
 
 	int getKey() const;
 	float getQntStock() const;
@@ -37,11 +37,11 @@ Robot::Robot(){
 	setPosicao(NULL); //Apontador null???
 }
 
-Robot::Robot(float lim, float qntS, Posto &p){
-	setKey(0);
+Robot::Robot(int key, float lim, float qntS, Posto *p){
+	setKey(key);
 	setLimite(lim);
 	setQntStock(qntS);
-	setPosicao(&p);
+	setPosicao(p);
 }
 
 Robot::Robot(const Robot &r){
@@ -66,7 +66,7 @@ void Robot::setQntStock(float qntS){
 	qntStock=qntS;
 }
 
-void Robot::setPosicao(Posto &p){
+void Robot::setPosicao(Posto *p){
 	posicao=p;
 }
 
@@ -101,7 +101,7 @@ void Robot:: escreve(ostream &out) const {
 }
 
 ostream & operator << (ostream &out, Robot &r){
-	r.escreve(out);
+	r.escreve(out);hhhhhhhh
 	return out;
 }
 

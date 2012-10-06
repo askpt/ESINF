@@ -11,7 +11,7 @@ private:
 
 public:
 	Armazem();
-	Armazem(float qntS, float qntSe); //falta pointer de LL
+	Armazem(int key, float qntS, float qntSe); //falta pointer de LL
 	Armazem(const Armazem &a);
 	~Armazem();
 
@@ -20,7 +20,7 @@ public:
 	//SET LL	 robot
 	
 	float getQntStock() const;
-	float getQntSeq() const;
+	float getQntSeg() const;
 	//get LL robot
 
 	virtual Armazem & operator = (const Armazem &a);
@@ -34,13 +34,13 @@ Armazem::Armazem(){
 	//LL
 }
 
-Armazem::Armazem(float qntS, float qntSe){
+Armazem::Armazem(int key, float qntS, float qntSe):Posto(key){
 	setQntStock(qntS);
 	setQntSeg(qntSe);
 	//LL
 }
 
-Armazem::Armazem(const Armazem &a){
+Armazem::Armazem(const Armazem &a):Posto(a){
 	setQntStock(a.qntStock);
 	setQntSeg(a.qntSeg);
 	//LL
@@ -78,6 +78,7 @@ Armazem & Armazem::operator=(const Armazem &a){
 
 void Armazem:: escreve(ostream &out) const{
 	out << "Armazem: " << endl;
+	out << Posto::escreve(out);
 	out << "Quantidade em Stock: " << qntStock << "; Quantidade Seg: " << qntSeg << endl;
 }
 

@@ -11,7 +11,7 @@ private:
 
 public:
 	Automatico();
-	Automatico(float qntS, float qntR, float v);
+	Automatico(int key, float qntS, float qntR, float v);
 	Automatico(const Automatico &a);
 	~Automatico();
 
@@ -32,7 +32,7 @@ Automatico::Automatico():Posto(){
 	setVel(0);
 }
 
-Automatico::Automatico(float qntS, float qntR, float v):Posto(){
+Automatico::Automatico(int key, float qntS, float qntR, float v):Posto(key){
 	setQntStock(qntS);
 	setQntReq(qntR);
 	setVel(v);
@@ -73,7 +73,7 @@ void Automatico::setVel(float v){
 
 Automatico & Automatico :: operator = (const Automatico &t){
 	if(this != &t){
-		Automatico::operator=(t);
+		Posto::operator=(t);
 		qntStock = t.qntStock;
 		qntReq = t.qntReq;
 		vel = t.vel;
@@ -83,6 +83,7 @@ Automatico & Automatico :: operator = (const Automatico &t){
 
 void Automatico::escreve(ostream &out) const{
 	out << "Automatico: " << endl;
+	out << Posto::escreve(out);
 	out << "Quantidade Stock: " << qntStock << "; Quantidade Req: " << qntReq << "; Vel: " << vel << endl;
 }
 
