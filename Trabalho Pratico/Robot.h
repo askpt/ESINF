@@ -28,6 +28,9 @@ public:
 
 	virtual Robot & operator = (const Robot &r);
 	virtual void escreve(ostream &out) const;	
+	bool operator == (const Robot &r);
+	bool operator > (const Robot &r);
+
 };
 
 Robot::Robot(){
@@ -96,12 +99,20 @@ Robot & Robot:: operator = (const Robot &r){
 	}
 }
 
+bool Robot::operator ==(const Robot &r){
+	return(key == r.key && limite == r.limite && qntStock == r.qntStock && posicao == r.posicao);
+}
+
+bool Robot::operator > (const Robot &r){
+	return(qntStock > r.qntStock);
+}
+
 void Robot:: escreve(ostream &out) const {
 	out << "Robot: <- Key: " << key << "; Limite: " << limite << ";Quantidade stock: " << qntStock << "; Posicao: " << posicao << endl;
 }
 
 ostream & operator << (ostream &out, Robot &r){
-	r.escreve(out);hhhhhhhh
+	r.escreve(out);
 	return out;
 }
 
