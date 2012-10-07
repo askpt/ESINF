@@ -16,6 +16,8 @@ public:
 
 	virtual Posto & Posto :: operator = (const Posto &p);
 	virtual void escreve(ostream &out) const;
+	bool operator == (const Posto &p);
+	bool operator > (const Posto &p);
 };
 
 Posto::Posto(){
@@ -47,6 +49,14 @@ Posto & Posto::operator=(const Posto &p){
 		key = p.key;
 	}
 	return *this;
+}
+
+bool Posto::operator==(const Posto &p){
+	return(key = p.key);
+}
+
+bool Posto:: operator > (const Posto &p){
+	return(key > p.key);
 }
 
 void Posto::escreve(ostream &out) const{

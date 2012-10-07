@@ -25,6 +25,8 @@ public:
 
 	virtual Armazem & operator = (const Armazem &a);
 	virtual void escreve(ostream &out) const;
+	bool operator == (const Armazem &a);
+	bool operator > (const Armazem &a);
 
 };
 
@@ -75,6 +77,15 @@ Armazem & Armazem::operator=(const Armazem &a){
 	}
 	return *this;
 }
+
+bool Armazem::operator==(const Armazem &a){
+	return(qntStock == a.qntStock && qntSeg == a.qntSeg && Posto::operator==(a));
+}
+
+bool Armazem::operator > (const Armazem &a){
+	return(qntStock > a.qntStock);
+}
+
 
 void Armazem:: escreve(ostream &out) const{
 	out << "Armazem: " << endl;

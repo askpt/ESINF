@@ -24,6 +24,8 @@ public:
 
 	virtual Automatico & operator = (const Automatico &t);
 	virtual void escreve(ostream &out) const;
+	bool operator == (const Automatico &t);
+	bool operator > (const Automatico &t);
 };
 
 Automatico::Automatico():Posto(){
@@ -79,6 +81,14 @@ Automatico & Automatico :: operator = (const Automatico &t){
 		vel = t.vel;
 	}
 	return *this;
+}
+
+bool Automatico::operator==(const Automatico &t){
+	return(qntStock == t.qntStock && qntReq == t.qntReq && vel == t.vel);
+}
+
+bool Automatico::operator > (const Automatico &t){
+	return(qntStock > t.qntStock);
 }
 
 void Automatico::escreve(ostream &out) const{
