@@ -27,5 +27,8 @@
     <ClInclude Include="Robot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Transporte.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

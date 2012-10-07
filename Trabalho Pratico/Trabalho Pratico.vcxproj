@@ -80,6 +80,7 @@
     <ClInclude Include="Automatico.h" />
     <ClInclude Include="Posto.h" />
     <ClInclude Include="Robot.h" />
+    <ClInclude Include="Transporte.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
