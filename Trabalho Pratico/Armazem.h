@@ -7,21 +7,21 @@ class Armazem:public Posto{
 private:
 	float qntStock;
 	float qntSeg;
-	//lista ligada Robot
+	//TODO: lista ligada Robot
 
 public:
 	Armazem();
-	Armazem(int key, float qntS, float qntSe); //falta pointer de LL
+	Armazem(int key, float qntS, float qntSe); //TODO: falta pointer de LL
 	Armazem(const Armazem &a);
 	~Armazem();
 
 	void setQntStock(float qntS);
 	void setQntSeg(float qntSe);
-	//SET LL	 robot
+	//TODO: SET LL	 robot
 	
 	float getQntStock() const;
 	float getQntSeg() const;
-	//get LL robot
+	//TODO: get LL robot
 
 	virtual Armazem & operator = (const Armazem &a);
 	virtual void escreve(ostream &out) const;
