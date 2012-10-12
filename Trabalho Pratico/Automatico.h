@@ -5,7 +5,6 @@
 
 class Automatico:public Posto{
 private:
-	float qntStock;
 	float qntReq;
 	float vel;
 
@@ -15,10 +14,8 @@ public:
 	Automatico(const Automatico &a);
 	~Automatico();
 
-	float getQntStock() const;
 	float getQntReq() const;
 	float getVel() const;
-	void setQntStock(float qntS);
 	void setQntReq(float qntR);
 	void setVel(float v);
 
@@ -29,28 +26,21 @@ public:
 };
 
 Automatico::Automatico():Posto(){
-	setQntStock(0);
 	setQntReq(0);
 	setVel(0);
 }
 
-Automatico::Automatico(int key, float qntS, float qntR, float v):Posto(key){
-	setQntStock(qntS);
+Automatico::Automatico(int key, float qntS, float qntR, float v):Posto(key, qntS){
 	setQntReq(qntR);
 	setVel(v);
 }
 
 Automatico::Automatico(const Automatico &a):Posto(a){
-	setQntStock(a.qntStock);
 	setQntReq(a.getQntReq);
 	setVel(a.vel);
 }
 
 Automatico::~Automatico(){
-}
-
-float Automatico::getQntStock() const{
-	return qntStock;
 }
 
 float Automatico::getQntReq() const{
@@ -59,10 +49,6 @@ float Automatico::getQntReq() const{
 
 float Automatico::getVel() const{
 	return vel;
-}
-
-void Automatico::setQntStock(float qntS){
-	qntStock=qntS;
 }
 
 void Automatico::setQntReq(float qntR){
@@ -76,7 +62,6 @@ void Automatico::setVel(float v){
 Automatico & Automatico :: operator = (const Automatico &t){
 	if(this != &t){
 		Posto::operator=(t);
-		qntStock = t.qntStock;
 		qntReq = t.qntReq;
 		vel = t.vel;
 	}
@@ -84,17 +69,17 @@ Automatico & Automatico :: operator = (const Automatico &t){
 }
 
 bool Automatico::operator==(const Automatico &t){
-	return(qntStock == t.qntStock && qntReq == t.qntReq && vel == t.vel);
+	return(Posto::operator=(t) && qntReq == t.qntReq && vel == t.vel);
 }
 
 bool Automatico::operator > (const Automatico &t){
-	return(qntStock > t.qntStock);
+	return(Posto::operator=(t));
 }
 
 void Automatico::escreve(ostream &out) const{
 	out << "Automatico: " << endl;
 	out << Posto::escreve(out);
-	out << "Quantidade Stock: " << qntStock << "; Quantidade Req: " << qntReq << "; Vel: " << vel << endl;
+	out << "Quantidade Req: " << qntReq << "; Vel: " << vel << endl;
 }
 
 ostream & operator << (ostream &out, Automatico &t){
