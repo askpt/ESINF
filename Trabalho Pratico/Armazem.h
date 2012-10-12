@@ -5,7 +5,6 @@
 
 class Armazem:public Posto{
 private:
-	float qntStock;
 	float qntSeg;
 	//TODO: lista ligada Robot
 
@@ -15,11 +14,9 @@ public:
 	Armazem(const Armazem &a);
 	~Armazem();
 
-	void setQntStock(float qntS);
 	void setQntSeg(float qntSe);
 	//TODO: SET LL	 robot
 	
-	float getQntStock() const;
 	float getQntSeg() const;
 	//TODO: get LL robot
 
@@ -30,29 +27,22 @@ public:
 
 };
 
-Armazem::Armazem(){
-	setQntStock(0);
+Armazem::Armazem():Posto(){
 	setQntSeg(0);
 	//LL
 }
 
-Armazem::Armazem(int key, float qntS, float qntSe):Posto(key){
+Armazem::Armazem(int key, float qntS, float qntSe):Posto(key, qntS){
 	setQntStock(qntS);
-	setQntSeg(qntSe);
 	//LL
 }
 
 Armazem::Armazem(const Armazem &a):Posto(a){
-	setQntStock(a.qntStock);
 	setQntSeg(a.qntSeg);
 	//LL
 }
 
 Armazem::~Armazem(){
-}
-
-void Armazem::setQntStock(float qntS){
-	qntStock=qntS;
 }
 
 void Armazem::setQntSeg(float qntSe){
@@ -61,36 +51,31 @@ void Armazem::setQntSeg(float qntSe){
 
 //set LL
 
-float Armazem::getQntStock() const{
-	return qntStock;
-}
-
 float Armazem::getQntSeg() const{
 	return qntSeg;
 }
 
 Armazem & Armazem::operator=(const Armazem &a){
 	if(this != &a){
-		Armazem::operator=(a);
+		Posto::operator=(a);
 		qntSeg = a.qntSeg;
-		qntStock = a.qntStock;
 	}
 	return *this;
 }
 
 bool Armazem::operator==(const Armazem &a){
-	return(qntStock == a.qntStock && qntSeg == a.qntSeg && Posto::operator==(a));
+	return(qntSeg == a.qntSeg && Posto::operator==(a));
 }
 
 bool Armazem::operator > (const Armazem &a){
-	return(qntStock > a.qntStock);
+	return(Posto::operator>(a));
 }
 
 
 void Armazem:: escreve(ostream &out) const{
 	out << "Armazem: " << endl;
 	out << Posto::escreve(out);
-	out << "Quantidade em Stock: " << qntStock << "; Quantidade Seg: " << qntSeg << endl;
+	out << "Quantidade Seg: " << qntSeg << endl;
 }
 
 ostream & operator << (ostream &out, Armazem &a){
