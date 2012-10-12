@@ -87,10 +87,14 @@ bool Transporte::operator>(const Transporte &t){
 }
 
 Transporte& Transporte::operator=(const Transporte &t){
-	key1=t.key1;
-	key2=t.key2;
-	distanciametros=t.distanciametros;
-	tempominutos=t.tempominutos;
+	if(this!=&t){
+		key1=t.key1;
+		key2=t.key2;
+		distanciametros=t.distanciametros;
+		tempominutos=t.tempominutos;
+	}
+
+	return *this;
 }
 
 void Transporte::escreve(ostream& out) const{
