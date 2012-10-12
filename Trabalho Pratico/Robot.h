@@ -37,7 +37,8 @@ Robot::Robot(){
 	setKey(0);
 	setLimite(0);
 	setQntStock(0);
-	setPosicao(NULL); //Apontador null???
+	setPosicao(NULL); 
+	//TODO: Apontador null???
 }
 
 Robot::Robot(int key, float lim, float qntS, Posto *p){
