@@ -98,6 +98,8 @@ Robot & Robot:: operator = (const Robot &r){
 		qntStock = r.qntStock;
 		posicao = r.posicao;
 	}
+
+	return *this;
 }
 
 bool Robot::operator ==(const Robot &r){
@@ -109,7 +111,7 @@ bool Robot::operator > (const Robot &r){
 }
 
 void Robot:: escreve(ostream &out) const {
-	out << "Robot: <- Key: " << key << "; Limite: " << limite << ";Quantidade stock: " << qntStock << "; Posicao: " << posicao << endl;
+	out << "Robot: <- Key: " << key << "; Limite: " << limite << ";Quantidade stock: " << qntStock << "; Posicao: " << posicao->getKey() << endl;
 }
 
 ostream & operator << (ostream &out, Robot &r){

@@ -33,7 +33,7 @@ Armazem::Armazem():Posto(){
 }
 
 Armazem::Armazem(int key, float qntS, float qntSe):Posto(key, qntS){
-	setQntStock(qntS);
+	setQntSeg(qntS);
 	//LL
 }
 
@@ -74,7 +74,7 @@ bool Armazem::operator > (const Armazem &a){
 
 void Armazem:: escreve(ostream &out) const{
 	out << "Armazem: " << endl;
-	out << Posto::escreve(out);
+	Posto::escreve(out);
 	out << "Quantidade Seg: " << qntSeg << endl;
 }
 

@@ -36,7 +36,7 @@ Automatico::Automatico(int key, float qntS, float qntR, float v):Posto(key, qntS
 }
 
 Automatico::Automatico(const Automatico &a):Posto(a){
-	setQntReq(a.getQntReq);
+	setQntReq(a.qntReq);
 	setVel(a.vel);
 }
 
@@ -69,16 +69,16 @@ Automatico & Automatico :: operator = (const Automatico &t){
 }
 
 bool Automatico::operator==(const Automatico &t){
-	return(Posto::operator=(t) && qntReq == t.qntReq && vel == t.vel);
+	return(Posto::operator==(t) && qntReq == t.qntReq && vel == t.vel);
 }
 
 bool Automatico::operator > (const Automatico &t){
-	return(Posto::operator=(t));
+	return(Posto::operator>(t));
 }
 
 void Automatico::escreve(ostream &out) const{
 	out << "Automatico: " << endl;
-	out << Posto::escreve(out);
+	Posto::escreve(out);
 	out << "Quantidade Req: " << qntReq << "; Vel: " << vel << endl;
 }
 
