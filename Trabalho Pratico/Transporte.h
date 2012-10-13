@@ -98,7 +98,7 @@ Transporte& Transporte::operator=(const Transporte &t){
 }
 
 void Transporte::escreve(ostream& out) const{
-	out << "Viagem entre " << key1 << " e " << key2 << " é de " << tempominutos << " minutos, com uma distancia de " << distanciametros << " metros." << endl;
+	out << "Viagem entre " << key1 << " e " << key2 << " e de " << tempominutos << " minutos, com uma distancia de " << distanciametros << " metros." << endl;
 }
 
 ostream & operator << (ostream &out, Transporte &t){
