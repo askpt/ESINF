@@ -83,7 +83,7 @@ bool Transporte::operator==(const Transporte &t){
 }
 	
 bool Transporte::operator>(const Transporte &t){
-	return (distanciametros>t.distanciametros); //TODO: discutir se é a distancia ou o tempo
+	return (distanciametros>t.distanciametros); 
 }
 
 Transporte& Transporte::operator=(const Transporte &t){
