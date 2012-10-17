@@ -2,11 +2,13 @@
 #define Armazem_
 
 #include "Posto.h"
+#include "Lista.h"
+#include "No.h"
 
 class Armazem:public Posto{
 private:
 	float qntSeg;
-	//TODO: lista ligada Robot
+	Lista <Robot*> robots;
 
 public:
 	Armazem();
@@ -15,10 +17,9 @@ public:
 	~Armazem();
 
 	void setQntSeg(float qntSe);
-	//TODO: SET LL	 robot
-	
+		
 	float getQntSeg() const;
-	//TODO: get LL robot
+	Lista <Robot*>& getRobots();
 
 	virtual Armazem & operator = (const Armazem &a);
 	virtual void escreve(ostream &out) const;
@@ -29,27 +30,28 @@ public:
 
 Armazem::Armazem():Posto(){
 	setQntSeg(0);
-	//LL
 }
 
 Armazem::Armazem(int key, float qntS, float qntSe):Posto(key, qntS){
 	setQntSeg(qntS);
-	//LL
 }
 
 Armazem::Armazem(const Armazem &a):Posto(a){
 	setQntSeg(a.qntSeg);
-	//LL
+	robots=a.robots;
 }
 
 Armazem::~Armazem(){
+	robots.~Lista();
 }
 
 void Armazem::setQntSeg(float qntSe){
 	qntSeg=qntSe;
 }
 
-//set LL
+Lista <Robot*>& Armazem::getRobots(){
+	return robots;
+}
 
 float Armazem::getQntSeg() const{
 	return qntSeg;
@@ -76,6 +78,8 @@ void Armazem:: escreve(ostream &out) const{
 	out << "Armazem: " << endl;
 	Posto::escreve(out);
 	out << "Quantidade Seg: " << qntSeg << endl;
+	out << "Robots:" << endl;
+	out << robots;
 }
 
 ostream & operator << (ostream &out, Armazem &a){
@@ -83,5 +87,4 @@ ostream & operator << (ostream &out, Armazem &a){
 	return out;
 }
 
-//get LL
 #endif
