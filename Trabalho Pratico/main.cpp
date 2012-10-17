@@ -22,4 +22,7 @@ void main(){
 	cout << tr;
 	cin.get();
 
+	ar1.getRobots().insere(1, &r1);
+	cout << ar1;
+
 }
