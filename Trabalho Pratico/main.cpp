@@ -8,6 +8,7 @@ using namespace std;
 #include "Armazem.h"
 #include "Automatico.h"
 #include "Transporte.h"
+#include "Matriz.h"
 
 void lerFicheiro(string nome) {
 	

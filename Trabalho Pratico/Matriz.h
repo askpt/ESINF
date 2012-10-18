@@ -7,7 +7,7 @@ class Matriz{
 private:
 	Transporte* *mat;
 
-	int* keys;
+	int *keys;
 
 	int key_atual;
 	int dim;
@@ -20,7 +20,7 @@ public:
 	~Matriz();
 
 	void addValor(int key1, int key2, float temp, float dist);
-	void retValor(Transporte &x);
+	void retValor(Transporte &x, int key1, int key2);
 };
 
 Matriz::Matriz(int d){
@@ -44,23 +44,19 @@ Matriz::Matriz(const Matriz &m){
 	
 	for(int i=0;i<key_atual;i++)
 		for(int j=0;j<key_atual;j++)
-			mat[i][j]=m.mat[i][j]->clone();
+			mat[i][j]=m.mat[i][j];
 	
 	keys=new int[dim];
 	for(int i=0;i<key_atual;i++)
-		keys[i]=m.keys[i]->clone();
+		keys[i]=m.keys[i];
 }
 
 Matriz::~Matriz(){
-	for(int i=0;i<key_atual;i++){
-		for(int j=0;j<key_atual;j++)
-			delete mat[i][j];
-		delete mat[i];
+	for(int i=0;i<key_atual;i++){		
+		delete mat[i];		
 	}
 	delete[]mat;
 
-	for(int i=0;i<key_atual;i++)
-		delete keys[i];
 	delete [] keys;
 	
 }
@@ -78,7 +74,7 @@ void Matriz::aumenta(){
 	mat=tmp;
 
 	int* tmpk;
-	tmpk=new int *[2*dim];
+	tmpk=new int[2*dim];
 	for(int i=0;i<key_atual;i++)
 		tmpk[i]=keys[i];
 	delete[]keys;
@@ -89,16 +85,16 @@ void Matriz::aumenta(){
 
 int Matriz::encontra(int key){
 	int posk=0;
-	for(;posk<key_atual;posk1++)
-		if(*keys[i]==key)
+	for(;posk<key_atual;posk++)
+		if(keys[posk]==key)
 			break;
 	if(posk==key_atual)
 		if(key_atual!=dim){
-			*keys[posk]=key1;
+			keys[posk]=key;
 			key_atual++;
 		}else{
 			aumenta();
-			*keys[posk]=key1;
+			keys[posk]=key;
 			key_atual++;
 		}
 
@@ -110,7 +106,7 @@ void Matriz::addValor(int key1, int key2, float temp, float dist){
 	int posk2=encontra(key2);
 	
 	Transporte tmp(dist, temp);
-	mat[posk1][posk2]=&tmp;
+	mat[posk1][posk2]=tmp;
 }
 
 void Matriz::retValor(Transporte &x, int key1, int key2){
