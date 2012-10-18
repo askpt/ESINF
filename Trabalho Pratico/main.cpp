@@ -64,7 +64,7 @@ void main(){
 	Automatico at1(123, 123, 1221, 112);
 	Armazem ar1(1231, 122, 123);
 	Robot r1 (225, 25878, 4858, &ar1);
-	Transporte tr(at1.getKey(), ar1.getKey(), 12312,1222);
+	Transporte tr(12312,1222);
 
 	cout << at1;
 	cout << ar1;
