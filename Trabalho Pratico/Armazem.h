@@ -12,7 +12,7 @@ private:
 
 public:
 	Armazem();
-	Armazem(int key, float qntS, float qntSe); //TODO: falta pointer de LL
+	Armazem(int key, float qntS, float qntSe);
 	Armazem(const Armazem &a);
 	~Armazem();
 
@@ -33,7 +33,7 @@ Armazem::Armazem():Posto(){
 }
 
 Armazem::Armazem(int key, float qntS, float qntSe):Posto(key, qntS){
-	setQntSeg(qntS);
+	setQntSeg(qntSe);
 }
 
 Armazem::Armazem(const Armazem &a):Posto(a){
