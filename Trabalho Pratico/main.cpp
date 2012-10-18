@@ -9,20 +9,14 @@ using namespace std;
 #include "Automatico.h"
 #include "Transporte.h"
 
-void main(){
-
-	Automatico at1(123, 123, 1221, 112);
-	Armazem ar1(1231, 122, 123);
-	Robot r1 (225, 25878, 4858, &ar1);
-	Transporte tr(at1.getKey(), ar1.getKey(), 12312,1222);
-	//Ficheiros
-
+void lerFicheiro(string nome) {
+	
 	int i = 0;
 	int s=0;
 	string linha;
 
 	ifstream fx;
-	fx.open("C:\\Users\\Joni\\Desktop\\Robot.txt");
+	fx.open(nome);
 	if(!fx)
 		cout << "Ficheiro não existe! " << endl;
 	else{
@@ -32,10 +26,7 @@ void main(){
 			if(linha.size() > 0) {
 				int inicio = 0;
 				int pos = linha.find(',', inicio);
-				if(s == 0){
-					/* Simplesmente para retirar o primeiro atributo
-					do ficheiro de robots. Simplesmente troca-se esta validação pela
-					validação pelo nome do ficheiro e está feito.*/
+				if(nome == "Robot" && s == 0){
 					temp[0] = (linha.substr(inicio, pos-inicio));
 					s++;
 					i++;
@@ -66,14 +57,22 @@ void main(){
 			cout << temp[j] << endl;
 		}
 	}
+}
 
-	cin.get();
+void main(){
 
-	//
+	Automatico at1(123, 123, 1221, 112);
+	Armazem ar1(1231, 122, 123);
+	Robot r1 (225, 25878, 4858, &ar1);
+	Transporte tr(at1.getKey(), ar1.getKey(), 12312,1222);
+
 	cout << at1;
 	cout << ar1;
 	cout << r1;
 	cout << tr;
+	cin.get();
+
+	lerFicheiro("Robot");
 	cin.get();
 
 	ar1.getRobots().insere(1, &r1);
