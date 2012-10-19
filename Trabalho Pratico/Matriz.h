@@ -53,7 +53,7 @@ Matriz::Matriz(const Matriz &m){
 
 Matriz::~Matriz(){
 	for(int i=0;i<key_atual;i++){		
-		delete mat[i];		
+		delete [] mat[i];		
 	}
 	delete[]mat;
 
