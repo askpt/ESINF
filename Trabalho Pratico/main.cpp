@@ -9,6 +9,8 @@ using namespace std;
 #include "Automatico.h"
 #include "Transporte.h"
 #include "Matriz.h"
+#include "Queue.h"
+#include "Lista.h"
 
 void lerFicheiro(string nome) {
 	
@@ -61,23 +63,40 @@ void lerFicheiro(string nome) {
 }
 
 void main(){
-
+	
 	Automatico at1(123, 123, 1221, 112);
 	Armazem ar1(1231, 122, 123, 123);
 	Robot r1 (225, 25878, 4858, 2222);
 	Transporte tr(1,2);
 
+	//testes basicos
 	cout << at1;
 	cout << ar1;
 	cout << r1;
 	cout << tr;
 	cin.get();
 
+	//Teste leitura
 	lerFicheiro("Robot");
 	cin.get();	
 
+	//Teste Matriz
 	Matriz m(4);
 	m.addValor(at1.getKey(), ar1.getKey(), 12312, 1222);
 	m.retValor(tr, at1.getKey(), ar1.getKey());
 	cout << tr;
+	cin.get();
+
+	//Teste queue
+	Queue<Posto> aa;	
+	aa.insere(at1);
+	aa.insere(ar1);
+	cout << aa;
+	cin.get();
+
+	//Teste lista
+	Lista<Robot> ra;
+	cin.get();
+	ra.insere(1,r1);
+	cout<<ra;
 }
