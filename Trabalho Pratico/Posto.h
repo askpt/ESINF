@@ -18,7 +18,7 @@ public:
 	void setKey(int k);
 	void setQntStock(float qntS);
 
-	virtual Posto & Posto :: operator = (const Posto &p);
+	virtual Posto & operator = (const Posto &p);
 	virtual void escreve(ostream &out) const;
 	bool operator == (const Posto &p);
 	bool operator > (const Posto &p);
