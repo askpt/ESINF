@@ -63,7 +63,7 @@ void lerFicheiro(string nome) {
 void main(){
 
 	Automatico at1(123, 123, 1221, 112);
-	Armazem ar1(1231, 122, 123);
+	Armazem ar1(1231, 122, 123, 123);
 	Robot r1 (225, 25878, 4858, 2222);
 	Transporte tr(1,2);
 
@@ -74,12 +74,7 @@ void main(){
 	cin.get();
 
 	lerFicheiro("Robot");
-	cin.get();
-
-	ar1.getRobots().insere(1, &r1);
-	cout << ar1;
-
-	cin.get();
+	cin.get();	
 
 	Matriz m(4);
 	m.addValor(at1.getKey(), ar1.getKey(), 12312, 1222);
