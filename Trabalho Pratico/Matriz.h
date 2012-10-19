@@ -1,8 +1,6 @@
 #ifndef Matriz_
 #define Matriz_
 
-#include "Transporte.h"
-
 class Matriz{
 private:
 	Transporte* *mat;

@@ -1,8 +1,6 @@
 #ifndef Automatico_
 #define Automatico_
 
-#include "Posto.h"
-
 class Automatico:public Posto{
 private:
 	float qntReq;
