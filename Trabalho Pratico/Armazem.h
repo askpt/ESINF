@@ -8,18 +8,19 @@
 class Armazem:public Posto{
 private:
 	float qntSeg;
-	Lista <Robot*> robots;
+	int keyRobot;
 
 public:
 	Armazem();
-	Armazem(int key, float qntS, float qntSe);
+	Armazem(int key, float qntS, float qntSe, int keyR);
 	Armazem(const Armazem &a);
 	~Armazem();
 
 	void setQntSeg(float qntSe);
+	void setKeyRobots(int keyR);
 		
 	float getQntSeg() const;
-	Lista <Robot*>& getRobots();
+	int getKeyRobot() const;
 
 	virtual Armazem & operator = (const Armazem &a);
 	virtual void escreve(ostream &out) const;
@@ -32,25 +33,29 @@ Armazem::Armazem():Posto(){
 	setQntSeg(0);
 }
 
-Armazem::Armazem(int key, float qntS, float qntSe):Posto(key, qntS){
+Armazem::Armazem(int key, float qntS, float qntSe, int keyR):Posto(key, qntS){
 	setQntSeg(qntSe);
+	setKeyRobots(keyR);
 }
 
 Armazem::Armazem(const Armazem &a):Posto(a){
 	setQntSeg(a.qntSeg);
-	robots=a.robots;
+	keyRobot=a.keyRobot;
 }
 
 Armazem::~Armazem(){
-	robots.~Lista();
 }
 
 void Armazem::setQntSeg(float qntSe){
 	qntSeg=qntSe;
 }
 
-Lista <Robot*>& Armazem::getRobots(){
-	return robots;
+void Armazem::setKeyRobots(int keyR){
+	keyRobot=keyR;
+}
+
+int Armazem::getKeyRobot() const{
+	return keyRobot;
 }
 
 float Armazem::getQntSeg() const{
@@ -78,8 +83,8 @@ void Armazem:: escreve(ostream &out) const{
 	out << "Armazem: " << endl;
 	Posto::escreve(out);
 	out << "Quantidade Seg: " << qntSeg << endl;
-	out << "Robots:" << endl;
-	out << robots;
+	out << "Robot:" << endl;
+	out << keyRobot << endl;
 }
 
 ostream & operator << (ostream &out, Armazem &a){
