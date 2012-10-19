@@ -1,10 +1,6 @@
 #ifndef Armazem_
 #define Armazem_
 
-#include "Posto.h"
-#include "Lista.h"
-#include "No.h"
-
 class Armazem:public Posto{
 private:
 	float qntSeg;

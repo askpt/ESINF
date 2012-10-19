@@ -1,8 +1,6 @@
 #ifndef Robot_
 #define Robot_
 
-#include "Posto.h"
-
 class Robot{
 private:
 	int key;
