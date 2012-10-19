@@ -24,8 +24,8 @@ public:
 	float getLimite() const;
 	int getKeyPosto() const;
 
-	virtual Robot & operator = (const Robot &r);
-	virtual void escreve(ostream &out) const;	
+	Robot & operator = (const Robot &r);
+	void escreve(ostream &out) const;	
 	bool operator == (const Robot &r);
 	bool operator > (const Robot &r);
 
@@ -111,7 +111,7 @@ void Robot:: escreve(ostream &out) const {
 	out << "Robot: <- Key: " << key << "; Limite: " << limite << ";Quantidade stock: " << qntStock << "; Posicao: " << keyPosto << endl;
 }
 
-ostream & operator << (ostream &out, Robot &r){
+ostream & operator << (ostream &out, const Robot &r){
 	r.escreve(out);
 	return out;
 }
