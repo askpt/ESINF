@@ -65,7 +65,7 @@ void main(){
 	Automatico at1(123, 123, 1221, 112);
 	Armazem ar1(1231, 122, 123);
 	Robot r1 (225, 25878, 4858, &ar1);
-	Transporte tr(12312,1222);
+	Transporte tr(1,2);
 
 	cout << at1;
 	cout << ar1;
@@ -79,4 +79,10 @@ void main(){
 	ar1.getRobots().insere(1, &r1);
 	cout << ar1;
 
+	cin.get();
+
+	Matriz m(4);
+	m.addValor(at1.getKey(), ar1.getKey(), 12312, 1222);
+	m.retValor(tr, at1.getKey(), ar1.getKey());
+	cout << tr;
 }
