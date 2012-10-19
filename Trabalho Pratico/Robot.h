@@ -8,23 +8,23 @@ private:
 	int key;
 	float limite;
 	float qntStock;
-	Posto* posicao;
+	int keyPosto;
 
 public:
 	Robot();
-	Robot(int key, float lim, float qntS, Posto *p);
+	Robot(int key, float lim, float qntS, int keyP);
 	Robot(const Robot &r);
 	~Robot();
 
 	void setKey(int k);
 	void setLimite(float lim);
 	void setQntStock(float qntS);
-	void setPosicao(Posto *p);
+	void setKeyPosto(int keyPosto);
 
 	int getKey() const;
 	float getQntStock() const;
 	float getLimite() const;
-	Posto* getPosicao() const;
+	int getKeyPosto() const;
 
 	virtual Robot & operator = (const Robot &r);
 	virtual void escreve(ostream &out) const;	
@@ -37,21 +37,21 @@ Robot::Robot(){
 	setKey(0);
 	setLimite(0);
 	setQntStock(0);
-	setPosicao(NULL); 
+	setKeyPosto(0); 
 }
 
-Robot::Robot(int key, float lim, float qntS, Posto *p){
+Robot::Robot(int key, float lim, float qntS, int keyP){
 	setKey(key);
 	setLimite(lim);
 	setQntStock(qntS);
-	setPosicao(p);
+	setKeyPosto(keyP);
 }
 
 Robot::Robot(const Robot &r){
 	setKey(r.key);
 	setQntStock(r.qntStock);
 	setLimite(r.limite);
-	setPosicao(r.posicao);
+	setKeyPosto(r.keyPosto);
 }
 
 Robot::~Robot(){
@@ -69,8 +69,8 @@ void Robot::setQntStock(float qntS){
 	qntStock=qntS;
 }
 
-void Robot::setPosicao(Posto *p){
-	posicao=p;
+void Robot::setKeyPosto(int keyP){
+	keyPosto=keyP;
 }
 
 int Robot::getKey() const{
@@ -85,8 +85,8 @@ float Robot::getLimite() const{
 	return limite;
 }
 
-Posto* Robot::getPosicao() const{
-	return posicao;
+int Robot::getKeyPosto() const{
+	return keyPosto;
 }
 
 Robot & Robot:: operator = (const Robot &r){
@@ -95,14 +95,14 @@ Robot & Robot:: operator = (const Robot &r){
 		key = r.key;
 		limite = r.limite;
 		qntStock = r.qntStock;
-		posicao = r.posicao;
+		keyPosto = r.keyPosto;
 	}
 
 	return *this;
 }
 
 bool Robot::operator ==(const Robot &r){
-	return(key == r.key && limite == r.limite && qntStock == r.qntStock && posicao == r.posicao);
+	return(key == r.key && limite == r.limite && qntStock == r.qntStock && keyPosto == r.keyPosto);
 }
 
 bool Robot::operator > (const Robot &r){
@@ -110,7 +110,7 @@ bool Robot::operator > (const Robot &r){
 }
 
 void Robot:: escreve(ostream &out) const {
-	out << "Robot: <- Key: " << key << "; Limite: " << limite << ";Quantidade stock: " << qntStock << "; Posicao: " << posicao->getKey() << endl;
+	out << "Robot: <- Key: " << key << "; Limite: " << limite << ";Quantidade stock: " << qntStock << "; Posicao: " << keyPosto << endl;
 }
 
 ostream & operator << (ostream &out, Robot &r){
