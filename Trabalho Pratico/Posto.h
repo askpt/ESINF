@@ -83,4 +83,9 @@ ostream & operator << (ostream &out, const Posto &p){
 	return out;
 }
 
+ostream& operator << (ostream &out, const Posto* app){
+    app->escreve(out) ;
+    return out;
+}
+
 #endif
