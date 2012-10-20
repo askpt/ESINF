@@ -89,7 +89,6 @@ int Robot::getKeyPosto() const{
 
 Robot & Robot:: operator = (const Robot &r){
 	if (this != &r){
-		Robot::operator=(r);
 		key = r.key;
 		limite = r.limite;
 		qntStock = r.qntStock;
