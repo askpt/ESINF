@@ -116,17 +116,16 @@ void main(){
 	cin.get();
 
 	//Teste queue
-	Queue<Posto> aa;	
-	aa.insere(at1);
-	aa.insere(ar1);
+	Queue<Posto*> aa;	
+	aa.insere(&at1);
+	aa.insere(&ar1);
 	cout << aa;
 	cin.get();
 
 	//Teste lista
 	Lista<Robot> ra;
-	cin.get();
 	ra.insere(1,r1);
 	cout<<ra;
-
-	*/
+*/
+	
 }
