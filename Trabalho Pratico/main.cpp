@@ -62,8 +62,36 @@ void lerFicheiro(string nome) {
 	}
 }
 
+int op = -1;
+
+void menu(){
+	do{
+		cout << "1 - Coiso" << endl;
+		cout << "2 - Coisa" << endl;
+		cout << "3 - Coisao" << endl;
+		cout << "0 - Sair" << endl;
+		cin >> op;
+		switch(op){
+		case 0:
+			cout << "Programa Terminado" << endl;
+		case 1:
+			cout << "1" << endl;
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		default:
+			cout << "Valor inválido" << endl;
+		}
+	}while(op != 0);
+}
+
 void main(){
-	
+
+	menu();
+
+	/*
 	Automatico at1(123, 123, 1221, 112);
 	Armazem ar1(1231, 122, 123, 123);
 	Robot r1 (225, 25878, 4858, 2222);
@@ -99,4 +127,6 @@ void main(){
 	cin.get();
 	ra.insere(1,r1);
 	cout<<ra;
+
+	*/
 }
