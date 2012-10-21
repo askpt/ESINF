@@ -65,9 +65,12 @@ void lerFicheiro(string nome) {
 int op = -1;
 
 void menu(){
+	
+	Matriz m(8);
+	string nome;
 	do{
-		cout << "1 - Coiso" << endl;
-		cout << "2 - Coisa" << endl;
+		cout << "1 - Leitura De Ficheiro" << endl;
+		cout << "2 - Apresentar Matriz" << endl;
 		cout << "3 - Coisao" << endl;
 		cout << "0 - Sair" << endl;
 		cin >> op;
@@ -75,9 +78,15 @@ void menu(){
 		case 0:
 			cout << "Programa Terminado" << endl;
 		case 1:
-			cout << "1" << endl;
+			cout << "Introduza o ficheiro que quer ler, Ex: Robot, Armazem" << endl;
+			cin >> nome;
+			lerFicheiro(nome);
 			break;
 		case 2:
+			m.addValor(1,2,10,5);
+			m.addValor(3,4,15,10);
+			cout << "Matriz:" << endl;;
+			cout << m;
 			break;
 		case 3:
 			break;
