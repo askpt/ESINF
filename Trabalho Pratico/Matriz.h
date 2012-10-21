@@ -120,15 +120,15 @@ void Matriz::escreve(ostream &out) const{
 	
 	int cont = 0;
 
-	for(int i = 0; i < key_atual; i++){
+	for(int i = 0; i <= key_atual; i++){
 		if(i == 0)
-			cout << "0" << endl;
+			cout << "0";
 		else
-			cout << keys[i] << " ";
+			cout << keys[i-1] << " ";
 	}
 	for(int j = 0; j < key_atual; j++){
 		cout << endl;
-		for(int k = j+1; k < key_atual; k++){
+		for(int k = 0; k < key_atual; k++){
 			if (cont == j){
 				cout << keys[j] << " ";
 				cont++;
