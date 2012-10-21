@@ -138,8 +138,6 @@ void menu(){
 			cout << "------------------------------------------------------------------------------" << endl;
 			break;
 		case 2:
-			m.addValor(1,2,10,5);
-			m.addValor(3,4,15,10);
 			cout << "Matriz:" << endl;;
 			cout << m;
 			cout << endl;
