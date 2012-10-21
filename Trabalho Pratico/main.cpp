@@ -13,16 +13,24 @@ using namespace std;
 #include "Queue.h"
 #include "Lista.h"
 
-void lerFicheiro(string nome) {
+
+Matriz m(1000);
+Lista<Robot> ra;
+Queue<Posto*> aa;
+int numPostos=0;
+
+void lerFicheiroRobot() {
 	
 	int i = 0;
-	int s=0;
 	string linha;
+	int tam = ra.comprimento()+1;
+	int key,keyPosto;
+	float limite,qntStock;
 
 	ifstream fx;
-	fx.open(nome);
+	fx.open("Robot.txt");
 	if(!fx)
-		cout << "Ficheiro não existe! " << endl;
+		cout << "Ficheiro nao existe! " << endl;
 	else{
 		string *temp = new string [1000];
 		while(!fx.eof()){
@@ -30,40 +38,194 @@ void lerFicheiro(string nome) {
 			if(linha.size() > 0) {
 				int inicio = 0;
 				int pos = linha.find(',', inicio);
-				if(nome == "Robot" && s == 0){
-					temp[0] = (linha.substr(inicio, pos-inicio));
-					s++;
-					i++;
-				}else{
-					temp[i] = (linha.substr(inicio, pos-inicio)); 
-					i++;
-					pos++;
-					inicio = pos;
-					pos = linha.find(',', inicio);
-					temp[i] = (linha.substr(inicio,pos-inicio));
-					i++;
-					pos++;
-					inicio = pos;
-					pos = linha.find(',',inicio);
-					temp[i] = (linha.substr(inicio, pos-inicio));
-					i++;
-					pos++;
-					inicio=pos;
-					pos = linha.find(',',inicio);
-					temp[i] = (linha.substr(inicio,pos-inicio));
-					i++;
-					pos++;
-				}
+				temp[i] = (linha.substr(inicio, pos-inicio)); 
+				key = atoi(temp[i].c_str());
+				i++;
+				pos++;
+				inicio = pos;
+				pos = linha.find(',', inicio);
+				temp[i] = (linha.substr(inicio,pos-inicio));
+				limite = atof(temp[i].c_str());
+				i++;
+				pos++;
+				inicio = pos;
+				pos = linha.find(',',inicio);
+				temp[i] = (linha.substr(inicio, pos-inicio));
+				qntStock = atof(temp[i].c_str());
+				i++;
+				pos++;
+				inicio=pos;
+				pos = linha.find(',',inicio);
+				temp[i] = (linha.substr(inicio,pos-inicio));
+				keyPosto = atoi(temp[i].c_str());
+				i++;
+				pos++;
+				Robot r(key, limite, qntStock, keyPosto);				
+				ra.insere(tam, r);				
 			}
 		}
-		fx.close();
-		for(int j = 0; j < i; j++){
-			cout << temp[j] << endl;
-		}
+		cout << "Ficheiro Carregado Com Sucesso" << endl;
 	}
+
+		fx.close();
 }
 
-Lista<Robot> ra;
+void lerFicheiroArmazem() {
+	
+	int i = 0;
+	string linha;
+	int tam = ra.comprimento()+1;
+	int key,keyRobot;
+	float qntSeg,qntStock;
+
+	ifstream fx;
+	fx.open("Armazem.txt");
+	if(!fx)
+		cout << "Ficheiro nao existe! " << endl;
+	else{
+		string *temp = new string [1000];
+		while(!fx.eof()){
+			getline(fx, linha, '\n');
+			if(linha.size() > 0) {
+				int inicio = 0;
+				int pos = linha.find(',', inicio);
+				if(i == 0){
+					temp[i] = (linha.substr(inicio,pos-inicio));
+					numPostos = atoi(temp[i].c_str());
+					i++;
+				}
+				temp[i] = (linha.substr(inicio, pos-inicio)); 
+				key = atoi(temp[i].c_str());
+				i++;
+				pos++;
+				inicio = pos;
+				pos = linha.find(',', inicio);
+				temp[i] = (linha.substr(inicio,pos-inicio));
+				qntStock = atof(temp[i].c_str());
+				i++;
+				pos++;
+				inicio = pos;
+				pos = linha.find(',',inicio);
+				temp[i] = (linha.substr(inicio, pos-inicio));
+				qntSeg = atof(temp[i].c_str());
+				i++;
+				pos++;
+				inicio=pos;
+				pos = linha.find(',',inicio);
+				temp[i] = (linha.substr(inicio,pos-inicio));
+				keyRobot = atoi(temp[i].c_str());
+				i++;
+				pos++;
+				Armazem a(key, qntStock, qntSeg, keyRobot);				
+				aa.insere(&a);			
+			}
+		}
+		cout << "Ficheiro Carregado Com Sucesso" << endl;
+	}
+
+		fx.close();
+}
+
+void lerFicheiroAutomatico() {
+	
+	int i = 0;
+	string linha;
+	int tam = ra.comprimento()+1;
+	int key;
+	float qntSeg,qntStock,vel;
+
+	ifstream fx;
+	fx.open("Automatico.txt");
+	if(!fx)
+		cout << "Ficheiro nao existe! " << endl;
+	else{
+		string *temp = new string [1000];
+		while(!fx.eof()){
+			getline(fx, linha, '\n');
+			if(linha.size() > 0) {
+				int inicio = 0;
+				int pos = linha.find(',', inicio);
+				temp[i] = (linha.substr(inicio, pos-inicio)); 
+				key = atoi(temp[i].c_str());
+				i++;
+				pos++;
+				inicio = pos;
+				pos = linha.find(',', inicio);
+				temp[i] = (linha.substr(inicio,pos-inicio));
+				qntStock = atof(temp[i].c_str());
+				i++;
+				pos++;
+				inicio = pos;
+				pos = linha.find(',',inicio);
+				temp[i] = (linha.substr(inicio, pos-inicio));
+				qntSeg = atof(temp[i].c_str());
+				i++;
+				pos++;
+				inicio=pos;
+				pos = linha.find(',',inicio);
+				temp[i] = (linha.substr(inicio,pos-inicio));
+				vel = atoi(temp[i].c_str());
+				i++;
+				pos++;
+				Automatico a(key, qntStock, qntSeg, vel);				
+				aa.insere(&a);			
+			}
+		}
+		cout << "Ficheiro Carregado Com Sucesso" << endl;
+	}
+
+		fx.close();
+}
+
+void lerFicheiroTransportes() {
+	
+	int i = 0;
+	string linha;
+	int tam = ra.comprimento()+1;
+	int keyAuto1,keyAuto2;
+	float distMetros,tempoMinutos;
+
+	ifstream fx;
+	fx.open("Transportes.txt");
+	if(!fx)
+		cout << "Ficheiro nao existe! " << endl;
+	else{
+		string *temp = new string [1000];
+		while(!fx.eof()){
+			getline(fx, linha, '\n');
+			if(linha.size() > 0) {
+				int inicio = 0;
+				int pos = linha.find(',', inicio);
+				temp[i] = (linha.substr(inicio, pos-inicio)); 
+				keyAuto1 = atoi(temp[i].c_str());
+				i++;
+				pos++;
+				inicio = pos;
+				pos = linha.find(',', inicio);
+				temp[i] = (linha.substr(inicio,pos-inicio));
+				keyAuto2 = atoi(temp[i].c_str());
+				i++;
+				pos++;
+				inicio = pos;
+				pos = linha.find(',',inicio);
+				temp[i] = (linha.substr(inicio, pos-inicio));
+				distMetros = atof(temp[i].c_str());
+				i++;
+				pos++;
+				inicio=pos;
+				pos = linha.find(',',inicio);
+				temp[i] = (linha.substr(inicio,pos-inicio));
+				tempoMinutos = atof(temp[i].c_str());
+				i++;
+				pos++;
+				m.addValor(keyAuto1, keyAuto2, distMetros, tempoMinutos);								
+			}
+		}
+		cout << "Ficheiro Carregado Com Sucesso" << endl;
+	}
+
+		fx.close();
+}
 
 void inserirLista(){
 
@@ -77,11 +239,12 @@ void inserirLista(){
 	cout << "Quantidade Stock : "; cin >> qntStock; cout << endl;
 	cout << "Key Posto : "; cin >> keyPosto; cout << endl;
     Robot r(key,limite,qntStock,keyPosto);
-	ra.insere(pos,r);
-	cout << "Robot inserido" << endl;
+	ra.insere(pos, r);
+	if (key !=0)
+		cout << "Robot inserido" << endl;
 }
 
-Queue<Posto*> aa;
+
 
 void inserirAutomatico(){
 
@@ -117,24 +280,44 @@ int op = -1;
 
 void menu(){
 	
-	Matriz m(8);
 	string nome;
-	int it = 0,esc=0;
+	int esc=0,opcao=0;
 	do{
 		cout << "1 - Leitura De Ficheiro" << endl;
 		cout << "2 - Apresentar Matriz" << endl;
-		cout << "3 - Adicionar Robot à Lista" << endl;
-		cout << "4 - Adicionar Postos à Queue" << endl;
+		cout << "3 - Adicionar Robot a Lista" << endl;
+		cout << "4 - Adicionar Postos a Queue" << endl;
 		cout << "5 - Apresentar Lista" << endl;
 		cout << "6 - Apresentar Queue" << endl;
 		cout << "0 - Sair" << endl;
 		cin >> op;
 		switch(op){
 		case 1:
-			cout << "Introduza o ficheiro que quer ler, Ex: Robot, Armazem" << endl;
-			cin >> nome;
-			lerFicheiro(nome);
 			cout << endl;
+			cout << "Introduza o ficheiro que quer ler:" << endl;
+			cout << "1 - Robot" << endl;
+			cout << "2 - Armazem" << endl;
+			cout << "3 - Posto Automatico" << endl;
+			cout << "0 - Menu Anterior" << endl;
+			cin >> opcao;
+			switch(opcao){
+			case 1:
+				lerFicheiroRobot();
+				break;
+			case 2:
+				lerFicheiroArmazem();
+				break;
+			case 3:
+				lerFicheiroAutomatico();
+				break;
+			case 4:
+				lerFicheiroTransportes();
+			case 0:
+				menu();
+			default:
+				cout << "Opcao Invalida" << endl;
+				break;
+			}
 			cout << "------------------------------------------------------------------------------" << endl;
 			break;
 		case 2:
@@ -145,37 +328,49 @@ void menu(){
 			break;
 		case 3:
 			inserirLista();
+			cout << "------------------------------------------------------------------------------" << endl;
 			break;
 		case 4:
 			cout << endl;
 			cout << "1 - Posto Automático" << endl;
 			cout << "2 - Armazém" << endl;
+			cout << "0 - Menu Anterior" << endl;
 			cin >> esc;
 			switch(esc){
 			case 1:
 				inserirAutomatico();
+				cout << "------------------------------------------------------------------------------" << endl;
 				break;
 			case 2:
 				inserirArmazem();
+				cout << "------------------------------------------------------------------------------" << endl;
 				break;
+			case 0:
+				cout << "------------------------------------------------------------------------------" << endl;
+				menu();
 			default:
 				cout << "Valor inválido" << endl;
+				cout << "------------------------------------------------------------------------------" << endl;
 				menu();
 			}
+			cout << "------------------------------------------------------------------------------" << endl;
 			break;
 		case 5:
 			cout << "Lista: "  << endl;
 			cout << ra;
+			cout << "------------------------------------------------------------------------------" << endl;
 			break;
 		case 6:
 			cout << "Queue: " << endl;
 			cout << aa;
+			cout << "------------------------------------------------------------------------------" << endl;
 			break;
 		case 0:
 			cout << "Programa Terminado" << endl;
 			exit(0);
 		default:
 			cout << "Valor inválido" << endl;
+			cout << "------------------------------------------------------------------------------" << endl;
 		}
 	}while(op != 0);
 }
