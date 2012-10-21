@@ -122,7 +122,7 @@ void Matriz::escreve(ostream &out) const{
 
 	for(int i = 0; i <= key_atual; i++){
 		if(i == 0)
-			cout << "0";
+			cout << "0" ;
 		else
 			cout << keys[i-1] << " ";
 	}
