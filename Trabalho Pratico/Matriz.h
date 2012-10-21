@@ -19,6 +19,8 @@ public:
 
 	void addValor(int key1, int key2, float temp, float dist);
 	void retValor(Transporte &x, int key1, int key2);
+	
+	void escreve(ostream &out) const;
 };
 
 Matriz::Matriz(int d){
@@ -112,6 +114,31 @@ void Matriz::retValor(Transporte &x, int key1, int key2){
 	int posk2=encontra(key2);
 
 	x=mat[posk1][posk2];
+}
+
+void Matriz::escreve(ostream &out) const{
+	
+	for(int i = 0; i < dim; i++){
+		if(i == 0)
+			cout << "0" << endl;
+		else
+			cout << keys[i] << " ";
+	}
+	for(int j = 0; j < dim; j++){
+		cout << endl;
+		for(int k = j+1; k < dim; k++){
+			if (cont == j){
+				cout << keys[j] << " ";
+				cont++;
+			}else
+				cout << mat[j][k] << " ";
+		}
+	}
+}
+
+ostream & operator << (ostream &out, Matriz &m ){
+	m.escreve(out);
+	return out;
 }
 
 #endif
