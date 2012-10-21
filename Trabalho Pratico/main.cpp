@@ -35,7 +35,7 @@ void lerFicheiro(string nome) {
 					s++;
 					i++;
 				}else{
-					/*Lista Ligada */temp[i] = (linha.substr(inicio, pos-inicio)); 
+					temp[i] = (linha.substr(inicio, pos-inicio)); 
 					i++;
 					pos++;
 					inicio = pos;
@@ -63,37 +63,119 @@ void lerFicheiro(string nome) {
 	}
 }
 
+Lista<Robot> ra;
+
+void inserirLista(){
+
+	int key,keyPosto,pos;
+	float limite,qntStock; 
+
+	cout << "Em que posição da lista deseja inserir?"; cin >> pos; cout << endl;
+	cout << "Introduza os atributos do Robot: " << endl;
+	cout << "Key : "; cin >> key; cout << endl;
+	cout << "Limite : "; cin >> limite; cout << endl;
+	cout << "Quantidade Stock : "; cin >> qntStock; cout << endl;
+	cout << "Key Posto : "; cin >> keyPosto; cout << endl;
+    Robot r(key,limite,qntStock,keyPosto);
+	ra.insere(pos,r);
+	cout << "Robot inserido" << endl;
+}
+
+Queue<Posto*> aa;
+
+void inserirAutomatico(){
+
+	int key;
+	float qntStock,qntSeg,vel;
+
+	cout << "Introduza os atributos do Armazém: " << endl;
+	cout << "Key : "; cin >> key; cout << endl;
+	cout << "Quantidade de Stock : "; cin >> qntStock; cout << endl;
+	cout << "Quantidade de Segurança : " << endl; cin >> qntSeg; cout << endl;
+	cout << "Velocidade : " << endl; cin >> vel; cout << endl;
+	Automatico a(key,qntStock,qntSeg,vel);
+	aa.insere(&a);
+	cout << "Posto Automático inserido" << endl;
+}
+
+void inserirArmazem(){
+	
+	int key, keyRobot;
+	float qntStock,qntSeg;
+
+	cout << "Introduza os atributos do Armazém: " << endl;
+	cout << "Key : "; cin >> key; cout << endl;
+	cout << "Quantidade de Stock : "; cin >> qntStock; cout << endl;
+	cout << "Quantidade de Segurança : " << endl; cin >> qntSeg; cout << endl;
+	cout << "Key Robot : " << endl; cin >> keyRobot; cout << endl;
+	Armazem a(key,qntStock,qntSeg,keyRobot);
+	aa.insere(&a);
+	cout << "Armazém inserido" << endl;
+}
+
 int op = -1;
 
 void menu(){
 	
 	Matriz m(8);
 	string nome;
+	int it = 0,esc=0;
 	do{
 		cout << "1 - Leitura De Ficheiro" << endl;
 		cout << "2 - Apresentar Matriz" << endl;
-		cout << "3 - Coisao" << endl;
+		cout << "3 - Adicionar Robot à Lista" << endl;
+		cout << "4 - Adicionar Postos à Queue" << endl;
+		cout << "5 - Apresentar Lista" << endl;
+		cout << "6 - Apresentar Queue" << endl;
 		cout << "0 - Sair" << endl;
 		cin >> op;
 		switch(op){
-		case 0:
-			cout << "Programa Terminado" << endl;
-			exit(0);
 		case 1:
 			cout << "Introduza o ficheiro que quer ler, Ex: Robot, Armazem" << endl;
 			cin >> nome;
 			lerFicheiro(nome);
-			cout << "--------------------------------------------------------------------------------------" << endl;
+			cout << endl;
+			cout << "------------------------------------------------------------------------------" << endl;
 			break;
 		case 2:
 			m.addValor(1,2,10,5);
 			m.addValor(3,4,15,10);
 			cout << "Matriz:" << endl;;
 			cout << m;
-			cout << "---------------------------------------------------------------------------------------" << endl;
+			cout << endl;
+			cout << "------------------------------------------------------------------------------" << endl;
 			break;
 		case 3:
+			inserirLista();
 			break;
+		case 4:
+			cout << endl;
+			cout << "1 - Posto Automático" << endl;
+			cout << "2 - Armazém" << endl;
+			cin >> esc;
+			switch(esc){
+			case 1:
+				inserirAutomatico();
+				break;
+			case 2:
+				inserirArmazem();
+				break;
+			default:
+				cout << "Valor inválido" << endl;
+				menu();
+			}
+			break;
+		case 5:
+			cout << "Lista: "  << endl;
+			cout << ra;
+			break;
+		case 6:
+			cout << "Queue: " << endl;
+			cout << aa;
+			break;
+		case 0:
+			cout << "Programa Terminado" << endl;
+			exit(0);
 		default:
 			cout << "Valor inválido" << endl;
 		}

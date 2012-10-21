@@ -118,24 +118,19 @@ void Matriz::retValor(Transporte &x, int key1, int key2){
 
 void Matriz::escreve(ostream &out) const{
 	
-	int cont = 0;
+	out << "0" ;
 
-	for(int i = 0; i <= key_atual; i++){
-		if(i == 0)
-			cout << "0" ;
-		else
-			cout << keys[i-1] << " ";
+	for(int i = 0; i < key_atual; i++){                
+		out << keys[i] << " ";
 	}
+
 	for(int j = 0; j < key_atual; j++){
-		cout << endl;
-		for(int k = 0; k < key_atual; k++){
-			if (cont == j){
-				cout << keys[j] << " ";
-				cont++;
-			}else
-				cout << mat[j][k] << " ";
-		}
-	}
+		out << endl;
+		out << keys[j] << " ";
+		for(int k = 0; k < key_atual; k++){                                                                             
+			out << mat[j][k] << " ";
+        }
+    }
 }
 
 ostream & operator << (ostream &out, Matriz &m ){
