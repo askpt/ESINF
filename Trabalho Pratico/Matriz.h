@@ -118,6 +118,8 @@ void Matriz::retValor(Transporte &x, int key1, int key2){
 
 void Matriz::escreve(ostream &out) const{
 	
+	int cont = 0;
+
 	for(int i = 0; i < dim; i++){
 		if(i == 0)
 			cout << "0" << endl;
