@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <cstdlib>
 using namespace std;
 
 #include "Robot.h"
@@ -77,16 +78,19 @@ void menu(){
 		switch(op){
 		case 0:
 			cout << "Programa Terminado" << endl;
+			exit(0);
 		case 1:
 			cout << "Introduza o ficheiro que quer ler, Ex: Robot, Armazem" << endl;
 			cin >> nome;
 			lerFicheiro(nome);
+			cout << "-------------------------------------------------------------------------------------" << endl;
 			break;
 		case 2:
 			m.addValor(1,2,10,5);
 			m.addValor(3,4,15,10);
 			cout << "Matriz:" << endl;;
 			cout << m;
+			cout << "--------------------------------------------------------------------------------------" << endl;
 			break;
 		case 3:
 			break;
