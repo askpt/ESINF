@@ -93,31 +93,32 @@ void lerFicheiroArmazem() {
 					temp[i] = (linha.substr(inicio,pos-inicio));
 					numPostos = atoi(temp[i].c_str());
 					i++;
+				}else{
+					temp[i] = (linha.substr(inicio, pos-inicio)); 
+					key = atoi(temp[i].c_str());
+					i++;
+					pos++;
+					inicio = pos;
+					pos = linha.find(',', inicio);
+					temp[i] = (linha.substr(inicio,pos-inicio));
+					qntStock = atof(temp[i].c_str());
+					i++;
+					pos++;
+					inicio = pos;
+					pos = linha.find(',',inicio);
+					temp[i] = (linha.substr(inicio, pos-inicio));
+					qntSeg = atof(temp[i].c_str());
+					i++;
+					pos++;
+					inicio=pos;
+					pos = linha.find(',',inicio);
+					temp[i] = (linha.substr(inicio,pos-inicio));
+					keyRobot = atoi(temp[i].c_str());
+					i++;
+					pos++;
+					Armazem a(key, qntStock, qntSeg, keyRobot);				
+					aa.insere(&a);		
 				}
-				temp[i] = (linha.substr(inicio, pos-inicio)); 
-				key = atoi(temp[i].c_str());
-				i++;
-				pos++;
-				inicio = pos;
-				pos = linha.find(',', inicio);
-				temp[i] = (linha.substr(inicio,pos-inicio));
-				qntStock = atof(temp[i].c_str());
-				i++;
-				pos++;
-				inicio = pos;
-				pos = linha.find(',',inicio);
-				temp[i] = (linha.substr(inicio, pos-inicio));
-				qntSeg = atof(temp[i].c_str());
-				i++;
-				pos++;
-				inicio=pos;
-				pos = linha.find(',',inicio);
-				temp[i] = (linha.substr(inicio,pos-inicio));
-				keyRobot = atoi(temp[i].c_str());
-				i++;
-				pos++;
-				Armazem a(key, qntStock, qntSeg, keyRobot);				
-				aa.insere(&a);			
 			}
 		}
 		cout << "Ficheiro Carregado Com Sucesso" << endl;
