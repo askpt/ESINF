@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <cstdlib>
+#include <math.h>
 using namespace std;
 
 #include "Robot.h"
@@ -22,10 +23,12 @@ int numPostos=0;
 void lerFicheiroRobot() {
 	
 	int i = 0;
+	int cont=0;
 	string linha;
 	int tam = ra.comprimento()+1;
 	int key,keyPosto;
 	float limite,qntStock;
+	Lista<Robot> auxi;
 
 	ifstream fx;
 	fx.open("Robot.txt");
@@ -39,40 +42,83 @@ void lerFicheiroRobot() {
 				int inicio = 0;
 				int pos = linha.find(',', inicio);
 				temp[i] = (linha.substr(inicio, pos-inicio)); 
-				key = atoi(temp[i].c_str());
-				i++;
-				pos++;
-				inicio = pos;
-				pos = linha.find(',', inicio);
-				temp[i] = (linha.substr(inicio,pos-inicio));
-				limite = atof(temp[i].c_str());
-				i++;
-				pos++;
-				inicio = pos;
-				pos = linha.find(',',inicio);
-				temp[i] = (linha.substr(inicio, pos-inicio));
-				qntStock = atof(temp[i].c_str());
-				i++;
-				pos++;
-				inicio=pos;
-				pos = linha.find(',',inicio);
-				temp[i] = (linha.substr(inicio,pos-inicio));
-				keyPosto = atoi(temp[i].c_str());
-				i++;
-				pos++;
-				Robot r(key, limite, qntStock, keyPosto);				
-				ra.insere(tam, r);				
+				if(temp[i] == ""){
+					cout << "Falta o atributo Key para formar o robot!" << endl;
+					//auxi.destroilista();
+					fx.close();
+					break;
+				}else{
+					key = atoi(temp[i].c_str());
+					i++;
+					pos++;
+					inicio = pos;
+					pos = linha.find(',', inicio);
+					temp[i] = (linha.substr(inicio,pos-inicio));
+					if(temp[i] == ""){
+						cout << "Falta o atributo limite para formar o robot!" << endl;
+						//auxi.destroilista();
+						fx.close();
+						break;
+					}else{
+						limite = atof(temp[i].c_str());
+						i++;
+						pos++;
+						inicio = pos;
+						pos = linha.find(',',inicio);
+						temp[i] = (linha.substr(inicio, pos-inicio));
+						if(temp[i] == ""){
+							cout << "Falta o atributo Quantidade de Stock para formar o robot!" << endl;
+							//auxi.destroilista();
+							fx.close();
+							break;
+						}else{
+							qntStock = atof(temp[i].c_str());
+							i++;
+							pos++;
+							inicio=pos;
+							pos = linha.find(',',inicio);
+							temp[i] = (linha.substr(inicio,pos-inicio));
+							if(temp[i] == ""){
+								cout << "Falta o atributo Posicao para formar o robot!" << endl;
+								//auxi.destroilista();
+								fx.close();
+								break;
+							}else{
+								keyPosto = atoi(temp[i].c_str());
+								i++;
+								pos++;
+								Robot r(key, limite, qntStock, keyPosto);				
+								auxi.insere(tam, r);			
+								cont++;
+							}
+						}
+					}
+				}
+			}else{
+				cout << "Ficheiro sem dados. Falha no carregamento!" << endl;
+				fx.close();
+				break;
 			}
 		}
+	}
+	if(cont == numPostos){
 		cout << "Ficheiro Carregado Com Sucesso" << endl;
+		ra = auxi;
+	}else if(cont < numPostos){
+		cout << "Falhou o carregamento do ficheiro. Numero de robots insuficientes!" << endl;
+		//auxi.destroilista();
+	}else{
+		cout << "Falhou o carregamento do ficheiro.Numero de robots em excesso!" << endl;
+		//auxi.destroilista();
 	}
 
-		fx.close();
+	fx.close();
 }
 
 void lerFicheiroArmazem() {
 	
 	int i = 0;
+	Queue<Posto*> aux;
 	string linha;
 	int tam = ra.comprimento()+1;
 	int key,keyRobot;
@@ -91,45 +137,87 @@ void lerFicheiroArmazem() {
 				int pos = linha.find(',', inicio);
 				if(i == 0){
 					temp[i] = (linha.substr(inicio,pos-inicio));
-					numPostos = atoi(temp[i].c_str());
-					i++;
+					if(temp[i] == ""){
+						cout << "Falta números de postos de armazém!" << endl;
+						cout << "Falha no carregamento do ficheiro!" << endl;
+						fx.close();
+						break;
+					}else{
+						numPostos = atoi(temp[i].c_str());
+						i++;
+					}
 				}else{
 					temp[i] = (linha.substr(inicio, pos-inicio)); 
-					key = atoi(temp[i].c_str());
-					i++;
-					pos++;
-					inicio = pos;
-					pos = linha.find(',', inicio);
-					temp[i] = (linha.substr(inicio,pos-inicio));
-					qntStock = atof(temp[i].c_str());
-					i++;
-					pos++;
-					inicio = pos;
-					pos = linha.find(',',inicio);
-					temp[i] = (linha.substr(inicio, pos-inicio));
-					qntSeg = atof(temp[i].c_str());
-					i++;
-					pos++;
-					inicio=pos;
-					pos = linha.find(',',inicio);
-					temp[i] = (linha.substr(inicio,pos-inicio));
-					keyRobot = atoi(temp[i].c_str());
-					i++;
-					pos++;
-					Armazem a(key, qntStock, qntSeg, keyRobot);				
-					aa.insere(&a);		
+					if(temp[i] == ""){
+						cout << "Falta o atributo key para o armazém!" << endl;
+						cout << "Falha no carregamento do ficheiro!" << endl;
+						//aux.destroiQueue();
+						fx.close();
+						break;
+					}else{
+						key = atoi(temp[i].c_str());
+						i++;
+						pos++;
+						inicio = pos;
+						pos = linha.find(',', inicio);
+						temp[i] = (linha.substr(inicio,pos-inicio));
+						if(temp[i] == ""){
+							cout << "Falta o atributo quantidade de stock para o armazém!" << endl;
+							cout << "Falha no carregamento do ficheiro!" << endl;
+							//aux.destroiQueue();
+							fx.close();
+							break;
+						}else{
+							qntStock = atof(temp[i].c_str());
+							i++;
+							pos++;
+							inicio = pos;
+							pos = linha.find(',',inicio);
+							temp[i] = (linha.substr(inicio, pos-inicio));
+							if(temp[i] == ""){
+								cout << "Falta o atributo quantidade de segurança para o armazém!" << endl;
+								cout << "Falha no carregamento do ficheiro!" << endl;
+								//aux.destroiQueue();
+								fx.close();
+								break;
+							}else{
+								qntSeg = atof(temp[i].c_str());
+								i++;
+								pos++;
+								inicio=pos;
+								pos = linha.find(',',inicio);
+								temp[i] = (linha.substr(inicio,pos-inicio));
+								if(temp[i] == ""){
+									cout << "Falta o atributo key Robot para o armazém!" << endl;
+									cout << "Falha no carregamento do ficheiro!" << endl;
+									//aux.destroiQueue();
+									fx.close();
+									break;
+								}else{
+									keyRobot = atoi(temp[i].c_str());
+									i++;
+									pos++;
+									Armazem a(key, qntStock, qntSeg, keyRobot);				
+									aux.insere(&a);		
+								}
+							}
+						}
+					}
 				}
-			}
+			}else
+				cout << "Ficheiro não tem dados. Falha na importacao do ficheiro!" << endl;
 		}
-		cout << "Ficheiro Carregado Com Sucesso" << endl;
 	}
-
-		fx.close();
+	aa = aux;
+	//aux.destroiQueue();
+	fx.close();
 }
 
 void lerFicheiroAutomatico() {
 	
 	int i = 0;
+	int cont=0;
+	Queue<Posto*> aux;
 	string linha;
 	int tam = ra.comprimento()+1;
 	int key;
@@ -147,41 +235,86 @@ void lerFicheiroAutomatico() {
 				int inicio = 0;
 				int pos = linha.find(',', inicio);
 				temp[i] = (linha.substr(inicio, pos-inicio)); 
-				key = atoi(temp[i].c_str());
-				i++;
-				pos++;
-				inicio = pos;
-				pos = linha.find(',', inicio);
-				temp[i] = (linha.substr(inicio,pos-inicio));
-				qntStock = atof(temp[i].c_str());
-				i++;
-				pos++;
-				inicio = pos;
-				pos = linha.find(',',inicio);
-				temp[i] = (linha.substr(inicio, pos-inicio));
-				qntSeg = atof(temp[i].c_str());
-				i++;
-				pos++;
-				inicio=pos;
-				pos = linha.find(',',inicio);
-				temp[i] = (linha.substr(inicio,pos-inicio));
-				vel = atoi(temp[i].c_str());
-				i++;
-				pos++;
-				Automatico a(key, qntStock, qntSeg, vel);				
-				aa.insere(&a);			
-			}
+				if(temp[i] == ""){
+					cout << "Falta atributo key para o posto Automatico!" << endl;
+					cout << "Falha na importacao do ficheiro!" << endl;
+					//aux.destroiQueue()
+					fx.close();
+					break;
+				}else{
+					key = atoi(temp[i].c_str());
+					i++;
+					pos++;
+					inicio = pos;
+					pos = linha.find(',', inicio);
+					temp[i] = (linha.substr(inicio,pos-inicio));
+					if(temp[i] == ""){
+						cout << "Falta atributo quantidade de stock para o posto Automatico!" << endl;
+						cout << "Falha na importacao do ficheiro!" << endl;
+						//aux.destroiQueue()
+						fx.close();
+						break;
+					}else{
+						qntStock = atof(temp[i].c_str());
+						i++;
+						pos++;
+						inicio = pos;
+						pos = linha.find(',',inicio);
+						temp[i] = (linha.substr(inicio, pos-inicio));
+						if(temp[i] == ""){
+							cout << "Falta atributo quantidade de seguranca para o posto Automatico!" << endl;
+							cout << "Falha na importacao do ficheiro!" << endl;
+							//aux.destroiQueue()
+							fx.close();
+							break;
+						}else{
+							qntSeg = atof(temp[i].c_str());
+							i++;
+							pos++;
+							inicio=pos;
+							pos = linha.find(',',inicio);
+							temp[i] = (linha.substr(inicio,pos-inicio));
+							if(temp[i] == ""){
+								cout << "Falta atributo velocidade para o posto Automatico!" << endl;
+								cout << "Falha na importacao do ficheiro!" << endl;
+								//aux.destroiQueue()
+								fx.close();
+								break;
+							}else{
+								vel = atoi(temp[i].c_str());
+								i++;
+								pos++;
+								Automatico a(key, qntStock, qntSeg, vel);				
+								aux.insere(&a);		
+								cont++;
+							}
+						}
+					}
+				}
+			}else
+				cout << "Ficheiro não tem dados. Falha na importacao do ficheiro!" << endl;
 		}
-		cout << "Ficheiro Carregado Com Sucesso" << endl;
+	}
+	if(cont == pow(2,numPostos)){
+		aa = aux;
+		//aux.destroiQueue();
+		cout << "Ficheiro carregado com sucesso" << endl;
+	}else if(cont > pow(2,numPostos)){
+		cout << "Importacao do ficheiro falhou. Postos Automaticos em demasia!" << endl;
+		//aux.destroiQueue();
+	}else{
+		cout << "Importacao do ficheiro falhou. Insuficientes Postos Automaticos!" << endl;
+		//aux.destroiQueue();
 	}
 
-		fx.close();
+	fx.close();
 }
 
 void lerFicheiroTransportes() {
 	
 	int i = 0;
 	string linha;
+	Matriz aux(1000);
 	int tam = ra.comprimento()+1;
 	int keyAuto1,keyAuto2;
 	float distMetros,tempoMinutos;
@@ -198,34 +331,67 @@ void lerFicheiroTransportes() {
 				int inicio = 0;
 				int pos = linha.find(',', inicio);
 				temp[i] = (linha.substr(inicio, pos-inicio)); 
-				keyAuto1 = atoi(temp[i].c_str());
-				i++;
-				pos++;
-				inicio = pos;
-				pos = linha.find(',', inicio);
-				temp[i] = (linha.substr(inicio,pos-inicio));
-				keyAuto2 = atoi(temp[i].c_str());
-				i++;
-				pos++;
-				inicio = pos;
-				pos = linha.find(',',inicio);
-				temp[i] = (linha.substr(inicio, pos-inicio));
-				distMetros = atof(temp[i].c_str());
-				i++;
-				pos++;
-				inicio=pos;
-				pos = linha.find(',',inicio);
-				temp[i] = (linha.substr(inicio,pos-inicio));
-				tempoMinutos = atof(temp[i].c_str());
-				i++;
-				pos++;
-				m.addValor(keyAuto1, keyAuto2, distMetros, tempoMinutos);								
+				if(temp[i] == ""){
+					cout << "Falta o atributo Key Automatico 1 para os Transportes!" << endl;
+					cout << "Falha na importacao do ficheiro!" << endl;
+					fx.close();
+					break;
+				}else{
+					keyAuto1 = atoi(temp[i].c_str());
+					i++;
+					pos++;
+					inicio = pos;
+					pos = linha.find(',', inicio);
+					temp[i] = (linha.substr(inicio,pos-inicio));
+					if(temp[i] == ""){
+						cout << "Falta o atributo Key Automatico 2 para os Transportes!" << endl;
+						cout << "Falha na importacao do ficheiro!" << endl;
+						fx.close();
+						break;
+					}else{
+						keyAuto2 = atoi(temp[i].c_str());
+						i++;
+						pos++;
+						inicio = pos;
+						pos = linha.find(',',inicio);
+						temp[i] = (linha.substr(inicio, pos-inicio));
+						if(temp[i] == ""){
+							cout << "Falta o atributo Distancia em Metros para os Transportes!" << endl;
+							cout << "Falha na importacao do ficheiro!" << endl;
+							fx.close();
+							break;
+						}else{
+							distMetros = atof(temp[i].c_str());
+							i++;
+							pos++;
+							inicio=pos;
+							pos = linha.find(',',inicio);
+							temp[i] = (linha.substr(inicio,pos-inicio));
+							if(temp[i] == ""){
+								cout << "Falta o atributo Tempo em Minutos para os Transportes!" << endl;
+								cout << "Falha na importacao do ficheiro!" << endl;
+								fx.close();
+								break;
+							}else{
+								tempoMinutos = atof(temp[i].c_str());
+								i++;
+								pos++;
+								aux.addValor(keyAuto1, keyAuto2, distMetros, tempoMinutos);		
+							}
+						}
+					}
+				}
+			}else{
+				cout << "Ficheiro não tem dados. Falha na importacao do ficheiro!" << endl;
+				fx.close();
+				break;
 			}
 		}
+		m = aux;
 		cout << "Ficheiro Carregado Com Sucesso" << endl;
 	}
 
-		fx.close();
+	fx.close();
 }
 
 void inserirLista(){
@@ -283,6 +449,7 @@ void menu(){
 	
 	string nome;
 	int esc=0,opcao=0;
+	bool veri = false;
 	do{
 		cout << "1 - Leitura De Ficheiro" << endl;
 		cout << "2 - Apresentar Matriz" << endl;
@@ -295,32 +462,54 @@ void menu(){
 		switch(op){
 		case 1:
 			cout << endl;
-			cout << "Introduza o ficheiro que quer ler:" << endl;
-			cout << "1 - Robot" << endl;
-			cout << "2 - Armazem" << endl;
-			cout << "3 - Posto Automatico" << endl;
-			cout << "0 - Menu Anterior" << endl;
-			cin >> opcao;
-			switch(opcao){
-			case 1:
-				lerFicheiroRobot();
+			if(veri == false){
+				cout << "Introduza o ficheiro que quer ler:" << endl;
+				cout << "1 - Armazem" << endl;
+				cout << "2 - Transportes" << endl;
+				cout << "0 - Menu Anterior" << endl;
+				cin >> opcao;
+			}else{
+				cout << "Introduza o ficheiro que quer ler:" << endl;
+				cout << "1 - Robot" << endl;
+				cout << "2 - Posto Automatico" << endl;
+				cout << "0 - Menu Anteriro" << endl;
+				cin >> opcao;
+			}
+			if(veri==false){
+				switch(opcao){
+				case 1:
+					lerFicheiroArmazem();
+					break;
+				case 2:
+					lerFicheiroTransportes();
+					break;
+				case 0:
+					menu();
+					break;
+				default:
+					cout << "Opcao Invalida" << endl;
+					break;
+				}
+				cout << "------------------------------------------------------------------------------" << endl;
 				break;
-			case 2:
-				lerFicheiroArmazem();
-				break;
-			case 3:
-				lerFicheiroAutomatico();
-				break;
-			case 4:
-				lerFicheiroTransportes();
-			case 0:
-				menu();
-			default:
-				cout << "Opcao Invalida" << endl;
+			}else{
+				switch(opcao){
+				case 1:
+					lerFicheiroRobot();
+					break;
+				case 2:
+					lerFicheiroAutomatico();
+					break;
+				case 0:
+					menu();
+					break;
+				default:
+					cout << "Opcao Invalida" << endl;
+					break;
+				}
+				cout << "------------------------------------------------------------------------------" << endl;
 				break;
 			}
-			cout << "------------------------------------------------------------------------------" << endl;
-			break;
 		case 2:
 			cout << "Matriz:" << endl;;
 			cout << m;
