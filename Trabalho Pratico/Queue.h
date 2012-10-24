@@ -50,7 +50,7 @@ Queue<T>::Queue(const Queue<T>& q)
 	
 	while(apnoaux !=NULL)
 	{
-		apno->SetInfo(apnoaux->info) ;
+		apno->setInfo(apnoaux->info) ;
 		if(apnoaux->prox ==NULL)
 		{
 			apno->prox=NULL;
