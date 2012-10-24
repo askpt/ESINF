@@ -22,6 +22,7 @@ public:
 	virtual void escreve(ostream &out) const;
 	bool operator == (const Posto &p);
 	bool operator > (const Posto &p);
+	virtual Posto* clone() const=0;
 };
 
 Posto::Posto(){

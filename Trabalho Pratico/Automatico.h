@@ -21,6 +21,8 @@ public:
 	virtual void escreve(ostream &out) const;
 	bool operator == (const Automatico &t);
 	bool operator > (const Automatico &t);
+
+	virtual Posto* clone() const;
 };
 
 Automatico::Automatico():Posto(){
@@ -83,6 +85,10 @@ void Automatico::escreve(ostream &out) const{
 ostream & operator << (ostream &out, Automatico &t){
 	t.escreve(out);
 	return out;
+}
+
+Posto* Automatico::clone() const{
+	return new Automatico(*this);
 }
 
 #endif
