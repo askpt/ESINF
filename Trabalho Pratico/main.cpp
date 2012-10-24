@@ -470,9 +470,11 @@ void menu(){
 				cin >> opcao;
 			}else{
 				cout << "Introduza o ficheiro que quer ler:" << endl;
-				cout << "1 - Robot" << endl;
-				cout << "2 - Posto Automatico" << endl;
-				cout << "0 - Menu Anteriro" << endl;
+				cout << "1 - Armazem" << endl;
+				cout << "2 - Transportes" << endl;
+				cout << "3 - Robot" << endl;
+				cout << "4 - Posto Automatico" << endl;
+				cout << "0 - Menu Anterior" << endl;
 				cin >> opcao;
 			}
 			if(veri==false){
@@ -495,9 +497,15 @@ void menu(){
 			}else{
 				switch(opcao){
 				case 1:
-					lerFicheiroRobot();
+					lerFicheiroArmazem();
 					break;
 				case 2:
+					lerFicheiroTransportes();
+					break;
+				case 3:
+					lerFicheiroRobot();
+					break;
+				case 4:
 					lerFicheiroAutomatico();
 					break;
 				case 0:
