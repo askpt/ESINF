@@ -23,6 +23,7 @@ public:
 	bool operator == (const Armazem &a);
 	bool operator > (const Armazem &a);
 
+	virtual Posto* clone() const;
 };
 
 Armazem::Armazem():Posto(){
@@ -62,6 +63,7 @@ Armazem & Armazem::operator=(const Armazem &a){
 	if(this != &a){
 		Posto::operator=(a);
 		qntSeg = a.qntSeg;
+		keyRobot = a.keyRobot;
 	}
 	return *this;
 }
@@ -86,6 +88,10 @@ void Armazem:: escreve(ostream &out) const{
 ostream & operator << (ostream &out, Armazem &a){
 	a.escreve(out);
 	return out;
+}
+
+Posto* Armazem::clone() const{
+	return new Armazem(*this);
 }
 
 #endif
