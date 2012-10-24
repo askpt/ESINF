@@ -185,7 +185,7 @@ void lerFicheiroArmazem() {
 								veri = false;
 								fx.close();
 								return;
-							}else{
+							}else{								
 								qntSeg = atof(temp[i].c_str());
 								i++;
 								pos++;
@@ -602,14 +602,16 @@ void main(){
 	//Teste Matriz
 	Matriz m(4);
 	m.addValor(at1.getKey(), ar1.getKey(), 12312, 1222);
+	m.addValor(1,2, 111, 222);
 	m.retValor(tr, at1.getKey(), ar1.getKey());
 	cout << tr;
 	cin.get();
+	cout << m;
 
 	//Teste queue
 	Queue<Posto*> aa;	
-	aa.insere(&at1);
-	aa.insere(&ar1);
+	aa.insere(at1.clone());
+	aa.insere(ar1.clone());
 	cout << aa;
 	cin.get();
 
