@@ -14,14 +14,12 @@ using namespace std;
 #include "Queue.h"
 #include "Lista.h"
 
-
 Matriz m(1000);
 Lista<Robot> ra;
 Queue<Posto*> aa;
 int numPostos=0;
 
-void lerFicheiroRobot() {
-	
+void lerFicheiroRobot() {	
 	int i = 0;
 	int cont=0;
 	string linha;
@@ -138,7 +136,7 @@ void lerFicheiroArmazem() {
 				if(i == 0){
 					temp[i] = (linha.substr(inicio,pos-inicio));
 					if(temp[i] == ""){
-						cout << "Falta números de postos de armazém!" << endl;
+						cout << "Falta nï¿½meros de postos de armazï¿½m!" << endl;
 						cout << "Falha no carregamento do ficheiro!" << endl;
 						fx.close();
 						break;
@@ -149,7 +147,7 @@ void lerFicheiroArmazem() {
 				}else{
 					temp[i] = (linha.substr(inicio, pos-inicio)); 
 					if(temp[i] == ""){
-						cout << "Falta o atributo key para o armazém!" << endl;
+						cout << "Falta o atributo key para o armazï¿½m!" << endl;
 						cout << "Falha no carregamento do ficheiro!" << endl;
 						//aux.destroiQueue();
 						fx.close();
@@ -162,7 +160,7 @@ void lerFicheiroArmazem() {
 						pos = linha.find(',', inicio);
 						temp[i] = (linha.substr(inicio,pos-inicio));
 						if(temp[i] == ""){
-							cout << "Falta o atributo quantidade de stock para o armazém!" << endl;
+							cout << "Falta o atributo quantidade de stock para o armazï¿½m!" << endl;
 							cout << "Falha no carregamento do ficheiro!" << endl;
 							//aux.destroiQueue();
 							fx.close();
@@ -175,7 +173,7 @@ void lerFicheiroArmazem() {
 							pos = linha.find(',',inicio);
 							temp[i] = (linha.substr(inicio, pos-inicio));
 							if(temp[i] == ""){
-								cout << "Falta o atributo quantidade de segurança para o armazém!" << endl;
+								cout << "Falta o atributo quantidade de seguranï¿½a para o armazï¿½m!" << endl;
 								cout << "Falha no carregamento do ficheiro!" << endl;
 								//aux.destroiQueue();
 								fx.close();
@@ -188,7 +186,7 @@ void lerFicheiroArmazem() {
 								pos = linha.find(',',inicio);
 								temp[i] = (linha.substr(inicio,pos-inicio));
 								if(temp[i] == ""){
-									cout << "Falta o atributo key Robot para o armazém!" << endl;
+									cout << "Falta o atributo key Robot para o armazï¿½m!" << endl;
 									cout << "Falha no carregamento do ficheiro!" << endl;
 									//aux.destroiQueue();
 									fx.close();
@@ -205,7 +203,7 @@ void lerFicheiroArmazem() {
 					}
 				}
 			}else
-				cout << "Ficheiro não tem dados. Falha na importacao do ficheiro!" << endl;
+				cout << "Ficheiro nï¿½o tem dados. Falha na importacao do ficheiro!" << endl;
 		}
 	}
 	aa = aux;
@@ -292,7 +290,7 @@ void lerFicheiroAutomatico() {
 					}
 				}
 			}else
-				cout << "Ficheiro não tem dados. Falha na importacao do ficheiro!" << endl;
+				cout << "Ficheiro nï¿½o tem dados. Falha na importacao do ficheiro!" << endl;
 		}
 	}
 	if(cont == pow(2,numPostos)){
@@ -382,7 +380,7 @@ void lerFicheiroTransportes() {
 					}
 				}
 			}else{
-				cout << "Ficheiro não tem dados. Falha na importacao do ficheiro!" << endl;
+				cout << "Ficheiro nï¿½o tem dados. Falha na importacao do ficheiro!" << endl;
 				fx.close();
 				break;
 			}
@@ -399,7 +397,7 @@ void inserirLista(){
 	int key,keyPosto,pos;
 	float limite,qntStock; 
 
-	cout << "Em que posição da lista deseja inserir?"; cin >> pos; cout << endl;
+	cout << "Em que posiï¿½ï¿½o da lista deseja inserir?"; cin >> pos; cout << endl;
 	cout << "Introduza os atributos do Robot: " << endl;
 	cout << "Key : "; cin >> key; cout << endl;
 	cout << "Limite : "; cin >> limite; cout << endl;
@@ -418,14 +416,14 @@ void inserirAutomatico(){
 	int key;
 	float qntStock,qntSeg,vel;
 
-	cout << "Introduza os atributos do Armazém: " << endl;
+	cout << "Introduza os atributos do Armazï¿½m: " << endl;
 	cout << "Key : "; cin >> key; cout << endl;
 	cout << "Quantidade de Stock : "; cin >> qntStock; cout << endl;
-	cout << "Quantidade de Segurança : " << endl; cin >> qntSeg; cout << endl;
+	cout << "Quantidade de Seguranï¿½a : " << endl; cin >> qntSeg; cout << endl;
 	cout << "Velocidade : " << endl; cin >> vel; cout << endl;
 	Automatico a(key,qntStock,qntSeg,vel);
 	aa.insere(&a);
-	cout << "Posto Automático inserido" << endl;
+	cout << "Posto Automï¿½tico inserido" << endl;
 }
 
 void inserirArmazem(){
@@ -433,14 +431,14 @@ void inserirArmazem(){
 	int key, keyRobot;
 	float qntStock,qntSeg;
 
-	cout << "Introduza os atributos do Armazém: " << endl;
+	cout << "Introduza os atributos do Armazï¿½m: " << endl;
 	cout << "Key : "; cin >> key; cout << endl;
 	cout << "Quantidade de Stock : "; cin >> qntStock; cout << endl;
-	cout << "Quantidade de Segurança : " << endl; cin >> qntSeg; cout << endl;
+	cout << "Quantidade de Seguranï¿½a : " << endl; cin >> qntSeg; cout << endl;
 	cout << "Key Robot : " << endl; cin >> keyRobot; cout << endl;
 	Armazem a(key,qntStock,qntSeg,keyRobot);
 	aa.insere(&a);
-	cout << "Armazém inserido" << endl;
+	cout << "Armazï¿½m inserido" << endl;
 }
 
 int op = -1;
@@ -531,8 +529,8 @@ void menu(){
 			break;
 		case 4:
 			cout << endl;
-			cout << "1 - Posto Automático" << endl;
-			cout << "2 - Armazém" << endl;
+			cout << "1 - Posto Automï¿½tico" << endl;
+			cout << "2 - Armazï¿½m" << endl;
 			cout << "0 - Menu Anterior" << endl;
 			cin >> esc;
 			switch(esc){
@@ -548,7 +546,7 @@ void menu(){
 				cout << "------------------------------------------------------------------------------" << endl;
 				menu();
 			default:
-				cout << "Valor inválido" << endl;
+				cout << "Valor invï¿½lido" << endl;
 				cout << "------------------------------------------------------------------------------" << endl;
 				menu();
 			}
@@ -568,7 +566,7 @@ void menu(){
 			cout << "Programa Terminado" << endl;
 			exit(0);
 		default:
-			cout << "Valor inválido" << endl;
+			cout << "Valor invï¿½lido" << endl;
 			cout << "------------------------------------------------------------------------------" << endl;
 		}
 	}while(op != 0);
