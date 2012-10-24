@@ -37,6 +37,7 @@ Posto::Posto(int key, float qntStock){
 
 Posto::Posto(const Posto &p){
 	setKey(p.key);
+	setQntStock(p.key);
 }
 
 Posto::~Posto(){
