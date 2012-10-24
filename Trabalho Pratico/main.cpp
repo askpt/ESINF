@@ -481,6 +481,7 @@ void menu(){
 				switch(opcao){
 				case 1:
 					lerFicheiroArmazem();
+					veri=true;
 					break;
 				case 2:
 					lerFicheiroTransportes();
