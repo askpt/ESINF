@@ -40,7 +40,7 @@ class No
 		{  
 		}
 
-		void setInfo (const T i) 
+		void SetInfo (const T i) 
 		{
 			info = i ; 
 		}
