@@ -19,14 +19,15 @@ public:
 
 	void addValor(int key1, int key2, float temp, float dist);
 	void retValor(Transporte &x, int key1, int key2);
-	
+
 	void escreve(ostream &out) const;
+	Matriz& operator=(const Matriz& m);
 };
 
 Matriz::Matriz(int d){
 	key_atual=0;
 	dim=d;
-	
+
 	mat=new Transporte*[dim];
 	for(int i=0;i<dim;i++)
 		mat[i]=new Transporte[dim];
@@ -37,15 +38,15 @@ Matriz::Matriz(int d){
 Matriz::Matriz(const Matriz &m){
 	key_atual=m.key_atual;
 	dim=m.dim;
-		
+
 	mat=new Transporte*[dim];
 	for(int i=0;i<key_atual;i++)
 		mat[i]=new Transporte[dim];
-	
+
 	for(int i=0;i<key_atual;i++)
 		for(int j=0;j<key_atual;j++)
 			mat[i][j]=m.mat[i][j];
-	
+
 	keys=new int[dim];
 	for(int i=0;i<key_atual;i++)
 		keys[i]=m.keys[i];
@@ -58,7 +59,7 @@ Matriz::~Matriz(){
 	delete[]mat;
 
 	delete [] keys;
-	
+
 }
 
 void Matriz::aumenta(){
@@ -66,7 +67,7 @@ void Matriz::aumenta(){
 	tmp = new Transporte *[2*dim];
 	for(int i=0;i<key_atual;i++)
 		tmp[i]=new Transporte[2*dim];
-	
+
 	for(int i=0;i<key_atual;i++)
 		for(int j=0;j<key_atual;j++)
 			tmp[i][j]=mat[i][j];
@@ -98,13 +99,13 @@ int Matriz::encontra(int key){
 			key_atual++;
 		}
 
-	return posk;
+		return posk;
 }
 
 void Matriz::addValor(int key1, int key2, float temp, float dist){
 	int posk1=encontra(key1);
 	int posk2=encontra(key2);
-	
+
 	Transporte tmp(dist, temp);
 	mat[posk1][posk2]=tmp;
 }
@@ -117,7 +118,7 @@ void Matriz::retValor(Transporte &x, int key1, int key2){
 }
 
 void Matriz::escreve(ostream &out) const{
-	
+
 	out << "0" ;
 
 	for(int i = 0; i < key_atual; i++){                
@@ -129,13 +130,39 @@ void Matriz::escreve(ostream &out) const{
 		out << keys[j] << " ";
 		for(int k = 0; k < key_atual; k++){                                                                             
 			out << mat[j][k] << " ";
-        }
-    }
+		}
+	}
 }
 
 ostream & operator << (ostream &out, Matriz &m ){
 	m.escreve(out);
 	return out;
+}
+
+Matriz& Matriz::operator=(const Matriz& m){
+	if(this != &m){
+		for(int i=0;i<key_atual;i++){		
+			delete [] mat[i];		
+		}
+		delete[]mat;
+		delete[]keys;
+		dim=m.dim;
+		key_atual=m.key_atual;
+
+		mat=new Transporte*[dim];
+		for(int i=0;i<key_atual;i++)
+			mat[i]=new Transporte[dim];
+
+		for(int i=0;i<key_atual;i++)
+			for(int j=0;j<key_atual;j++)
+				mat[i][j]=m.mat[i][j];
+
+		keys=new int[dim];
+		for(int i=0;i<key_atual;i++)
+			keys[i]=m.keys[i];
+	}
+
+	return *this;
 }
 
 #endif
