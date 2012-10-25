@@ -93,10 +93,6 @@ void lerFicheiroRobot() {
 						}
 					}
 				}
-			}else{
-				cout << "Ficheiro sem dados. Falha no carregamento!" << endl;
-				fx.close();
-				return;
 			}
 		}
 	}
@@ -216,6 +212,7 @@ void lerFicheiroArmazem() {
 	cout << "Ficheiro carregado com sucesso" << endl;
 	aa = aux;
 	//aux.destroiQueue();
+	veri=true;
 	fx.close();
 }
 
@@ -297,10 +294,6 @@ void lerFicheiroAutomatico() {
 						}
 					}
 				}
-			}else{
-				cout << "Ficheiro nao tem dados. Falha na importacao do ficheiro!" << endl;
-				fx.close();
-				return;
 			}
 		}
 	}
@@ -390,10 +383,6 @@ void lerFicheiroTransportes() {
 						}
 					}
 				}
-			}else{
-				cout << "Ficheiro nao tem dados. Falha na importacao do ficheiro!" << endl;
-				fx.close();
-				return;
 			}
 		}
 		m = aux;
