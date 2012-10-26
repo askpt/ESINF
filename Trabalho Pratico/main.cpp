@@ -210,7 +210,13 @@ void lerFicheiroArmazem() {
 		}
 	}
 	cout << "Ficheiro carregado com sucesso" << endl;
-	aa = aux;
+
+	do{
+		Posto *at;
+		aux.retira(at);
+		aa.insere(at);
+	}while(aux.comprimento()>0);
+	//aa = aux;
 	//aux.destroiQueue();
 	veri=true;
 	fx.close();
@@ -298,7 +304,13 @@ void lerFicheiroAutomatico() {
 		}
 	}
 	if(cont == pow(2,numPostos)){
-		aa = aux;
+		do{
+			Posto *at;
+			aux.retira(at);
+			aa.insere(at);
+		}while(aux.comprimento()>0);		
+		
+		//aa = aux;
 		//aux.destroiQueue();
 		cout << "Ficheiro carregado com sucesso" << endl;
 	}else if(cont > pow(2,numPostos)){
