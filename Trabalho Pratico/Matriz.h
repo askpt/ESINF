@@ -86,9 +86,8 @@ void Matriz::aumenta(){
 
 int Matriz::encontra(int key){
 	int posk=0;
-	for(;posk<key_atual;posk++)
-		if(keys[posk]==key)
-			break;
+	for(;posk<key_atual && keys[posk]!=key;posk++);
+		
 	if(posk==key_atual)
 		if(key_atual!=dim){
 			keys[posk]=key;
