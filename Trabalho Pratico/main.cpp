@@ -43,7 +43,6 @@ void lerFicheiroRobot() {
 				temp[i] = (linha.substr(inicio, pos-inicio)); 
 				if(temp[i] == ""){
 					cout << "Falta o atributo Key para formar o robot!" << endl;
-					//auxi.destroilista();
 					fx.close();
 					return;
 				}else{
@@ -55,7 +54,6 @@ void lerFicheiroRobot() {
 					temp[i] = (linha.substr(inicio,pos-inicio));
 					if(temp[i] == ""){
 						cout << "Falta o atributo limite para formar o robot!" << endl;
-						//auxi.destroilista();
 						fx.close();
 						return;
 					}else{
@@ -67,7 +65,6 @@ void lerFicheiroRobot() {
 						temp[i] = (linha.substr(inicio, pos-inicio));
 						if(temp[i] == ""){
 							cout << "Falta o atributo Quantidade de Stock para formar o robot!" << endl;
-							//auxi.destroilista();
 							fx.close();
 							return;
 						}else{
@@ -79,7 +76,6 @@ void lerFicheiroRobot() {
 							temp[i] = (linha.substr(inicio,pos-inicio));
 							if(temp[i] == ""){
 								cout << "Falta o atributo Posicao para formar o robot!" << endl;
-								//auxi.destroilista();
 								fx.close();
 								return;
 							}else{
@@ -101,10 +97,8 @@ void lerFicheiroRobot() {
 		ra = auxi;
 	}else if(cont < numPostos){
 		cout << "Falhou o carregamento do ficheiro. Numero de robots insuficientes!" << endl;
-		//auxi.destroilista();
 	}else{
 		cout << "Falhou o carregamento do ficheiro.Numero de robots em excesso!" << endl;
-		//auxi.destroilista();
 	}
 
 	fx.close();
@@ -149,7 +143,6 @@ void lerFicheiroArmazem() {
 					if(temp[i] == ""){
 						cout << "Falta o atributo key para o armazem!" << endl;
 						cout << "Falha no carregamento do ficheiro!" << endl;
-						//aux.destroiQueue();
 						veri = false;
 						fx.close();
 						return;
@@ -163,7 +156,6 @@ void lerFicheiroArmazem() {
 						if(temp[i] == ""){
 							cout << "Falta o atributo quantidade de stock para o armazem!" << endl;
 							cout << "Falha no carregamento do ficheiro!" << endl;
-							//aux.destroiQueue();
 							veri = false;
 							fx.close();
 							return;
@@ -177,7 +169,6 @@ void lerFicheiroArmazem() {
 							if(temp[i] == ""){
 								cout << "Falta o atributo quantidade de seguranca para o armazem!" << endl;
 								cout << "Falha no carregamento do ficheiro!" << endl;
-								//aux.destroiQueue();
 								veri = false;
 								fx.close();
 								return;
@@ -191,7 +182,6 @@ void lerFicheiroArmazem() {
 								if(temp[i] == ""){
 									cout << "Falta o atributo key Robot para o armazem!" << endl;
 									cout << "Falha no carregamento do ficheiro!" << endl;
-									//aux.destroiQueue();
 									veri = false;
 									fx.close();
 									return;
@@ -216,8 +206,6 @@ void lerFicheiroArmazem() {
 		aux.retira(at);
 		aa.insere(at);
 	}while(aux.comprimento()>0);
-	//aa = aux;
-	//aux.destroiQueue();
 	veri=true;
 	fx.close();
 }
@@ -247,7 +235,6 @@ void lerFicheiroAutomatico() {
 				if(temp[i] == ""){
 					cout << "Falta atributo key para o posto Automatico!" << endl;
 					cout << "Falha na importacao do ficheiro!" << endl;
-					//aux.destroiQueue()
 					fx.close();
 					return;
 				}else{
@@ -260,7 +247,6 @@ void lerFicheiroAutomatico() {
 					if(temp[i] == ""){
 						cout << "Falta atributo quantidade de stock para o posto Automatico!" << endl;
 						cout << "Falha na importacao do ficheiro!" << endl;
-						//aux.destroiQueue()
 						fx.close();
 						return;
 					}else{
@@ -273,7 +259,6 @@ void lerFicheiroAutomatico() {
 						if(temp[i] == ""){
 							cout << "Falta atributo quantidade de seguranca para o posto Automatico!" << endl;
 							cout << "Falha na importacao do ficheiro!" << endl;
-							//aux.destroiQueue()
 							fx.close();
 							return;
 						}else{
@@ -286,7 +271,6 @@ void lerFicheiroAutomatico() {
 							if(temp[i] == ""){
 								cout << "Falta atributo velocidade para o posto Automatico!" << endl;
 								cout << "Falha na importacao do ficheiro!" << endl;
-								//aux.destroiQueue()
 								fx.close();
 								return;
 							}else{
@@ -309,16 +293,11 @@ void lerFicheiroAutomatico() {
 			aux.retira(at);
 			aa.insere(at);
 		}while(aux.comprimento()>0);		
-		
-		//aa = aux;
-		//aux.destroiQueue();
 		cout << "Ficheiro carregado com sucesso" << endl;
 	}else if(cont > pow(2,numPostos)){
 		cout << "Importacao do ficheiro falhou. Postos Automaticos em demasia!" << endl;
-		//aux.destroiQueue();
 	}else{
 		cout << "Importacao do ficheiro falhou. Insuficientes Postos Automaticos!" << endl;
-		//aux.destroiQueue();
 	}
 
 	fx.close();
@@ -505,40 +484,5 @@ void menu(){
 void main(){
 	
 	menu();
-
-	/*
-	Automatico at1(123, 123, 1221, 112);
-	Armazem ar1(1231, 122, 123, 123);
-	Robot r1 (225, 25878, 4858, 2222);
-	Transporte tr(1,2);
-
-	//testes basicos
-	cout << at1;
-	cout << ar1;
-	cout << r1;
-	cout << tr;
-	cin.get();
-	
-	//Teste Matriz
-	Matriz m(4);
-	m.addValor(at1.getKey(), ar1.getKey(), 12312, 1222);
-	m.addValor(1,2, 111, 222);
-	m.retValor(tr, at1.getKey(), ar1.getKey());
-	cout << tr;
-	cin.get();
-	cout << m;
-
-	//Teste queue
-	Queue<Posto*> aa;	
-	aa.insere(at1.clone());
-	aa.insere(ar1.clone());
-	cout << aa;
-	cin.get();
-
-	//Teste lista
-	Lista<Robot> ra;
-	ra.insere(1,r1);
-	cout<<ra;
-	*/
 	
 }
