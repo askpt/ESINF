@@ -404,56 +404,6 @@ void lerFicheiroTransportes() {
 	fx.close();
 }
 
-void inserirLista(){
-
-	int key,keyPosto,pos;
-	float limite,qntStock; 
-
-	cout << "Em que posicao da lista deseja inserir?"; cin >> pos; cout << endl;
-	cout << "Introduza os atributos do Robot: " << endl;
-	cout << "Key : "; cin >> key; cout << endl;
-	cout << "Limite : "; cin >> limite; cout << endl;
-	cout << "Quantidade Stock : "; cin >> qntStock; cout << endl;
-	cout << "Key Posto : "; cin >> keyPosto; cout << endl;
-    Robot r(key,limite,qntStock,keyPosto);
-	ra.insere(pos, r);
-	if (key !=0)
-		cout << "Robot inserido" << endl;
-}
-
-
-
-void inserirAutomatico(){
-
-	int key;
-	float qntStock,qntSeg,vel;
-
-	cout << "Introduza os atributos do Armazem: " << endl;
-	cout << "Key : "; cin >> key; cout << endl;
-	cout << "Quantidade de Stock : "; cin >> qntStock; cout << endl;
-	cout << "Quantidade de Seguranca : " << endl; cin >> qntSeg; cout << endl;
-	cout << "Velocidade : " << endl; cin >> vel; cout << endl;
-	Automatico at(key,qntStock,qntSeg,vel);
-	aa.insere(at.clone());
-	
-	cout << "Posto Automatico inserido" << endl;
-}
-
-void inserirArmazem(){
-	
-	int key, keyRobot;
-	float qntStock,qntSeg;
-
-	cout << "Introduza os atributos do Armazem: " << endl;
-	cout << "Key : "; cin >> key; cout << endl;
-	cout << "Quantidade de Stock : "; cin >> qntStock; cout << endl;
-	cout << "Quantidade de Seguranca : " << endl; cin >> qntSeg; cout << endl;
-	cout << "Key Robot : " << endl; cin >> keyRobot; cout << endl;
-	Armazem a(key,qntStock,qntSeg,keyRobot);
-	aa.insere(a.clone());
-	cout << "Armazem inserido" << endl;
-}
-
 int op = -1;
 
 void menu(){
@@ -463,10 +413,8 @@ void menu(){
 	do{
 		cout << "1 - Leitura De Ficheiro" << endl;
 		cout << "2 - Apresentar Matriz" << endl;
-		cout << "3 - Adicionar Robot a Lista" << endl;
-		cout << "4 - Adicionar Postos a Queue" << endl;
-		cout << "5 - Apresentar Lista" << endl;
-		cout << "6 - Apresentar Queue" << endl;
+		cout << "3 - Apresentar Lista" << endl;
+		cout << "4 - Apresentar Queue" << endl;
 		cout << "0 - Sair" << endl;
 		cin >> op;
 		switch(op){
@@ -535,40 +483,11 @@ void menu(){
 			cout << "------------------------------------------------------------------------------" << endl;
 			break;
 		case 3:
-			inserirLista();
-			cout << "------------------------------------------------------------------------------" << endl;
-			break;
-		case 4:
-			cout << endl;
-			cout << "1 - Posto Automatico" << endl;
-			cout << "2 - Armazem" << endl;
-			cout << "0 - Menu Anterior" << endl;
-			cin >> esc;
-			switch(esc){
-			case 1:
-				inserirAutomatico();
-				cout << "------------------------------------------------------------------------------" << endl;
-				break;
-			case 2:
-				inserirArmazem();
-				cout << "------------------------------------------------------------------------------" << endl;
-				break;
-			case 0:
-				cout << "------------------------------------------------------------------------------" << endl;
-				menu();
-			default:
-				cout << "Valor invalido" << endl;
-				cout << "------------------------------------------------------------------------------" << endl;
-				menu();
-			}
-			cout << "------------------------------------------------------------------------------" << endl;
-			break;
-		case 5:
 			cout << "Lista: "  << endl;
 			cout << ra;
 			cout << "------------------------------------------------------------------------------" << endl;
 			break;
-		case 6:
+		case 4:
 			cout << "Queue: " << endl;
 			cout << aa;
 			cout << "------------------------------------------------------------------------------" << endl;
