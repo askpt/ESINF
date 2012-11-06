@@ -20,8 +20,8 @@ public:
 
 	virtual Armazem & operator = (const Armazem &a);
 	virtual void escreve(ostream &out) const;
-	bool operator == (const Armazem &a);
-	bool operator > (const Armazem &a);
+	virtual bool operator == (const Armazem &a);
+	virtual bool operator > (const Armazem &a);
 
 	virtual Posto* clone() const;
 };

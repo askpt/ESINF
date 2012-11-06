@@ -19,8 +19,8 @@ public:
 
 	virtual Automatico & operator = (const Automatico &t);
 	virtual void escreve(ostream &out) const;
-	bool operator == (const Automatico &t);
-	bool operator > (const Automatico &t);
+	virtual bool operator == (const Automatico &t);
+	virtual bool operator > (const Automatico &t);
 
 	virtual Posto* clone() const;
 };
