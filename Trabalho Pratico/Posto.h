@@ -10,7 +10,7 @@ public:
 	Posto();
 	Posto(int key, float qntStock); 
 	Posto(const Posto &p);
-	~Posto();
+	virtual ~Posto();
 
 	int getKey() const;
 	float getQntStock() const;
