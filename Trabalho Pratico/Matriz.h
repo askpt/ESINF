@@ -13,6 +13,7 @@ private:
 	void aumenta();
 	int encontra(int key);
 public:
+	Matriz();
 	Matriz(int d);
 	Matriz(const Matriz& m);
 	~Matriz();
@@ -23,6 +24,11 @@ public:
 	void escreve(ostream &out) const;
 	Matriz& operator=(const Matriz& m);
 };
+
+Matriz::Matriz()
+{
+	Matriz(1000);
+}
 
 Matriz::Matriz(int d){
 	key_atual=0;
