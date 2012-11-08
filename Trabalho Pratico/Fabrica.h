@@ -32,6 +32,10 @@ public:
 	Matriz getMatriz();
 	Lista<Robot> getLista();
 	Queue<Posto*> getQueue();
+
+	bool operator == (const Fabrica &f) const;
+	Fabrica& operator = (const Fabrica &f);
+	void escreve(ostream &out) const;
 };
 
 Fabrica::Fabrica(){
@@ -423,8 +427,36 @@ void Fabrica::lerFicheiroTransportes() {
 	fx.close();
 }
 
-int op = -1;
+Fabrica& Fabrica::operator=(const Fabrica &f)
+{
+	m=f.m;
+	ra=f.ra;
+	aa=f.aa;
+	numPostos=f.numPostos;
+	veri=f.veri;
 
+	return *this;
+}
 
+bool Fabrica::operator==(const Fabrica &f) const
+{
+	return m==f.m && ra==f.ra && aa==f.aa && numPostos==f.numPostos && veri==f.veri;
+}
+
+void Fabrica::escreve(ostream &out) const
+{
+	out << "Lista de Postos" << endl;
+	out << aa;
+	out << "Lista de Robots" << endl;
+	out << ra;
+	out << "Matriz" << endl;
+	out << m;
+}
+
+ostream& operator << (ostream &out, const Fabrica &f)
+{
+	f.escreve(out);
+	return out;
+}
 
 #endif
