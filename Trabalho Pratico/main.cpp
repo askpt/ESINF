@@ -3,6 +3,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <math.h>
+#include <iomanip>
 using namespace std;
 
 #include "Robot.h"
@@ -27,6 +28,7 @@ void menu(){
 		cout << "2 - Apresentar Matriz" << endl;
 		cout << "3 - Apresentar Lista" << endl;
 		cout << "4 - Apresentar Queue" << endl;
+		cout << "5 - Apresentar Fabrica" << endl;
 		cout << "0 - Sair" << endl;
 		cin >> op;
 		switch(op){
@@ -96,6 +98,7 @@ void menu(){
 			break;
 		case 3:
 			cout << "Lista: "  << endl;
+			cout << "Robot: " << endl;
 			cout << fab.getLista();
 			cout << "------------------------------------------------------------------------------" << endl;
 			break;
@@ -103,6 +106,10 @@ void menu(){
 			cout << "Queue: " << endl;
 			cout << fab.getQueue();
 			cout << "------------------------------------------------------------------------------" << endl;
+			break;
+		case 5:
+			cout << "Fabrica: " << endl;
+			cout << fab << endl;
 			break;
 		case 0:
 			cout << "Programa Terminado" << endl;
