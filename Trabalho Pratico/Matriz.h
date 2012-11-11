@@ -139,7 +139,7 @@ void Matriz::escreve(ostream &out) const{
 	}
 }
 
-ostream & operator << (ostream &out, Matriz &m ){
+ostream & operator << (ostream &out, const Matriz &m ){
 	m.escreve(out);
 	return out;
 }

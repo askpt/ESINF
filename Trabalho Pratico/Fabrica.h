@@ -438,10 +438,10 @@ Fabrica& Fabrica::operator=(const Fabrica &f)
 	return *this;
 }
 
-bool Fabrica::operator==(const Fabrica &f) const
-{
-	return m==f.m && ra==f.ra && aa==f.aa && numPostos==f.numPostos && veri==f.veri;
-}
+//bool Fabrica::operator==(const Fabrica &f) const
+//{
+//	return m==f.m && ra==f.ra && aa==f.aa && numPostos==f.numPostos && veri==f.veri;
+//}
 
 void Fabrica::escreve(ostream &out) const
 {
