@@ -16,6 +16,7 @@ using namespace std;
 #include "Fabrica.h"
 
 Fabrica fab;
+int op;
 
 void menu(){
 	
