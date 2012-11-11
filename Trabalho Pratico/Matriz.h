@@ -123,18 +123,34 @@ void Matriz::retValor(Transporte &x, int key1, int key2){
 }
 
 void Matriz::escreve(ostream &out) const{
-
-	out << "0" ;
+	//Apresentacao distancias
+	out << "Distancia entre postos:" << endl;
+	out << "   " ;
 
 	for(int i = 0; i < key_atual; i++){                
-		out << keys[i] << " ";
+		out << keys[i] << "  ";
 	}
 
 	for(int j = 0; j < key_atual; j++){
 		out << endl;
-		out << keys[j] << " ";
+		out << keys[j] << "  ";
 		for(int k = 0; k < key_atual; k++){                                                                             
-			out << mat[j][k] << " ";
+			out << mat[j][k].getDistanciametros() << "  ";
+		}
+	}
+	//apresentacao postos
+	out << "\nDistancia entre postos:" << endl;
+	out << "   " ;
+
+	for(int i = 0; i < key_atual; i++){                
+		out << keys[i] << "  ";
+	}
+
+	for(int j = 0; j < key_atual; j++){
+		out << endl;
+		out << keys[j] << "  ";
+		for(int k = 0; k < key_atual; k++){                                                                             
+			out << mat[j][k].getTempominutos() << "  ";
 		}
 	}
 }
