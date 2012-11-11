@@ -107,7 +107,9 @@ bool Robot::operator > (const Robot &r){
 }
 
 void Robot:: escreve(ostream &out) const {
-	out << "Robot: <- Key: " << key << "; Limite: " << limite << ";Quantidade stock: " << qntStock << "; Posicao: " << keyPosto << endl;
+	//out << "Robot: <- Key: " << key << "; Limite: " << limite << ";Quantidade stock: " << qntStock << "; Posicao: " << keyPosto << endl;
+	out << "Key" << setw(2) << " " << "Limite" << setw(2) << " " << "QuantidadeStock" << setw(2) << " " << "Posicao" << endl;
+	out << key << setw(6) << " " << limite << setw(10) << " " << qntStock << setw(12) << " " << keyPosto << "" << endl;
 }
 
 ostream & operator << (ostream &out, const Robot &r){
