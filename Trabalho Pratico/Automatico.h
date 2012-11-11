@@ -77,9 +77,8 @@ bool Automatico::operator > (const Automatico &t){
 }
 
 void Automatico::escreve(ostream &out) const{
-	out << "Automatico: " << endl;
 	Posto::escreve(out);
-	out << "Quantidade Req: " << qntReq << "; Vel: " << vel << endl;
+	out << "; Quantidade Req: " << qntReq << "; Vel: " << vel << endl;
 }
 
 ostream & operator << (ostream &out, Automatico &t){
