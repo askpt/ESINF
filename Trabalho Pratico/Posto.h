@@ -76,8 +76,8 @@ bool Posto:: operator > (const Posto &p){
 }
 
 void Posto::escreve(ostream &out) const{
-	out << "Posto: <- Key:" << key << endl;
-	out << "Quantidade de Stock: " << qntStock << endl;
+	out << "Posto: <- Key:" << key;
+	out << "; Quantidade de Stock: " << qntStock;
 }
 
 ostream & operator << (ostream &out, const Posto &p){

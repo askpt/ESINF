@@ -78,11 +78,9 @@ bool Armazem::operator > (const Armazem &a){
 
 
 void Armazem:: escreve(ostream &out) const{
-	out << "Armazem: " << endl;
 	Posto::escreve(out);
-	out << "Quantidade Seg: " << qntSeg << endl;
-	out << "Robot:" << endl;
-	out << keyRobot << endl;
+	out << "; Quantidade Seg: " << qntSeg;
+	out << "; Robot:" << keyRobot << endl;
 }
 
 ostream & operator << (ostream &out, Armazem &a){
