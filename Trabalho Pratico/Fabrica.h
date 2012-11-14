@@ -11,6 +11,7 @@
 #include "Matriz.h"
 #include "Queue.h"
 #include "Lista.h"
+#include "ListAdjGrafo.h"
 
 class Fabrica
 {
@@ -20,6 +21,7 @@ private:
 	Queue<Posto*> aa;
 	int numPostos;
 	bool veri;
+	ListAdjGrafo<Posto*,Transporte> fab;
 
 public:
 	Fabrica();
@@ -32,6 +34,9 @@ public:
 	Matriz getMatriz();
 	Lista<Robot> getLista();
 	Queue<Posto*> getQueue();
+	ListAdjGrafo<Posto*,Transporte> getGrafo();
+
+	void criaGrafo();
 
 	Fabrica& operator = (const Fabrica &f);
 	void escreve(ostream &out) const;
@@ -55,6 +60,11 @@ Lista<Robot> Fabrica::getLista()
 Queue<Posto*> Fabrica::getQueue()
 {
 	return aa;
+}
+
+ListAdjGrafo<Posto*,Transporte> Fabrica::getGrafo()
+{
+	return fab;
 }
 
 
@@ -435,6 +445,19 @@ Fabrica& Fabrica::operator=(const Fabrica &f)
 	veri=f.veri;
 
 	return *this;
+}
+
+void Fabrica::criaGrafo()
+{
+	if(aa.vazia())
+		cout << "Postos nao inseridos" << endl;
+	else if(m.vazia())
+		cout << "Distancias/tempos nao inseridos" << endl;
+	else
+	{
+
+	//TODO inserir codigo.
+	}
 }
 
 void Fabrica::escreve(ostream &out) const
