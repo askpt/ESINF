@@ -18,6 +18,7 @@ public:
 	Matriz(const Matriz& m);
 	~Matriz();
 
+	bool vazia() const;
 	void addValor(int key1, int key2, float temp, float dist);
 	void retValor(Transporte &x, int key1, int key2);
 
@@ -184,6 +185,11 @@ Matriz& Matriz::operator=(const Matriz& m){
 	}
 
 	return *this;
+}
+
+bool Matriz::vazia() const
+{
+	return key_atual==0;
 }
 
 #endif
