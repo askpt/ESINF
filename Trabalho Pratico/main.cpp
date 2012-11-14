@@ -15,6 +15,7 @@ using namespace std;
 #include "Queue.h"
 #include "Lista.h"
 #include "Fabrica.h"
+#include "ListAdjGrafo.h"
 
 Fabrica fab;
 int op;
