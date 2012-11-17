@@ -24,6 +24,8 @@ public:
 
 	void escreve(ostream &out) const;
 	Matriz& operator=(const Matriz& m);
+
+	int getComprimento() const;
 };
 
 Matriz::Matriz()
@@ -190,6 +192,11 @@ Matriz& Matriz::operator=(const Matriz& m){
 bool Matriz::vazia() const
 {
 	return key_atual==0;
+}
+
+int Matriz::getComprimento() const
+{
+	return key_atual;
 }
 
 #endif
