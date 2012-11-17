@@ -21,6 +21,7 @@ class ListAdjGrafo
 		~ListAdjGrafo() ; 
 
 		Vertice<TV,TR>* encvert_conteudo(const TV& v) const;
+		Vertice<TV,TR>* encvert_keyPosto(int key) const;
         Vertice<TV,TR>* encvert_key(int numvert) const;
 
 		int NumVert() const ;
@@ -182,6 +183,21 @@ Vertice<TV,TR>* ListAdjGrafo<TV,TR>::encvert_conteudo(const TV& v) const
 	while (ap != NULL)
 	{
 		if (ap->vconteudo == v)
+			return ap ;
+		else 
+			ap=ap->apvertice;
+	}
+    return ap;
+}
+
+template<class TV,class TR>
+Vertice<TV,TR>* ListAdjGrafo<TV,TR>::encvert_keyPosto(int k) const
+{
+	Vertice<TV,TR>* ap=graf;
+	
+	while (ap != NULL)
+	{
+		if (ap->vconteudo->getKey() == k)
 			return ap ;
 		else 
 			ap=ap->apvertice;
