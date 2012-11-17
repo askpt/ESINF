@@ -455,7 +455,15 @@ void Fabrica::criaGrafo()
 		cout << "Distancias/tempos nao inseridos" << endl;
 	else
 	{
-
+		int pos=0;
+		for (int pos = 0; pos < aa.comprimento(); pos++)
+		{
+			Posto* tmp;
+			aa.retira(tmp);
+			fab.juntar_vertice(tmp->clone());
+			aa.insere(tmp->clone());		
+		}
+		
 	//TODO inserir codigo.
 	}
 }
