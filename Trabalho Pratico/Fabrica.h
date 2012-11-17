@@ -40,6 +40,8 @@ public:
 
 	Fabrica& operator = (const Fabrica &f);
 	void escreve(ostream &out) const;
+
+	void validaGrafo();
 };
 
 Fabrica::Fabrica(){
@@ -158,7 +160,7 @@ void Fabrica::lerFicheiroRobot() {
 }
 
 void Fabrica::lerFicheiroArmazem() {
-	
+
 	int i = 0;
 	Queue<Posto*> aux;
 	string linha;
@@ -264,7 +266,7 @@ void Fabrica::lerFicheiroArmazem() {
 }
 
 void Fabrica::lerFicheiroAutomatico() {
-	
+
 	int i = 0;
 	int cont=0;
 	Queue<Posto*> aux;
@@ -357,7 +359,7 @@ void Fabrica::lerFicheiroAutomatico() {
 }
 
 void Fabrica::lerFicheiroTransportes() {
-	
+
 	int i = 0;
 	string linha;
 	Matriz aux(1000);
@@ -472,7 +474,7 @@ void Fabrica::criaGrafo()
 				{
 					Vertice<Posto*,Transporte> *ini = fab.encvert_keyPosto(x);
 					Vertice<Posto*,Transporte> *fim = fab.encvert_keyPosto(y);
-				
+
 					fab.juntar_ramo(tmp,ini->GetConteudo(),fim->GetConteudo());						
 				}
 			}		
@@ -494,6 +496,39 @@ ostream& operator << (ostream &out, const Fabrica &f)
 {
 	f.escreve(out);
 	return out;
+}
+
+void Fabrica::validaGrafo(){
+	bool check=true;
+	int key=0;
+	if(fab.NumVert()!=0)
+	{
+		Vertice<Posto*,Transporte> *apvert=fab.encvert_key(1);
+		while(apvert!=NULL && check)
+		{
+			Posto* teste = apvert->GetConteudo();
+			if(strcmp("class Armazem",typeid(*teste).name())==0)
+			{
+				Armazem* tst = dynamic_cast<Armazem*>(apvert->GetConteudo());
+				if(tst->getKeyRobot()<0)
+				{
+					check=false;
+					key=tst->getKey();
+				}
+			}
+			apvert=apvert->GetVertice();
+		}
+		if(!check)
+		{
+			cout << "Armazem " << key << " nao possui robots estacionados." << endl;
+		}
+
+	}else
+	{
+		cout << "Grafo vazio!" << endl;
+	}
+
+
 }
 
 #endif

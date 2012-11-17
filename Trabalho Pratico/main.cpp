@@ -31,6 +31,7 @@ void menu(){
 		cout << "4 - Apresentar Queue" << endl;
 		cout << "5 - Apresentar Fabrica" << endl;
 		cout << "6 - Insere no Grafo" << endl;
+		cout << "7 - Valida o Grafo" << endl;
 		cout << "0 - Sair" << endl;
 		cin >> op;
 		switch(op){
@@ -115,6 +116,9 @@ void menu(){
 			break;
 		case 6:
 			fab.criaGrafo();
+			break;
+		case 7:
+			fab.validaGrafo();
 			break;
 		case 0:
 			cout << "Programa Terminado" << endl;
