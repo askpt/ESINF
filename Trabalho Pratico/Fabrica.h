@@ -455,7 +455,6 @@ void Fabrica::criaGrafo()
 		cout << "Distancias/tempos nao inseridos" << endl;
 	else
 	{
-		int pos=0;
 		for (int pos = 0; pos < aa.comprimento(); pos++)
 		{
 			Posto* tmp;
@@ -463,8 +462,21 @@ void Fabrica::criaGrafo()
 			fab.juntar_vertice(tmp->clone());
 			aa.insere(tmp->clone());		
 		}
-		
-	//TODO inserir codigo.
+		for (int x=0;x<m.getComprimento();x++)
+		{
+			for(int y=0;y<m.getComprimento();y++)
+			{
+				Transporte tmp;
+				m.retValor(tmp,x,y);
+				if(tmp.getDistanciametros()!=0 && tmp.getTempominutos()!=0) 
+				{
+					Vertice<Posto*,Transporte> *ini = fab.encvert_keyPosto(x);
+					Vertice<Posto*,Transporte> *fim = fab.encvert_keyPosto(y);
+				
+					fab.juntar_ramo(tmp,ini->GetConteudo(),fim->GetConteudo());						
+				}
+			}		
+		}
 	}
 }
 
