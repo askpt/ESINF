@@ -26,6 +26,7 @@ private:
 	void cmTempo(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim);
 	int minimoVertice(int *vector, bool *processado) const;
 	void mostraCaminho(int origem, int destino, const int *caminho);
+	void cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim);
 
 
 public:
@@ -48,6 +49,7 @@ public:
 
 	void validaGrafo();
 	void caminhoMinimoTempo(int inicio, int fim);
+	void caminhoMinimoDistancia(int inicio, int fim);
 };
 
 Fabrica::Fabrica(){
@@ -658,5 +660,51 @@ void Fabrica::caminhoMinimoTempo(int inicio, int fim)
 
 }
 
+void Fabrica::cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim){
+	bool *processados=new bool[fab.NumVert()+1];
+	int *distancia = new int [fab.NumVert()+1];
+	int *caminho= new int [fab.NumVert()+1];
+	Vertice<Posto*,Transporte> *ini=inicio;
+	Vertice<Posto*,Transporte> *f=fim;
+	for (int i = 1; i <= fab.NumVert();++i)
+	{
+		processados[i]=false;
+		caminho[i]=0;
+		distancia[i]=9999;
+	}
+	int indOrg=inicio->GetKey();
+	distancia[inicio->GetKey()]=0;
+	while(indOrg!=-1){
+		processados[indOrg]=true;
+		inicio=fab.encvert_key(indOrg);
+		Ramo<Posto*,Transporte>* apramo=inicio->GetRamo();
+		while(apramo!=NULL){
+			int indDest=apramo->GetVertice()->GetKey();
+			if(!processados[indDest]&&distancia[indDest]>distancia[indOrg]+apramo->GetConteudo().getDistanciametros()){
+				distancia[indDest]=distancia[indOrg]+apramo->GetConteudo().getDistanciametros();
+				caminho[indDest]=indOrg;
+			}
+			apramo=apramo->GetRamo();
+		}
+		indOrg=minimoVertice(distancia,processados);
+	}
+	if(distancia[f->GetKey()]==9999){
+		cout << "nao existe caminho entre " << ini->GetConteudo()->getKey() << " e " << f->GetConteudo()->getKey()<< endl;
+	}else{
+		cout << "Ira demorar " << distancia[f->GetKey()] << " entre " << ini->GetConteudo()->getKey() << " e " << f->GetConteudo()->getKey() << endl;
+		mostraCaminho(ini->GetKey(), f->GetKey(), caminho);
+		cout << endl;
+	}
+}
+
+void Fabrica::caminhoMinimoDistancia(int inicio, int fim)
+{
+	Vertice<Posto*,Transporte> *ini=fab.encvert_keyPosto(inicio);
+	Vertice<Posto*,Transporte> *f=fab.encvert_keyPosto(fim);
+	if(ini==NULL || f==NULL)
+		cout << "Par de vertices nao encontrados." << endl;
+	else
+		cmDist(ini,f);
+}
 
 #endif
