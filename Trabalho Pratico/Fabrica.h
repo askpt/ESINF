@@ -651,7 +651,10 @@ void Fabrica::caminhoMinimoTempo(int inicio, int fim)
 {
 	Vertice<Posto*,Transporte> *ini=fab.encvert_keyPosto(inicio);
 	Vertice<Posto*,Transporte> *f=fab.encvert_keyPosto(fim);
-	cmTempo(ini,f);
+	if(ini==NULL || f==NULL)
+		cout << "Par de vertices nao encontrados." << endl;
+	else
+		cmTempo(ini,f);
 
 }
 
