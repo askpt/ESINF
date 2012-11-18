@@ -23,6 +23,10 @@ private:
 	bool veri;
 	ListAdjGrafo<Posto*,Transporte> fab;
 	void procura_armazem(Vertice<Posto*,Transporte>* apinicio, int *vector, bool *chega);
+	void cmTempo(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim);
+	int minimoVertice(int *vector, bool *processado) const;
+	void mostraCaminho(int origem, int destino, const int *caminho);
+
 
 public:
 	Fabrica();
@@ -43,6 +47,7 @@ public:
 	void escreve(ostream &out) const;
 
 	void validaGrafo();
+	void caminhoMinimoTempo(int inicio, int fim);
 };
 
 Fabrica::Fabrica(){
@@ -580,5 +585,75 @@ void Fabrica::procura_armazem(Vertice<Posto*,Transporte>* apinicio, int *vector,
 		apramo=apramo->GetRamo();
 	}
 }
+
+void Fabrica::cmTempo(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim){
+	bool *processados=new bool[fab.NumVert()+1];
+	int *tempo = new int [fab.NumVert()+1];
+	int *caminho= new int [fab.NumVert()+1];
+	Vertice<Posto*,Transporte> *ini=inicio;
+	Vertice<Posto*,Transporte> *f=fim;
+	for (int i = 1; i <= fab.NumVert();++i)
+	{
+		processados[i]=false;
+		caminho[i]=0;
+		tempo[i]=9999;
+	}
+	int indOrg=inicio->GetKey();
+	tempo[inicio->GetKey()]=0;
+	while(indOrg!=-1){
+		processados[indOrg]=true;
+		inicio=fab.encvert_key(indOrg);
+		Ramo<Posto*,Transporte>* apramo=inicio->GetRamo();
+		while(apramo!=NULL){
+			int indDest=apramo->GetVertice()->GetKey();
+			if(!processados[indDest]&&tempo[indDest]>tempo[indOrg]+apramo->GetConteudo().getTempominutos()){
+				tempo[indDest]=tempo[indOrg]+apramo->GetConteudo().getTempominutos();
+				caminho[indDest]=indOrg;
+			}
+			apramo=apramo->GetRamo();
+		}
+		indOrg=minimoVertice(tempo,processados);
+	}
+	if(tempo[f->GetKey()]==9999){
+		cout << "nao existe caminho entre " << ini->GetConteudo()->getKey() << " e " << f->GetConteudo()->getKey()<< endl;
+	}else{
+		cout << "Ira demorar " << tempo[f->GetKey()] << " entre " << ini->GetConteudo()->getKey() << " e " << f->GetConteudo()->getKey() << endl;
+		mostraCaminho(ini->GetKey(), f->GetKey(), caminho);
+		cout << endl;
+	}
+}
+
+int Fabrica::minimoVertice(int *vector, bool *processado) const 
+{
+	int minimo=INT_MAX,indvertice=-1;
+	for (int i = 1; i < fab.NumVert(); i++)
+	{
+		if(!processado[i]&&vector[i]<minimo)
+		{
+			minimo=vector[i];
+			indvertice=i;
+		}
+	}
+	return indvertice;
+}
+
+void Fabrica::mostraCaminho(int origem, int destino, const int *caminho)
+{
+	if(origem!=destino){
+		mostraCaminho(origem,caminho[destino],caminho);
+		cout << "-->";
+	}
+	Vertice<Posto*,Transporte>* apvert=fab.encvert_key(destino);
+	cout << apvert->GetConteudo()->getKey();
+}
+
+void Fabrica::caminhoMinimoTempo(int inicio, int fim)
+{
+	Vertice<Posto*,Transporte> *ini=fab.encvert_keyPosto(inicio);
+	Vertice<Posto*,Transporte> *f=fab.encvert_keyPosto(fim);
+	cmTempo(ini,f);
+
+}
+
 
 #endif
