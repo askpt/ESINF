@@ -120,6 +120,15 @@ void menu(){
 		case 7:
 			fab.validaGrafo();
 			break;
+
+		case 112: //TODO remover
+			fab.lerFicheiroArmazem();
+			fab.lerFicheiroAutomatico();
+			fab.lerFicheiroRobot();					
+			fab.lerFicheiroTransportes();					
+			fab.criaGrafo();			
+			
+			break;
 		case 0:
 			cout << "Programa Terminado" << endl;
 			exit(0);
