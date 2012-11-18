@@ -22,6 +22,7 @@ private:
 	int numPostos;
 	bool veri;
 	ListAdjGrafo<Posto*,Transporte> fab;
+	void procura_armazem(Vertice<Posto*,Transporte>* apinicio, int *vector, bool *chega);
 
 public:
 	Fabrica();
@@ -504,6 +505,13 @@ void Fabrica::validaGrafo(){
 	if(fab.NumVert()!=0)
 	{
 		Vertice<Posto*,Transporte> *apvert=fab.encvert_key(1);
+		int *vector=new int[fab.NumVert()+1];
+		for(int i=1;i<=fab.NumVert();i++)
+			vector[i]=0;
+		bool *chega=new bool[fab.NumVert()+1];
+		for(int i=1;i<=fab.NumVert();i++)
+			chega[i]=false;
+
 		while(apvert!=NULL && check)
 		{
 			Posto* teste = apvert->GetConteudo();
@@ -512,9 +520,11 @@ void Fabrica::validaGrafo(){
 				Armazem* tst = dynamic_cast<Armazem*>(apvert->GetConteudo());
 				if(tst->getKeyRobot()<0)
 				{
-					check=false;
+					check=true;
 					key=tst->getKey();
 				}
+				chega[apvert->GetKey()]=true;
+				vector[apvert->GetKey()]=1;
 			}
 			apvert=apvert->GetVertice();
 		}
@@ -522,13 +532,53 @@ void Fabrica::validaGrafo(){
 		{
 			cout << "Armazem " << key << " nao possui robots estacionados." << endl;
 		}
-
+		bool check=true;
+		for(int i=1;i<=fab.NumVert();i++)
+		{
+			Vertice<Posto*,Transporte> *apvert=fab.encvert_key(i);
+			Posto* teste = apvert->GetConteudo();
+			if(chega[i]&&strcmp("class Armazem",typeid(*teste).name())==0)
+			{
+				apvert=fab.encvert_key(i);
+				procura_armazem(apvert,vector,chega);
+				if(!chega[i])
+					check=false;
+			}
+		}
+		if(check)
+			cout << "Grafo construido corretamente!" << endl;
+		else
+		{
+			cout << "Automatico ";
+			for(int i=1;i<=fab.NumVert();i++)
+			{
+				Vertice<Posto*,Transporte> *apvert=fab.encvert_key(i);
+				Posto* teste = apvert->GetConteudo();
+				cout << teste->getKey() << ", ";
+			}
+			cout << "nao tem ligacao a nenhum armazem." << endl;
+		}
 	}else
 	{
 		cout << "Grafo vazio!" << endl;
 	}
+}
 
-
+void Fabrica::procura_armazem(Vertice<Posto*,Transporte>* apinicio, int *vector, bool *chega)
+{
+	Ramo<Posto*,Transporte> *apramo;
+	vector[apinicio->GetKey()]=1;
+	apramo=apinicio->GetRamo();
+	while(apramo!=NULL)
+	{
+		int outrovert=apramo->GetVertice()->GetKey();
+		Posto* teste=apramo->GetVertice()->GetConteudo();
+		if(strcmp("class Automatico",typeid(*teste).name())==0)
+			chega[outrovert]=true;
+		if(vector[outrovert]==0 && chega[outrovert])
+			procura_armazem(apramo->GetVertice(),vector,chega);			
+		apramo=apramo->GetRamo();
+	}
 }
 
 #endif
