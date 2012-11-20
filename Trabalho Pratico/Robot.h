@@ -32,7 +32,7 @@ public:
 };
 
 Robot::Robot(){
-	setKey(0);
+	setKey(-1);
 	setLimite(0);
 	setQntStock(0);
 	setKeyPosto(0); 
