@@ -51,6 +51,7 @@ public:
 	void validaGrafo();
 	void caminhoMinimoTempo(int inicio, int fim, float qnt);
 	void caminhoMinimoDistancia(int inicio, int fim, float qnt);
+	void imprimeEstado() const;
 };
 
 Fabrica::Fabrica(){
@@ -841,6 +842,26 @@ void Fabrica::caminhoMinimoDistancia(int inicio, int fim, float qnt)
 			}
 		}
 	}
+}
+
+void Fabrica::imprimeEstado() const
+{
+	system("cls");
+	cout << "Grafo da Fabrica" << endl;
+	fab.escreve_grafo();
+	fflush(stdin);
+	cin.get();
+	system("cls");
+	cout << "Lista de Armazens e Postos Automaticos" << endl;
+	cout << aa;
+	fflush(stdin);
+	cin.get();
+	system("cls");
+	cout << "Lista de Robots" << endl;
+	cout << ra;
+	fflush(stdin);
+	cin.get();	
+	system("cls");
 }
 
 #endif
