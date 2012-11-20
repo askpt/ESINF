@@ -23,11 +23,11 @@ private:
 	bool veri;
 	ListAdjGrafo<Posto*,Transporte> fab;
 	void procura_armazem(Vertice<Posto*,Transporte>* apinicio, int *vector, bool *chega);
-	void procura_automatico(Vertice<Posto*,Transporte>* apinicio, int *vector, bool *chega);
-	void cmTempo(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim);
+	void procura_automatico(Vertice<Posto*,Transporte>* apinicio, int *vector, bool *chega, int key);
+	bool cmTempo(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim);
 	int minimoVertice(int *vector, bool *processado) const;
 	void mostraCaminho(int origem, int destino, const int *caminho);
-	void cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim);
+	bool cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim);
 
 
 public:
@@ -50,7 +50,7 @@ public:
 
 	void validaGrafo();
 	void caminhoMinimoTempo(int inicio, int fim, float qnt);
-	void caminhoMinimoDistancia(int inicio, int fim);
+	void caminhoMinimoDistancia(int inicio, int fim, float qnt);
 };
 
 Fabrica::Fabrica(){
@@ -539,7 +539,6 @@ void Fabrica::validaGrafo(){
 				chegaArm[apvert->GetKey()]=true;
 				chegaAut[apvert->GetKey()]=true;
 				vectorArm[apvert->GetKey()]=1;
-				vectorAut[apvert->GetKey()]=1;
 			}
 			apvert=apvert->GetVertice();
 		}
@@ -561,7 +560,9 @@ void Fabrica::validaGrafo(){
 			}
 			if(!chegaAut[i]&&strcmp("class Automatico",typeid(*teste).name())==0)
 			{
-				procura_automatico(apvert,vectorAut,chegaAut);
+				for(int j=1;j<=fab.NumVert();j++)
+					vectorAut[j]=0;
+				procura_automatico(apvert,vectorAut,chegaAut, apvert->GetKey());
 				if(!chegaAut[i])
 					checkAuto=false;
 			}
@@ -619,24 +620,25 @@ void Fabrica::procura_armazem(Vertice<Posto*,Transporte>* apinicio, int *vector,
 	}
 }
 
-void Fabrica::procura_automatico(Vertice<Posto*,Transporte>* apinicio, int *vector, bool *chega)
+void Fabrica::procura_automatico(Vertice<Posto*,Transporte>* apinicio, int *vector, bool *chega, int key)
 {
 	Ramo<Posto*,Transporte> *apramo;
 	vector[apinicio->GetKey()]=1;
 	apramo=apinicio->GetRamo();
+	bool check=false;
 	while(apramo!=NULL)
 	{
 		int outrovert=apramo->GetVertice()->GetKey();
 		Posto* teste=apramo->GetVertice()->GetConteudo();
 		if(strcmp("class Armazem",typeid(*teste).name())==0)
-			chega[outrovert]=true;
-		if(vector[outrovert]==0 && chega[outrovert])
-			procura_armazem(apramo->GetVertice(),vector,chega);			
+			chega[key]= true;
+		if(vector[outrovert]==0 && !chega[outrovert])
+			procura_automatico(apramo->GetVertice(),vector,chega,key);			
 		apramo=apramo->GetRamo();
 	}
 }
 
-void Fabrica::cmTempo(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim){
+bool Fabrica::cmTempo(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim){
 	bool *processados=new bool[fab.NumVert()+1];
 	int *tempo = new int [fab.NumVert()+1];
 	int *caminho= new int [fab.NumVert()+1];
@@ -666,10 +668,12 @@ void Fabrica::cmTempo(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transpor
 	}
 	if(tempo[f->GetKey()]==9999){
 		cout << "nao existe caminho entre " << ini->GetConteudo()->getKey() << " e " << f->GetConteudo()->getKey()<< endl;
+		return false;
 	}else{
 		cout << "Ira demorar " << tempo[f->GetKey()] << " entre " << ini->GetConteudo()->getKey() << " e " << f->GetConteudo()->getKey() << endl;
 		mostraCaminho(ini->GetKey(), f->GetKey(), caminho);
 		cout << endl;
+		return true;
 	}
 }
 
@@ -721,18 +725,16 @@ void Fabrica::caminhoMinimoTempo(int inicio, int fim, float qnt)
 					rob=temp;			
 			}
 			pos--;
-			/*if(rob.getLimite()<quantidadeReq)
+			if(rob.getLimite()<quantidadeReq)
 			{
-				
-			
+				//TODO CODIGO!
 			}
-			else*/
-			{
-				cout << ini->GetConteudo();
-				cout << f->GetConteudo();
-				cout << ra;
-				Robot temp;
-				cmTempo(ini,f);
+
+			cout << ini->GetConteudo();
+			cout << f->GetConteudo();
+			cout << ra;
+			Robot temp;
+			if(cmTempo(ini,f)){
 				float stock=dynamic_cast<Armazem*>(testeIni)->getQntStock()-quantidadeReq;
 				dynamic_cast<Armazem*>(ini->GetConteudo())->setQntStock(stock);
 				dynamic_cast<Armazem*>(ini->GetConteudo())->setKeyRobots(-1);
@@ -743,7 +745,6 @@ void Fabrica::caminhoMinimoTempo(int inicio, int fim, float qnt)
 				rob.setKeyPosto(f->GetConteudo()->getKey());
 				ra.remove(pos,temp);
 				ra.insere(pos,rob);
-
 				cout << "distribuicao feita" << endl;
 				cout << ini->GetConteudo();
 				cout << f->GetConteudo();
@@ -753,7 +754,7 @@ void Fabrica::caminhoMinimoTempo(int inicio, int fim, float qnt)
 	}
 }
 
-void Fabrica::cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim){
+bool Fabrica::cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim){
 	bool *processados=new bool[fab.NumVert()+1];
 	int *distancia = new int [fab.NumVert()+1];
 	int *caminho= new int [fab.NumVert()+1];
@@ -783,21 +784,63 @@ void Fabrica::cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transport
 	}
 	if(distancia[f->GetKey()]==9999){
 		cout << "nao existe caminho entre " << ini->GetConteudo()->getKey() << " e " << f->GetConteudo()->getKey()<< endl;
+		return false;
 	}else{
 		cout << "Ira demorar " << distancia[f->GetKey()] << " entre " << ini->GetConteudo()->getKey() << " e " << f->GetConteudo()->getKey() << endl;
 		mostraCaminho(ini->GetKey(), f->GetKey(), caminho);
 		cout << endl;
+		return true;
 	}
 }
 
-void Fabrica::caminhoMinimoDistancia(int inicio, int fim)
+void Fabrica::caminhoMinimoDistancia(int inicio, int fim, float qnt)
 {
 	Vertice<Posto*,Transporte> *ini=fab.encvert_keyPosto(inicio);
 	Vertice<Posto*,Transporte> *f=fab.encvert_keyPosto(fim);
-	if(ini==NULL || f==NULL)
-		cout << "Par de vertices nao encontrados." << endl;
-	else
-		cmDist(ini,f);
+	Posto *testeIni=ini->GetConteudo();
+	Posto *testeFim=f->GetConteudo();
+	if(strcmp("class Armazem",typeid(*testeIni).name())==0 && strcmp("class Armazem",typeid(*testeFim).name())==0)
+	{
+		if(ini==NULL || f==NULL)
+			cout << "Par de vertices nao encontrados." << endl;
+		else if(dynamic_cast<Armazem*>(testeIni)->getKeyRobot()>0)
+		{
+			int key=dynamic_cast<Armazem*>(testeIni)->getKeyRobot();
+			Robot rob;
+			int pos = 1;
+			for (; pos <= ra.comprimento() && rob.getKey() < 0; pos++)
+			{
+				Robot temp;
+				ra.encontra(pos,temp);
+				if(temp.getKey()==key)
+					rob=temp;			
+			}
+			pos--;
+			if(rob.getLimite()<qnt)
+			{
+				//TODO CODIGO
+			}
+			cout << ini->GetConteudo();
+			cout << f->GetConteudo();
+			cout << ra;
+			if(cmDist(ini,f)){
+				Robot temp;			
+				float stock=dynamic_cast<Armazem*>(testeIni)->getQntStock()-qnt;
+				dynamic_cast<Armazem*>(ini->GetConteudo())->setQntStock(stock);
+				dynamic_cast<Armazem*>(ini->GetConteudo())->setKeyRobots(-1);			
+				stock=dynamic_cast<Armazem*>(testeFim)->getQntStock()+qnt;
+				dynamic_cast<Armazem*>(f->GetConteudo())->setQntStock(stock);
+				rob.setKeyPosto(f->GetConteudo()->getKey());
+				ra.remove(pos,temp);
+				ra.insere(pos,rob);
+
+				cout << "distribuicao feita" << endl;
+				cout << ini->GetConteudo();
+				cout << f->GetConteudo();
+				cout << ra;
+			}
+		}
+	}
 }
 
 #endif
