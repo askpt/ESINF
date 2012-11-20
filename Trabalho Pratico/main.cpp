@@ -33,7 +33,7 @@ void menu(){
 		cout << "6 - Insere no Grafo" << endl;
 		cout << "7 - Valida o Grafo" << endl;
 		cout << "8 - Abastecer um posto automatico" << endl;
-		cout << "9 - Caminho minimo entre postos [distancias]" << endl;
+		cout << "9 - Abastecer um posto armazem" << endl;
 		cout << "0 - Sair" << endl;
 		cin >> op;
 		switch(op){
@@ -123,10 +123,10 @@ void menu(){
 			fab.validaGrafo();
 			break;
 		case 8:
-			fab.caminhoMinimoTempo(0,10, 0);
+			fab.caminhoMinimoTempo(0,10,0);
 			break;
 		case 9:
-			fab.caminhoMinimoDistancia(0,10);
+			fab.caminhoMinimoDistancia(1,2,50);
 			break;
 
 		case 112: //TODO remover
