@@ -49,7 +49,7 @@ public:
 	void escreve(ostream &out) const;
 
 	void validaGrafo();
-	void caminhoMinimoTempo(int inicio, int fim);
+	void caminhoMinimoTempo(int inicio, int fim, float qnt);
 	void caminhoMinimoDistancia(int inicio, int fim);
 };
 
@@ -697,15 +697,60 @@ void Fabrica::mostraCaminho(int origem, int destino, const int *caminho)
 	cout << apvert->GetConteudo()->getKey();
 }
 
-void Fabrica::caminhoMinimoTempo(int inicio, int fim)
+void Fabrica::caminhoMinimoTempo(int inicio, int fim, float qnt)
 {
 	Vertice<Posto*,Transporte> *ini=fab.encvert_keyPosto(inicio);
 	Vertice<Posto*,Transporte> *f=fab.encvert_keyPosto(fim);
-	if(ini==NULL || f==NULL)
-		cout << "Par de vertices nao encontrados." << endl;
-	else
-		cmTempo(ini,f);
+	Posto *testeIni=ini->GetConteudo();
+	Posto *testeFim=f->GetConteudo();
+	if(strcmp("class Armazem",typeid(*testeIni).name())==0 && strcmp("class Automatico",typeid(*testeFim).name())==0)
+	{
+		float quantidadeReq = dynamic_cast<Automatico*>(f->GetConteudo())->getQntReq() - qnt;
+		if(ini==NULL || f==NULL)
+			cout << "Par de vertices nao encontrados." << endl;
+		else if(dynamic_cast<Armazem*>(testeIni)->getKeyRobot()>0)
+		{
+			int key=dynamic_cast<Armazem*>(testeIni)->getKeyRobot();
+			Robot rob;
+			int pos = 1;
+			for (; pos <= ra.comprimento() && rob.getKey() < 0; pos++)
+			{
+				Robot temp;
+				ra.encontra(pos,temp);
+				if(temp.getKey()==key)
+					rob=temp;			
+			}
+			pos--;
+			/*if(rob.getLimite()<quantidadeReq)
+			{
+				
+			
+			}
+			else*/
+			{
+				cout << ini->GetConteudo();
+				cout << f->GetConteudo();
+				cout << ra;
+				Robot temp;
+				cmTempo(ini,f);
+				float stock=dynamic_cast<Armazem*>(testeIni)->getQntStock()-quantidadeReq;
+				dynamic_cast<Armazem*>(ini->GetConteudo())->setQntStock(stock);
+				dynamic_cast<Armazem*>(ini->GetConteudo())->setKeyRobots(-1);
+				float req=dynamic_cast<Automatico*>(testeFim)->getQntReq()-quantidadeReq;
+				dynamic_cast<Automatico*>(f->GetConteudo())->setQntReq(req);
+				stock=dynamic_cast<Automatico*>(testeFim)->getQntStock()+quantidadeReq;
+				dynamic_cast<Automatico*>(f->GetConteudo())->setQntStock(stock);
+				rob.setKeyPosto(f->GetConteudo()->getKey());
+				ra.remove(pos,temp);
+				ra.insere(pos,rob);
 
+				cout << "distribuicao feita" << endl;
+				cout << ini->GetConteudo();
+				cout << f->GetConteudo();
+				cout << ra;
+			}
+		}
+	}
 }
 
 void Fabrica::cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim){
