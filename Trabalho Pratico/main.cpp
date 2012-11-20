@@ -29,11 +29,12 @@ void menu(){
 		cout << "2 - Apresentar Matriz" << endl;
 		cout << "3 - Apresentar Lista" << endl;
 		cout << "4 - Apresentar Queue" << endl;
-		cout << "5 - Apresentar Fabrica" << endl;
+		cout << "5 - Apresentar Grafo" << endl;
 		cout << "6 - Insere no Grafo" << endl;
 		cout << "7 - Valida o Grafo" << endl;
 		cout << "8 - Abastecer um posto automatico" << endl;
 		cout << "9 - Abastecer um posto armazem" << endl;
+		cout << "10 - Mostra estado fabrica" << endl;
 		cout << "0 - Sair" << endl;
 		cin >> op;
 		switch(op){
@@ -113,8 +114,8 @@ void menu(){
 			cout << "------------------------------------------------------------------------------" << endl;
 			break;
 		case 5:
-			cout << "Fabrica: " << endl;
-			cout << fab << endl;
+			cout << "Grafo: " << endl;
+			fab.getGrafo().escreve_grafo();
 			break;
 		case 6:
 			fab.criaGrafo();
@@ -127,6 +128,9 @@ void menu(){
 			break;
 		case 9:
 			fab.caminhoMinimoDistancia(1,2,50);
+			break;
+		case 10:
+			fab.imprimeEstado();
 			break;
 
 		case 112: //TODO remover
