@@ -1023,12 +1023,16 @@ void Fabrica::imprimeEstado() const
 	cin.get();
 	system("cls");
 	cout << "Lista de Armazens e Postos Automaticos" << endl;
-	cout << aa;
+	for(int i=1;i<=fab.NumVert();i++)
+	{
+		Vertice<Posto*,Transporte> *vert=fab.encvert_key(i);
+		cout << *vert->GetConteudo();
+	}	
 	fflush(stdin);
 	cin.get();
 	system("cls");
 	cout << "Lista de Robots" << endl;
-	cout << ra;
+	cout << ra;	
 	fflush(stdin);
 	cin.get();	
 	system("cls");
