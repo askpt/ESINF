@@ -889,9 +889,11 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 	Robot rob;
 	if(ini!=NULL)
 	{	
+		
 		testeIni=ini->GetConteudo();
 		if(strcmp("class Armazem",typeid(*ini->GetConteudo()).name())==0)
 		{
+			
 			int key=dynamic_cast<Armazem*>(ini->GetConteudo())->getKeyRobot();
 			int pos = 1;
 			while (pos <= ra.comprimento())
@@ -902,7 +904,7 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 					rob=temp;			
 				pos++;
 			}
-
+			
 		}
 	}else
 	{
@@ -947,11 +949,11 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 		cout << ra;
 		Robot temp;
 
-		float stock=testeIni->getQntStock()-movimentado;
+		float stock=testeIni->getQntStock()-qnt;
 		testeIni->setQntStock(stock);
 		if(strcmp("class Armazem",typeid(*testeIni).name())==0)
 			dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
-		stock=testeFim->getQntStock()+movimentado;
+		stock=testeFim->getQntStock()+qnt;
 		testeFim->setQntStock(stock);
 
 		rob.setKeyPosto(testeFim->getKey());
@@ -963,19 +965,20 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 		cout << ra;
 
 	}
-	/*
+	
 	if(rob.getLimite()<qnt)
 		{
 			int min=9999;
 			distancia[ini->GetKey()]=9999;
 			float req=qnt-rob.getLimite();
 			Robot robTemp;
-			Vertice<Posto*,Transporte> *iniTemp;
+			Vertice<Posto*,Transporte> *iniTemp=NULL;
 			for(int i=1;i<=ra.comprimento();i++)
 			{
 				Robot tmp;
 				ra.encontra(i,tmp);
 				Vertice<Posto*,Transporte> *key=fab.encvert_keyPosto(tmp.getKeyPosto());
+				
 				if(min>distancia[key->GetKey()] && distancia[key->GetKey()]!=0)
 				{
 					testeIni=key->GetConteudo();
@@ -984,9 +987,11 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 					iniTemp=fab.encvert_key(key->GetKey());
 				}
 			}
-
-			caminhoMinimoTempo(iniTemp,fim,req,distancia);
-		}*/
+			if(iniTemp!=NULL)
+				caminhoMinimoDistancia(iniTemp,fim,req,distancia);
+			else
+				cout << "Robots nao disponiveis" << endl;
+		}
 }
 
 void Fabrica::abasteceArm(int inicio)
