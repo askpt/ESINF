@@ -12,6 +12,7 @@
 #include "Queue.h"
 #include "Lista.h"
 #include "ListAdjGrafo.h"
+#include "Abastecimento.h"
 
 class Fabrica
 {
