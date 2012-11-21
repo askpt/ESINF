@@ -8,34 +8,34 @@
 template<class TV,class TR>
 class ListAdjGrafo
 {
-	
-	private:
-		int nvertices;
-		int nramos;
-		Vertice<TV,TR>* graf;
+
+private:
+	int nvertices;
+	int nramos;
+	Vertice<TV,TR>* graf;
 
 
-	public:
-		ListAdjGrafo();
-		ListAdjGrafo(const ListAdjGrafo<TV,TR>& G) ;
-		~ListAdjGrafo() ; 
+public:
+	ListAdjGrafo();
+	ListAdjGrafo(const ListAdjGrafo<TV,TR>& G) ;
+	~ListAdjGrafo() ; 
 
-		Vertice<TV,TR>* encvert_conteudo(const TV& v) const;
-		Vertice<TV,TR>* encvert_keyPosto(int key) const;
-        Vertice<TV,TR>* encvert_key(int numvert) const;
+	Vertice<TV,TR>* encvert_conteudo(const TV& v) const;
+	Vertice<TV,TR>* encvert_keyPosto(int key) const;
+	Vertice<TV,TR>* encvert_key(int numvert) const;
 
-		int NumVert() const ;
-		int NumRamos() const ;
+	int NumVert() const ;
+	int NumRamos() const ;
 
-        TR MaxConteudoRamo() const ; 
+	TR MaxConteudoRamo() const ; 
 
-		void juntar_vertice(const TV& vert);
-		void juntar_ramo(const TR& rcont, const TV& vorigem, const TV& vdestino);
+	void juntar_vertice(const TV& vert);
+	void juntar_ramo(const TR& rcont, const TV& vorigem, const TV& vdestino);
 
- 		int grau_entrada (const TV& vert) const ;
-		int grau_saida (const TV& vert) const;
-		
-		void escreve_grafo() const ;
+	int grau_entrada (const TV& vert) const ;
+	int grau_saida (const TV& vert) const;
+
+	void escreve_grafo() const ;
 
 };
 
@@ -51,7 +51,7 @@ ListAdjGrafo<TV,TR>::ListAdjGrafo()
 template<class TV,class TR>
 ListAdjGrafo<TV,TR>::ListAdjGrafo(const ListAdjGrafo<TV,TR>& G)
 {
-    Vertice<TV,TR>* apv=G.graf ;
+	Vertice<TV,TR>* apv=G.graf ;
 	Vertice<TV,TR>* v ; 
 	Vertice<TV,TR>* ant ; 
 	Ramo<TV,TR>* apr;
@@ -64,10 +64,10 @@ ListAdjGrafo<TV,TR>::ListAdjGrafo(const ListAdjGrafo<TV,TR>& G)
 	{
 		numvert++ ;
 		Vertice<TV,TR>* vert=new Vertice<TV,TR>(apv->vconteudo,numvert); 
-        if (graf == NULL)
-		   graf = vert ;
+		if (graf == NULL)
+			graf = vert ;
 		else
-        {
+		{
 			v = graf ;
 			while (v) 
 			{
@@ -76,10 +76,10 @@ ListAdjGrafo<TV,TR>::ListAdjGrafo(const ListAdjGrafo<TV,TR>& G)
 			}
 			ant->apvertice = vert ;
 		} 
-        apv = apv->apvertice ; 
+		apv = apv->apvertice ; 
 	}
-    nvertices = G.nvertices ;
- 
+	nvertices = G.nvertices ;
+
 	apv=G.graf;
 	while (apv)		 	//adiciona os ramos  
 	{
@@ -87,27 +87,27 @@ ListAdjGrafo<TV,TR>::ListAdjGrafo(const ListAdjGrafo<TV,TR>& G)
 		apr = apv->apramo ;		
 		while (apr)			 
 		{
-		   Ramo<TV,TR>* ramo = new Ramo<TV,TR>(apr->rconteudo,apr->apv);
-		   
-		   if (vorig->apramo == NULL)
-		      vorig->apramo=ramo ;
-		   else
-		   {
-			  r = vorig->apramo ;
-			  while (r) 
-			  {
-				 prev = r ;
-				 r = r->apr ;
-			  }
-			  prev->apr = ramo ; 
-		   }
-		   apr = apr->apr ;
+			Ramo<TV,TR>* ramo = new Ramo<TV,TR>(apr->rconteudo,apr->apv);
+
+			if (vorig->apramo == NULL)
+				vorig->apramo=ramo ;
+			else
+			{
+				r = vorig->apramo ;
+				while (r) 
+				{
+					prev = r ;
+					r = r->apr ;
+				}
+				prev->apr = ramo ; 
+			}
+			apr = apr->apr ;
 		} 
 		apv = apv->apvertice ; 
 	}
 	nramos = G.nramos ;
 }
- 
+
 
 template<class TV,class TR>
 ListAdjGrafo<TV,TR>::~ListAdjGrafo()
@@ -119,16 +119,16 @@ ListAdjGrafo<TV,TR>::~ListAdjGrafo()
 
 	while (apv)
 	{
-	  tempr = apv->apramo ; 
-	  while (tempr)
-	  {
-		  temp = tempr ; 
-		  tempr = tempr->apr ;
-		  delete temp ; 
-	  }
-	  tempv = apv ; 
-      apv = apv->apvertice ;
-	  delete tempv ; 
+		tempr = apv->apramo ; 
+		while (tempr)
+		{
+			temp = tempr ; 
+			tempr = tempr->apr ;
+			delete temp ; 
+		}
+		tempv = apv ; 
+		apv = apv->apvertice ;
+		delete tempv ; 
 	}
 	graf = NULL ;
 	nvertices=0 ;
@@ -150,28 +150,28 @@ int ListAdjGrafo<TV,TR>::NumRamos() const
 template<class TV,class TR>
 TR ListAdjGrafo<TV,TR>::MaxConteudoRamo() const
 {
-   Vertice<TV,TR>* ap = graf ; 
-   Ramo<TV,TR>* aprmax ; 
-   
-   if (ap->apramo) //inicializa com o conteudo do 1º ramo 
-	  aprmax = ap->apramo ; 
+	Vertice<TV,TR>* ap = graf ; 
+	Ramo<TV,TR>* aprmax ; 
 
-   while (ap != NULL)
-   {
-	  if (ap->apramo)   //percorre todos os ramos do vertice 
-	  {
-		Ramo<TV,TR>* tempr = ap->apramo ; 
-		while (tempr)
+	if (ap->apramo) //inicializa com o conteudo do 1º ramo 
+		aprmax = ap->apramo ; 
+
+	while (ap != NULL)
+	{
+		if (ap->apramo)   //percorre todos os ramos do vertice 
 		{
-		   if (tempr->rconteudo > aprmax->rconteudo)
-			  aprmax = tempr ; 
+			Ramo<TV,TR>* tempr = ap->apramo ; 
+			while (tempr)
+			{
+				if (tempr->rconteudo > aprmax->rconteudo)
+					aprmax = tempr ; 
 
-		   tempr = tempr->apr ; 
+				tempr = tempr->apr ; 
+			}
 		}
-	  }
-	  ap = ap->apvertice ; 
+		ap = ap->apvertice ; 
 	}
-	 
+
 	return aprmax->rconteudo ;
 }
 
@@ -179,7 +179,7 @@ template<class TV,class TR>
 Vertice<TV,TR>* ListAdjGrafo<TV,TR>::encvert_conteudo(const TV& v) const
 {
 	Vertice<TV,TR>* ap=graf;
-	
+
 	while (ap != NULL)
 	{
 		if (ap->vconteudo == v)
@@ -187,14 +187,14 @@ Vertice<TV,TR>* ListAdjGrafo<TV,TR>::encvert_conteudo(const TV& v) const
 		else 
 			ap=ap->apvertice;
 	}
-    return ap;
+	return ap;
 }
 
 template<class TV,class TR>
 Vertice<TV,TR>* ListAdjGrafo<TV,TR>::encvert_keyPosto(int k) const
 {
 	Vertice<TV,TR>* ap=graf;
-	
+
 	while (ap != NULL)
 	{
 		if (ap->vconteudo->getKey() == k)
@@ -202,14 +202,14 @@ Vertice<TV,TR>* ListAdjGrafo<TV,TR>::encvert_keyPosto(int k) const
 		else 
 			ap=ap->apvertice;
 	}
-    return ap;
+	return ap;
 }
 
 template<class TV,class TR>
 Vertice<TV,TR>* ListAdjGrafo<TV,TR>::encvert_key(int numvert) const
 {
 	Vertice<TV,TR>* ap=graf;
-	
+
 	while (ap != NULL)
 	{
 		if (ap->key == numvert)
@@ -217,7 +217,7 @@ Vertice<TV,TR>* ListAdjGrafo<TV,TR>::encvert_key(int numvert) const
 		else 
 			ap=ap->apvertice;
 	}
-    return ap;
+	return ap;
 }
 
 template<class TV,class TR>
@@ -231,11 +231,11 @@ void ListAdjGrafo<TV,TR>::juntar_vertice(const TV& vert)
 	}
 	else
 	{
-	    Vertice<TV,TR>* ap=graf ;
+		Vertice<TV,TR>* ap=graf ;
 		Vertice<TV,TR>* ant=graf ;
-	    bool enc=false ; 
+		bool enc=false ; 
 
-	    while (ap != NULL && !enc)
+		while (ap != NULL && !enc)
 		{
 			if (ap->vconteudo == vert)
 				enc=true ;
@@ -244,10 +244,10 @@ void ListAdjGrafo<TV,TR>::juntar_vertice(const TV& vert)
 				ant = ap ; 
 				ap=ap->apvertice;
 			}
-        }
+		}
 		if (!enc) //vertice nao existe
 		{
-		    nvertices++;	
+			nvertices++;	
 			Vertice<TV,TR>* vertice=new Vertice<TV,TR>(vert,nvertices);
 			ant->apvertice = vertice ;
 		}
@@ -263,7 +263,7 @@ void ListAdjGrafo<TV,TR>::juntar_ramo(const TR& rcont, const TV& vorig, const TV
 	Ramo<TV,TR>* ant;
 	Vertice<TV,TR>* vertorig ;
 	Vertice<TV,TR>* vertdest=NULL;
- 	
+
 	vertorig=encvert_conteudo(vorig);
 	if (vertorig == NULL)
 	{
@@ -276,23 +276,23 @@ void ListAdjGrafo<TV,TR>::juntar_ramo(const TR& rcont, const TV& vorig, const TV
 		juntar_vertice(vdest) ;
 		vertdest=encvert_conteudo(vdest);
 	}
-	
+
 	tempramo=vertorig->apramo;			//insere no fim da lista de ramos
-    ant = tempramo ; 
+	ant = tempramo ; 
 	while (tempramo != NULL)
 	{
 		ant = tempramo ; 
-    	tempramo=tempramo->apr ; 
+		tempramo=tempramo->apr ; 
 	}
 	if (tempramo == NULL)							 
 	{
 		tempramo = new Ramo<TV,TR>(rcont,vertdest);
 		tempramo->apr= NULL ;
 		if (ant)
-		  ant->apr = tempramo ;
+			ant->apr = tempramo ;
 		else
-          vertorig->apramo = tempramo ; 
- 		
+			vertorig->apramo = tempramo ; 
+
 		nramos++;
 	}
 }
@@ -305,15 +305,15 @@ int ListAdjGrafo<TV,TR>::grau_entrada (const TV& vert) const
 	int grau = 0;
 	Vertice<TV,TR>* ap=graf;
 	Ramo<TV,TR>* ap1;
-	
- 	while(ap)
+
+	while(ap)
 	{
 		ap1=ap->apramo;
 		while(ap1)
 		{
 			if (vert == ap1->apv->vconteudo) 
-			  grau++ ;
-			
+				grau++ ;
+
 			ap1=ap1->apr ; 
 		}
 		ap=ap->apvertice ;
@@ -328,7 +328,7 @@ int ListAdjGrafo<TV,TR>::grau_saida (const TV& vert) const
 	Vertice<TV,TR>* ap=encvert_conteudo(vert) ;
 	Ramo<TV,TR>* ap1;
 	int grau = 0 ;
-	
+
 	if (ap)
 	{
 		ap1=ap->apramo;
@@ -346,7 +346,7 @@ void ListAdjGrafo<TV,TR>::escreve_grafo() const
 {
 	Vertice<TV,TR>* v=graf;
 	Ramo<TV,TR>* r ;
-	
+
 	if (v == NULL)
 		cout << "Grafo nao definido !" << endl ; 
 	else
@@ -357,7 +357,7 @@ void ListAdjGrafo<TV,TR>::escreve_grafo() const
 		while (v != NULL)
 		{
 			cout << "O vertice " << v->vconteudo << " liga-se a: " << endl;
- 			r=v->apramo;
+			r=v->apramo;
 			while (r)
 			{
 				cout << r->apv->vconteudo << "  " ;
