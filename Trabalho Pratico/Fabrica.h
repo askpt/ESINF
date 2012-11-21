@@ -752,12 +752,14 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 				if(temp.getKey()==key)
 					rob=temp;			
 			}
-			float movimentado=qnt-rob.getLimite();
+			float movimentado=qnt;
+			
 			pos--;
 			if(rob.getLimite()<qnt)
 			{
-
-				caminhoMinimoTempo(NULL,f,movimentado,tempo);
+				float req=qnt-rob.getLimite();
+				caminhoMinimoTempo(NULL,f,req,tempo);
+				movimentado=rob.getLimite();
 			}
 
 			cout << ini->GetConteudo();
