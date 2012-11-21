@@ -715,7 +715,7 @@ void Fabrica::abasteceAuto(int inicio, float qnt)
 	else if(strcmp("class Automatico",typeid(*teste).name())!=0)
 		cout << "Vertice inicial nao e um posto automatico" << endl;
 	else
-		caminhoMinimoTempo(NULL,ini,qnt, tempo);
+		caminhoMinimoTempo(fab.encvert_key(1),ini,qnt, tempo);
 }
 
 
@@ -726,6 +726,20 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 	if(ini!=NULL)
 	{	
 		testeIni=ini->GetConteudo();
+		if(strcmp("class Armazem",typeid(*ini->GetConteudo()).name())==0)
+		{
+			int key=dynamic_cast<Armazem*>(ini->GetConteudo())->getKeyRobot();
+			int pos = 1;
+			while (pos <= ra.comprimento())
+			{
+				Robot temp;
+				ra.encontra(pos,temp);
+				if(temp.getKey()==key)
+					rob=temp;			
+				pos++;
+			}
+
+		}
 	}else
 	{
 		int min=9999;
@@ -733,45 +747,50 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 			ini=fab.encvert_key(i);
 			cmTempo(ini,f,tempo,false);
 		}
-		for(int i=0;i<ra.comprimento();i++)
+		for(int i=1;i<=ra.comprimento();i++)
 		{
 			Robot tmp;
 			ra.encontra(i,tmp);
 			Vertice<Posto*,Transporte> *key=fab.encvert_keyPosto(tmp.getKeyPosto());
 			cout << *key->GetConteudo() << endl;
+			cout << tempo[key->GetKey()];
 			if(min>tempo[key->GetKey()])
 			{
 				testeIni=key->GetConteudo();
 				rob=tmp;
+				min=tempo[key->GetKey()];
+				ini=fab.encvert_key(key->GetKey());
 			}
 		}
 
 	}
 	Posto *testeFim=f->GetConteudo();
+	testeIni=ini->GetConteudo();
 
 	float quantidadeReq = dynamic_cast<Automatico*>(f->GetConteudo())->getQntReq() - qnt;
 
 	if(cmTempo(ini,f, tempo, true)){
-			
-		
-		int pos = 0;
-		for (; pos <= ra.comprimento() && rob.getKey() < 0; pos++)
+
+
+		int pos = 1, key=-1;
+		while (pos <= ra.comprimento())
 		{
 			Robot temp;
 			ra.encontra(pos,temp);
 			if(temp.getKey()==rob.getKey())
-				rob=temp;			
+				break;			
+			pos++;
 		}
 		float movimentado=qnt;
 		rob.getKeyPosto();
-				
-		if(rob.getLimite()<qnt)
+
+		/*if(rob.getLimite()<qnt)
 		{
-			int key=rob.getKeyPosto();
-			float req=qnt-rob.getLimite();
-			caminhoMinimoTempo(NULL,f,req,tempo);
-			movimentado=rob.getLimite();
-		}
+		int key=rob.getKeyPosto();
+		float req=qnt-rob.getLimite();
+		caminhoMinimoTempo(NULL,f,req,tempo);
+		movimentado=rob.getLimite();
+		}*/
 
 		cout << *testeIni;
 		cout << *testeFim;
@@ -780,14 +799,14 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 
 		float stock=testeIni->getQntStock()-movimentado;
 		testeIni->setQntStock(stock);
-		if(strcmp("class Armazem",typeid(testeIni).name())==0)
+		if(strcmp("class Armazem",typeid(*testeIni).name())==0)
 			dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
 		float req=dynamic_cast<Automatico*>(testeFim)->getQntReq()-movimentado;
 		dynamic_cast<Automatico*>(testeFim)->setQntReq(req);
 		stock=dynamic_cast<Automatico*>(testeFim)->getQntStock()+movimentado;
 		dynamic_cast<Automatico*>(testeFim)->setQntStock(stock);
 
-		rob.setKeyPosto(f->GetConteudo()->getKey());
+		rob.setKeyPosto(testeFim->getKey());
 		ra.remove(pos,temp);
 		ra.insere(pos,rob);
 
