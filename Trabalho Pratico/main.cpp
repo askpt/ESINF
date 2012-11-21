@@ -124,10 +124,10 @@ void menu(){
 			fab.validaGrafo();
 			break;
 		case 8:
-			fab.caminhoMinimoTempo(0,10,0);
+			fab.abasteceAuto(10,15);
 			break;
 		case 9:
-			fab.caminhoMinimoDistancia(1,2,50);
+			//fab.caminhoMinimoDistancia(1,2,50);
 			break;
 		case 10:
 			fab.imprimeEstado();
