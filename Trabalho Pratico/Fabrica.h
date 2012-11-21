@@ -33,6 +33,8 @@ private:
 
 public:
 	Fabrica();
+	~Fabrica();
+
 	void lerFicheiroRobot();
 	void lerFicheiroArmazem();
 	void lerFicheiroAutomatico();
@@ -60,6 +62,8 @@ Fabrica::Fabrica(){
 	numPostos=0;
 	veri=false;
 }
+
+Fabrica::~Fabrica(){}
 
 Matriz Fabrica::getMatriz()
 {
