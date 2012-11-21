@@ -715,74 +715,85 @@ void Fabrica::abasteceAuto(int inicio, float qnt)
 	else if(strcmp("class Automatico",typeid(*teste).name())!=0)
 		cout << "Vertice inicial nao e um posto automatico" << endl;
 	else
-		caminhoMinimoTempo(fab.encvert_keyPosto(0),ini,qnt, tempo);
+		caminhoMinimoTempo(NULL,ini,qnt, tempo);
 }
 
 
 void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*,Transporte> *f, float qnt, int *tempo)
 {
 	Posto *testeIni;
+	Robot rob;
 	if(ini!=NULL)
 	{	
 		testeIni=ini->GetConteudo();
 	}else
 	{
 		int min=9999;
-		cmTempo(ini,f,tempo,false);
-		for(int i=1;i<fab.NumVert()+1;i++)
-		{
-			if(min>tempo[i] && strcmp("class Armazem",typeid(*(fab.encvert_key(i)->GetConteudo())).name())==0)
-				testeIni=fab.encvert_key(i)->GetConteudo();
+		for(int i=1;i<=fab.NumVert();i++){
+			ini=fab.encvert_key(i);
+			cmTempo(ini,f,tempo,false);
 		}
+		for(int i=0;i<ra.comprimento();i++)
+		{
+			Robot tmp;
+			ra.encontra(i,tmp);
+			Vertice<Posto*,Transporte> *key=fab.encvert_keyPosto(tmp.getKeyPosto());
+			cout << *key->GetConteudo() << endl;
+			if(min>tempo[key->GetKey()])
+			{
+				testeIni=key->GetConteudo();
+				rob=tmp;
+			}
+		}
+
 	}
 	Posto *testeFim=f->GetConteudo();
 
 	float quantidadeReq = dynamic_cast<Automatico*>(f->GetConteudo())->getQntReq() - qnt;
 
 	if(cmTempo(ini,f, tempo, true)){
-		if(dynamic_cast<Armazem*>(testeIni)->getKeyRobot()>0)
-		{
-			int key=dynamic_cast<Armazem*>(testeIni)->getKeyRobot();			
-			Robot rob;
-			int pos = 1;
-			for (; pos <= ra.comprimento() && rob.getKey() < 0; pos++)
-			{
-				Robot temp;
-				ra.encontra(pos,temp);
-				if(temp.getKey()==key)
-					rob=temp;			
-			}
-			float movimentado=qnt;
 			
-			pos--;
-			if(rob.getLimite()<qnt)
-			{
-				float req=qnt-rob.getLimite();
-				caminhoMinimoTempo(NULL,f,req,tempo);
-				movimentado=rob.getLimite();
-			}
-
-			cout << ini->GetConteudo();
-			cout << f->GetConteudo();
-			cout << ra;
+		
+		int pos = 0;
+		for (; pos <= ra.comprimento() && rob.getKey() < 0; pos++)
+		{
 			Robot temp;
-
-			float stock=dynamic_cast<Armazem*>(testeIni)->getQntStock()-movimentado;
-			dynamic_cast<Armazem*>(ini->GetConteudo())->setQntStock(stock);
-			dynamic_cast<Armazem*>(ini->GetConteudo())->setKeyRobots(-1);
-			float req=dynamic_cast<Automatico*>(testeFim)->getQntReq()-movimentado;
-			dynamic_cast<Automatico*>(f->GetConteudo())->setQntReq(req);
-			stock=dynamic_cast<Automatico*>(testeFim)->getQntStock()+movimentado;
-			dynamic_cast<Automatico*>(f->GetConteudo())->setQntStock(stock);
-			rob.setKeyPosto(f->GetConteudo()->getKey());
-			ra.remove(pos,temp);
-			ra.insere(pos,rob);
-			cout << "distribuicao feita" << endl;
-			cout << ini->GetConteudo();
-			cout << f->GetConteudo();
-			cout << ra;
+			ra.encontra(pos,temp);
+			if(temp.getKey()==rob.getKey())
+				rob=temp;			
+		}
+		float movimentado=qnt;
+		rob.getKeyPosto();
+				
+		if(rob.getLimite()<qnt)
+		{
+			int key=rob.getKeyPosto();
+			float req=qnt-rob.getLimite();
+			caminhoMinimoTempo(NULL,f,req,tempo);
+			movimentado=rob.getLimite();
 		}
 
+		cout << *testeIni;
+		cout << *testeFim;
+		cout << ra;
+		Robot temp;
+
+		float stock=testeIni->getQntStock()-movimentado;
+		testeIni->setQntStock(stock);
+		if(strcmp("class Armazem",typeid(testeIni).name())==0)
+			dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
+		float req=dynamic_cast<Automatico*>(testeFim)->getQntReq()-movimentado;
+		dynamic_cast<Automatico*>(testeFim)->setQntReq(req);
+		stock=dynamic_cast<Automatico*>(testeFim)->getQntStock()+movimentado;
+		dynamic_cast<Automatico*>(testeFim)->setQntStock(stock);
+
+		rob.setKeyPosto(f->GetConteudo()->getKey());
+		ra.remove(pos,temp);
+		ra.insere(pos,rob);
+
+		cout << *testeIni;
+		cout << *testeFim;
+		cout << ra;
 
 	}
 }
