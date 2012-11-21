@@ -124,7 +124,7 @@ void menu(){
 			fab.validaGrafo();
 			break;
 		case 8:
-			fab.abasteceAuto(10,15);
+			fab.abasteceAuto(10,70);
 			break;
 		case 9:
 			//fab.caminhoMinimoDistancia(1,2,50);
