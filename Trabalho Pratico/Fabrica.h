@@ -760,7 +760,7 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 			Robot tmp;
 			ra.encontra(i,tmp);
 			Vertice<Posto*,Transporte> *key=fab.encvert_keyPosto(tmp.getKeyPosto());
-			if(min>tempo[key->GetKey()])
+			if(min>tempo[key->GetKey()]&& tempo[key->GetKey()]!=0)
 			{
 				testeIni=key->GetConteudo();
 				rob=tmp;
@@ -786,16 +786,9 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 				break;			
 			pos++;
 		}
-		float movimentado=qnt;
-
-		/*if(rob.getLimite()<qnt)
-		{
-		int key=rob.getKeyPosto();
-		float req=qnt-rob.getLimite();
-		caminhoMinimoTempo(NULL,f,req,tempo);
-		movimentado=rob.getLimite();
-		}*/
-
+		float movimentado=qnt-rob.getLimite();
+		if(movimentado<0)
+			movimentado=rob.getLimite();
 		cout << *testeIni;
 		cout << *testeFim;
 		cout << ra;
@@ -819,6 +812,29 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 		cout << ra;
 
 	}
+	if(rob.getLimite()<qnt)
+		{
+			int min=9999;
+			tempo[ini->GetKey()]=9999;
+			float req=qnt-rob.getLimite();
+			Robot robTemp;
+			Vertice<Posto*,Transporte> *iniTemp;
+			for(int i=1;i<=ra.comprimento();i++)
+			{
+				Robot tmp;
+				ra.encontra(i,tmp);
+				Vertice<Posto*,Transporte> *key=fab.encvert_keyPosto(tmp.getKeyPosto());
+				if(min>tempo[key->GetKey()] && tempo[key->GetKey()]!=0)
+				{
+					testeIni=key->GetConteudo();
+					robTemp=tmp;
+					min=tempo[key->GetKey()];
+					iniTemp=fab.encvert_key(key->GetKey());
+				}
+			}
+
+			caminhoMinimoTempo(iniTemp,f,req,tempo);
+		}
 }
 
 bool Fabrica::cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim){
