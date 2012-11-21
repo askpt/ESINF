@@ -27,9 +27,9 @@ private:
 	bool cmTempo(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim, int *temp, bool print);
 	int minimoVertice(int *vector, bool *processado) const;
 	void mostraCaminho(int origem, int destino, const int *caminho);
-	bool cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim);
+	bool cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim, int *temp, bool print);
 	void caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*,Transporte> *f, float qnt, int *tempo);
-	void caminhoMinimoDistancia(int inicio, int fim, float qnt);
+	void caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Posto*,Transporte> *fim, float qnt, int *distancia);
 
 public:
 	Fabrica();
@@ -51,6 +51,7 @@ public:
 
 	void validaGrafo();
 	void abasteceAuto(int inicio, float qnt);
+	void abasteceArm(int inicio);
 
 	void imprimeEstado() const;
 };
@@ -837,7 +838,7 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 		}
 }
 
-bool Fabrica::cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim){
+bool Fabrica::cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim, int *temp, bool print){
 	bool *processados=new bool[fab.NumVert()+1];
 	int *distancia = new int [fab.NumVert()+1];
 	int *caminho= new int [fab.NumVert()+1];
@@ -865,64 +866,146 @@ bool Fabrica::cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transport
 		}
 		indOrg=minimoVertice(distancia,processados);
 	}
-	if(distancia[f->GetKey()]==9999){
+	if(print && distancia[f->GetKey()]==9999){
 		cout << "nao existe caminho entre " << ini->GetConteudo()->getKey() << " e " << f->GetConteudo()->getKey()<< endl;
 		return false;
-	}else{
+	}else if(print){
 		cout << "Ira demorar " << distancia[f->GetKey()] << " entre " << ini->GetConteudo()->getKey() << " e " << f->GetConteudo()->getKey() << endl;
 		mostraCaminho(ini->GetKey(), f->GetKey(), caminho);
 		cout << endl;
 		return true;
+	} else if(!print && distancia[f->GetKey()]==9999){
+		*temp=9999;
+		return false;
+	} else{
+		*temp=distancia[f->GetKey()];
+		return true;
 	}
 }
 
-void Fabrica::caminhoMinimoDistancia(int inicio, int fim, float qnt)
+void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Posto*,Transporte> *fim, float qnt, int *distancia)
 {
-	Vertice<Posto*,Transporte> *ini=fab.encvert_keyPosto(inicio);
-	Vertice<Posto*,Transporte> *f=fab.encvert_keyPosto(fim);
-	Posto *testeIni=ini->GetConteudo();
-	Posto *testeFim=f->GetConteudo();
-	if(strcmp("class Armazem",typeid(*testeIni).name())==0 && strcmp("class Armazem",typeid(*testeFim).name())==0)
-	{
-		if(ini==NULL || f==NULL)
-			cout << "Par de vertices nao encontrados." << endl;
-		else if(dynamic_cast<Armazem*>(testeIni)->getKeyRobot()>0)
+	Posto *testeIni;
+	Robot rob;
+	if(ini!=NULL)
+	{	
+		testeIni=ini->GetConteudo();
+		if(strcmp("class Armazem",typeid(*ini->GetConteudo()).name())==0)
 		{
-			int key=dynamic_cast<Armazem*>(testeIni)->getKeyRobot();
-			Robot rob;
+			int key=dynamic_cast<Armazem*>(ini->GetConteudo())->getKeyRobot();
 			int pos = 1;
-			for (; pos <= ra.comprimento() && rob.getKey() < 0; pos++)
+			while (pos <= ra.comprimento())
 			{
 				Robot temp;
 				ra.encontra(pos,temp);
 				if(temp.getKey()==key)
 					rob=temp;			
+				pos++;
 			}
-			pos--;
-			if(rob.getLimite()<qnt)
-			{
-				//TODO CODIGO
-			}
-			cout << ini->GetConteudo();
-			cout << f->GetConteudo();
-			cout << ra;
-			if(cmDist(ini,f)){
-				Robot temp;			
-				float stock=dynamic_cast<Armazem*>(testeIni)->getQntStock()-qnt;
-				dynamic_cast<Armazem*>(ini->GetConteudo())->setQntStock(stock);
-				dynamic_cast<Armazem*>(ini->GetConteudo())->setKeyRobots(-1);			
-				stock=dynamic_cast<Armazem*>(testeFim)->getQntStock()+qnt;
-				dynamic_cast<Armazem*>(f->GetConteudo())->setQntStock(stock);
-				rob.setKeyPosto(f->GetConteudo()->getKey());
-				ra.remove(pos,temp);
-				ra.insere(pos,rob);
 
-				cout << "distribuicao feita" << endl;
-				cout << ini->GetConteudo();
-				cout << f->GetConteudo();
-				cout << ra;
+		}
+	}else
+	{
+		int min=9999;
+		for(int i=1;i<=fab.NumVert();i++){
+			ini=fab.encvert_key(i);
+			cmDist(ini,fim,&distancia[i],false);
+		}
+		for(int i=1;i<=ra.comprimento();i++)
+		{
+			Robot tmp;
+			ra.encontra(i,tmp);
+			Vertice<Posto*,Transporte> *key=fab.encvert_keyPosto(tmp.getKeyPosto());
+			if(min>distancia[key->GetKey()]&& distancia[key->GetKey()]!=0)
+			{
+				testeIni=key->GetConteudo();
+				rob=tmp;
+				min=distancia[key->GetKey()];
+				ini=fab.encvert_key(key->GetKey());
 			}
 		}
+
+	}
+	Posto *testeFim=fim->GetConteudo();
+	testeIni=ini->GetConteudo();
+	
+	if(cmDist(ini,fim, distancia, true)){
+		int pos = 1, key=-1;
+		while (pos <= ra.comprimento())
+		{
+			Robot temp;
+			ra.encontra(pos,temp);
+			if(temp.getKey()==rob.getKey())
+				break;			
+			pos++;
+		}
+		float movimentado=qnt-rob.getLimite();
+		if(movimentado<0)
+			movimentado=rob.getLimite();
+		cout << *testeIni;
+		cout << *testeFim;
+		cout << ra;
+		Robot temp;
+
+		float stock=testeIni->getQntStock()-movimentado;
+		testeIni->setQntStock(stock);
+		if(strcmp("class Armazem",typeid(*testeIni).name())==0)
+			dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
+		stock=testeFim->getQntStock()+movimentado;
+		testeFim->setQntStock(stock);
+
+		rob.setKeyPosto(testeFim->getKey());
+		ra.remove(pos,temp);
+		ra.insere(pos,rob);
+
+		cout << *testeIni;
+		cout << *testeFim;
+		cout << ra;
+
+	}
+	/*
+	if(rob.getLimite()<qnt)
+		{
+			int min=9999;
+			distancia[ini->GetKey()]=9999;
+			float req=qnt-rob.getLimite();
+			Robot robTemp;
+			Vertice<Posto*,Transporte> *iniTemp;
+			for(int i=1;i<=ra.comprimento();i++)
+			{
+				Robot tmp;
+				ra.encontra(i,tmp);
+				Vertice<Posto*,Transporte> *key=fab.encvert_keyPosto(tmp.getKeyPosto());
+				if(min>distancia[key->GetKey()] && distancia[key->GetKey()]!=0)
+				{
+					testeIni=key->GetConteudo();
+					robTemp=tmp;
+					min=distancia[key->GetKey()];
+					iniTemp=fab.encvert_key(key->GetKey());
+				}
+			}
+
+			caminhoMinimoTempo(iniTemp,fim,req,distancia);
+		}*/
+}
+
+void Fabrica::abasteceArm(int inicio)
+{
+	int *dist=new int[fab.NumVert()+1];
+	for(int i=1;i <=fab.NumVert();i++)
+		dist[i]=9999;
+
+	Vertice<Posto*,Transporte> *ini=fab.encvert_keyPosto(inicio);
+	Posto *teste=ini->GetConteudo();
+	
+	if(ini==NULL)
+		cout << "Par de vertices nao encontrado" << endl;
+	else if(strcmp("class Armazem",typeid(*teste).name())!=0)
+		cout << "Vertice inicial nao e um posto armazem" << endl;
+	else
+	{
+		int qnt = 3*dynamic_cast<Armazem*>(teste)->getQntSeg();
+		caminhoMinimoDistancia(NULL,ini,qnt, dist);
 	}
 }
 
