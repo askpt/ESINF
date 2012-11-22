@@ -128,10 +128,21 @@ void menu(){
 			fab.validaGrafo();
 			break;
 		case 8:
-			fab.abasteceAuto(10,100);
+			int key;
+			float qnt;
+
+			cout << "Insira o posto automatico que quer abastecer" << endl;
+			cin >> key;
+			cout << "Insira a quantidade de abastecimento" << endl;
+			cin >> qnt;
+			fab.abasteceAuto(key,qnt);
 			break;
 		case 9:
-			fab.abasteceArm(1);
+						
+			cout << "Insira o posto armazem que quer abastecer" << endl;
+			cin >> key;
+			
+			fab.abasteceArm(key);
 			break;
 		case 10:
 			fab.imprimeEstado();
