@@ -1050,21 +1050,12 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 			float stock=testeIni->getQntStock()+(rob.getQntStock()-rob.getLimite());
 			testeIni->setQntStock(stock);
 			if(strcmp("class Armazem",typeid(*testeIni).name())==0)
-				dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
-			float req=dynamic_cast<Automatico*>(testeFim)->getQntReq()-rob.getLimite();
-			dynamic_cast<Automatico*>(testeFim)->setQntReq(req);
-			stock=dynamic_cast<Automatico*>(testeFim)->getQntStock()+rob.getLimite();
-			dynamic_cast<Automatico*>(testeFim)->setQntStock(stock);
+				dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);			
+			stock=testeFim->getQntStock()+rob.getLimite();
+			testeFim->setQntStock(stock);
 			rob.setQntStock(0);
 		}
-
-		/*float stock=testeIni->getQntStock()-qnt;
-		testeIni->setQntStock(stock);
-		if(strcmp("class Armazem",typeid(*testeIni).name())==0)
-		dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
-		stock=testeFim->getQntStock()+qnt;
-		testeFim->setQntStock(stock);*/
-
+		
 		rob.setKeyPosto(testeFim->getKey());
 		ra.remove(pos,temp);
 		ra.insere(pos,rob);
@@ -1116,7 +1107,7 @@ void Fabrica::abasteceArm(int inicio)
 		return;
 	}
 	Posto *teste=ini->GetConteudo();
-	else if(strcmp("class Armazem",typeid(*teste).name())!=0)
+	if(strcmp("class Armazem",typeid(*teste).name())!=0)
 		cout << "Vertice inicial nao e um posto armazem" << endl;
 	else
 	{
