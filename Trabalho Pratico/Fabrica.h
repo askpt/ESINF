@@ -794,10 +794,12 @@ void Fabrica::abasteceAuto(int inicio, float qnt)
 		tempo[i]=9999;
 
 	Vertice<Posto*,Transporte> *ini=fab.encvert_keyPosto(inicio);
-	Posto *teste=ini->GetConteudo();
-	if(ini==NULL)
+	if(ini==NULL){
 		cout << "Par de vertices nao encontrado" << endl;
-	else if(strcmp("class Automatico",typeid(*teste).name())!=0)
+		return;
+	}
+	Posto *teste=ini->GetConteudo();
+	if(strcmp("class Automatico",typeid(*teste).name())!=0)
 		cout << "Vertice inicial nao e um posto automatico" << endl;
 	else
 		caminhoMinimoTempo(NULL,ini,qnt, tempo);
@@ -887,7 +889,7 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 			dynamic_cast<Automatico*>(testeFim)->setQntStock(stock);
 			rob.setQntStock(0);
 		}
-		
+
 		rob.setKeyPosto(testeFim->getKey());
 		ra.remove(pos,temp);
 		ra.insere(pos,rob);
@@ -1013,7 +1015,7 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 
 	}
 	Posto *testeFim=fim->GetConteudo();
-	
+
 	if(ini==NULL){
 		cout << "Nao existem caminhos para o armazem " << fim->GetConteudo()->getKey() << endl;
 		return;
@@ -1059,7 +1061,7 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 		/*float stock=testeIni->getQntStock()-qnt;
 		testeIni->setQntStock(stock);
 		if(strcmp("class Armazem",typeid(*testeIni).name())==0)
-			dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
+		dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
 		stock=testeFim->getQntStock()+qnt;
 		testeFim->setQntStock(stock);*/
 
@@ -1108,10 +1110,12 @@ void Fabrica::abasteceArm(int inicio)
 		dist[i]=9999;
 
 	Vertice<Posto*,Transporte> *ini=fab.encvert_keyPosto(inicio);
-	Posto *teste=ini->GetConteudo();
 
-	if(ini==NULL)
+	if(ini==NULL){
 		cout << "Par de vertices nao encontrado" << endl;
+		return;
+	}
+	Posto *teste=ini->GetConteudo();
 	else if(strcmp("class Armazem",typeid(*teste).name())!=0)
 		cout << "Vertice inicial nao e um posto armazem" << endl;
 	else
