@@ -52,6 +52,7 @@ void menu(){
 				cout << "2 - Transportes" << endl;
 				cout << "3 - Robot" << endl;
 				cout << "4 - Posto Automatico" << endl;
+				cout << "5 - Abastecimentos" << endl;
 				cout << "0 - Menu Anterior" << endl;
 				cin >> opcao;
 			}
@@ -85,6 +86,9 @@ void menu(){
 					break;
 				case 4:
 					fab.lerFicheiroAutomatico();
+					break;
+				case 5:
+					fab.lerFicheiroAbastecimento();
 					break;
 				case 0:
 					menu();

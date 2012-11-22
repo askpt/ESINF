@@ -20,6 +20,7 @@ private:
 	Matriz m;
 	Lista<Robot> ra;
 	Queue<Posto*> aa;
+	Queue<Abastecimento> abast;
 	int numPostos;
 	bool veri;
 	ListAdjGrafo<Posto*,Transporte> fab;
@@ -40,11 +41,13 @@ public:
 	void lerFicheiroArmazem();
 	void lerFicheiroAutomatico();
 	void lerFicheiroTransportes();
+	void lerFicheiroAbastecimento();
 
 	bool getVeri() const;
 	Matriz getMatriz();
 	Lista<Robot> getLista();
 	Queue<Posto*> getQueue();
+	Queue<Abastecimento> getAbastecimentos();
 	ListAdjGrafo<Posto*,Transporte> getGrafo();
 
 	void criaGrafo();
@@ -79,6 +82,11 @@ Lista<Robot> Fabrica::getLista()
 Queue<Posto*> Fabrica::getQueue()
 {
 	return aa;
+}
+
+Queue<Abastecimento> Fabrica::getAbastecimentos()
+{
+	return abast;
 }
 
 ListAdjGrafo<Posto*,Transporte> Fabrica::getGrafo()
@@ -455,6 +463,68 @@ void Fabrica::lerFicheiroTransportes() {
 	fx.close();
 }
 
+void Fabrica::lerFicheiroAbastecimento() {	
+	int i = 0;
+	int cont=0;
+	string linha;
+	int tam = ra.comprimento()+1;
+	int key;
+	float qnt;
+	Queue<Abastecimento> auxi;
+
+	ifstream fx;
+	fx.open("FX5.csv");
+	if(!fx)
+		cout << "Ficheiro nao existe! " << endl;
+	else{
+		string *temp = new string [1000];
+		while(!fx.eof()){
+			getline(fx, linha, '\n');
+			if(linha.size() > 0) {
+				int inicio = 0;
+				int pos = linha.find(',', inicio);
+				temp[i] = (linha.substr(inicio, pos-inicio)); 
+				if(temp[i] == ""){
+					cout << "Falta o atributo Key para formar o abastecimento!" << endl;
+					fx.close();
+					return;
+				}else{
+					key = atoi(temp[i].c_str());
+					i++;
+					pos++;
+					inicio = pos;
+					pos = linha.find(',',inicio);
+					temp[i] = (linha.substr(inicio, pos-inicio));
+					if(temp[i] == ""){
+						cout << "Falta o atributo Quantidade para formar o abastecimento!" << endl;
+						fx.close();
+						return;
+					}else{
+						qnt = atof(temp[i].c_str());
+						i++;
+						pos++;
+						Abastecimento abs(key, qnt);				
+						auxi.insere(abs);			
+						cont++;
+					}
+				}
+			}
+		}
+
+	}
+
+	if(cont == numPostos){
+		cout << "Ficheiro Carregado Com Sucesso" << endl;
+		abast = auxi;
+	}else if(cont < numPostos){
+		cout << "Falhou o carregamento do ficheiro. Numero de robots insuficientes!" << endl;
+	}else{
+		cout << "Falhou o carregamento do ficheiro.Numero de robots em excesso!" << endl;
+	}
+
+	fx.close();
+}
+
 Fabrica& Fabrica::operator=(const Fabrica &f)
 {
 	m=f.m;
@@ -462,6 +532,7 @@ Fabrica& Fabrica::operator=(const Fabrica &f)
 	aa=f.aa;
 	numPostos=f.numPostos;
 	veri=f.veri;
+	abast=f.abast;
 
 	return *this;
 }
@@ -819,28 +890,28 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 
 	}
 	if(rob.getLimite()<qnt)
+	{
+		int min=9999;
+		tempo[ini->GetKey()]=9999;
+		float req=qnt-rob.getLimite();
+		Robot robTemp;
+		Vertice<Posto*,Transporte> *iniTemp;
+		for(int i=1;i<=ra.comprimento();i++)
 		{
-			int min=9999;
-			tempo[ini->GetKey()]=9999;
-			float req=qnt-rob.getLimite();
-			Robot robTemp;
-			Vertice<Posto*,Transporte> *iniTemp;
-			for(int i=1;i<=ra.comprimento();i++)
+			Robot tmp;
+			ra.encontra(i,tmp);
+			Vertice<Posto*,Transporte> *key=fab.encvert_keyPosto(tmp.getKeyPosto());
+			if(min>tempo[key->GetKey()] && tempo[key->GetKey()]!=0)
 			{
-				Robot tmp;
-				ra.encontra(i,tmp);
-				Vertice<Posto*,Transporte> *key=fab.encvert_keyPosto(tmp.getKeyPosto());
-				if(min>tempo[key->GetKey()] && tempo[key->GetKey()]!=0)
-				{
-					testeIni=key->GetConteudo();
-					robTemp=tmp;
-					min=tempo[key->GetKey()];
-					iniTemp=fab.encvert_key(key->GetKey());
-				}
+				testeIni=key->GetConteudo();
+				robTemp=tmp;
+				min=tempo[key->GetKey()];
+				iniTemp=fab.encvert_key(key->GetKey());
 			}
-
-			caminhoMinimoTempo(iniTemp,f,req,tempo);
 		}
+
+		caminhoMinimoTempo(iniTemp,f,req,tempo);
+	}
 }
 
 bool Fabrica::cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim, int *temp, bool print){
@@ -894,11 +965,11 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 	Robot rob;
 	if(ini!=NULL)
 	{	
-		
+
 		testeIni=ini->GetConteudo();
 		if(strcmp("class Armazem",typeid(*ini->GetConteudo()).name())==0)
 		{
-			
+
 			int key=dynamic_cast<Armazem*>(ini->GetConteudo())->getKeyRobot();
 			int pos = 1;
 			while (pos <= ra.comprimento())
@@ -909,7 +980,7 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 					rob=temp;			
 				pos++;
 			}
-			
+
 		}
 	}else
 	{
@@ -935,7 +1006,7 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 	}
 	Posto *testeFim=fim->GetConteudo();
 	testeIni=ini->GetConteudo();
-	
+
 	if(cmDist(ini,fim, distancia, true)){
 		int pos = 1, key=-1;
 		while (pos <= ra.comprimento())
@@ -970,33 +1041,33 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 		cout << ra;
 
 	}
-	
+
 	if(rob.getLimite()<qnt)
+	{
+		int min=9999;
+		distancia[ini->GetKey()]=9999;
+		float req=qnt-rob.getLimite();
+		Robot robTemp;
+		Vertice<Posto*,Transporte> *iniTemp=NULL;
+		for(int i=1;i<=ra.comprimento();i++)
 		{
-			int min=9999;
-			distancia[ini->GetKey()]=9999;
-			float req=qnt-rob.getLimite();
-			Robot robTemp;
-			Vertice<Posto*,Transporte> *iniTemp=NULL;
-			for(int i=1;i<=ra.comprimento();i++)
+			Robot tmp;
+			ra.encontra(i,tmp);
+			Vertice<Posto*,Transporte> *key=fab.encvert_keyPosto(tmp.getKeyPosto());
+
+			if(min>distancia[key->GetKey()] && distancia[key->GetKey()]!=0)
 			{
-				Robot tmp;
-				ra.encontra(i,tmp);
-				Vertice<Posto*,Transporte> *key=fab.encvert_keyPosto(tmp.getKeyPosto());
-				
-				if(min>distancia[key->GetKey()] && distancia[key->GetKey()]!=0)
-				{
-					testeIni=key->GetConteudo();
-					robTemp=tmp;
-					min=distancia[key->GetKey()];
-					iniTemp=fab.encvert_key(key->GetKey());
-				}
+				testeIni=key->GetConteudo();
+				robTemp=tmp;
+				min=distancia[key->GetKey()];
+				iniTemp=fab.encvert_key(key->GetKey());
 			}
-			if(iniTemp!=NULL)
-				caminhoMinimoDistancia(iniTemp,fim,req,distancia);
-			else
-				cout << "Robots nao disponiveis" << endl;
 		}
+		if(iniTemp!=NULL)
+			caminhoMinimoDistancia(iniTemp,fim,req,distancia);
+		else
+			cout << "Robots nao disponiveis" << endl;
+	}
 }
 
 void Fabrica::abasteceArm(int inicio)
@@ -1007,7 +1078,7 @@ void Fabrica::abasteceArm(int inicio)
 
 	Vertice<Posto*,Transporte> *ini=fab.encvert_keyPosto(inicio);
 	Posto *teste=ini->GetConteudo();
-	
+
 	if(ini==NULL)
 		cout << "Par de vertices nao encontrado" << endl;
 	else if(strcmp("class Armazem",typeid(*teste).name())!=0)
