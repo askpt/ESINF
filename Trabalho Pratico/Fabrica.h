@@ -32,6 +32,8 @@ private:
 	bool cmDist(Vertice<Posto*,Transporte> *inicio,Vertice<Posto*,Transporte> *fim, int *temp, bool print);
 	void caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*,Transporte> *f, float qnt, int *tempo);
 	void caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Posto*,Transporte> *fim, float qnt, int *distancia);
+	void verificaEstado();
+	void resetPosRobot();
 
 public:
 	Fabrica();
@@ -58,6 +60,7 @@ public:
 	void validaGrafo();
 	void abasteceAuto(int inicio, float qnt);
 	void abasteceArm(int inicio);
+	void abasteceAutomatico();
 
 	void imprimeEstado() const;
 };
@@ -1055,7 +1058,7 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 			testeFim->setQntStock(stock);
 			rob.setQntStock(0);
 		}
-		
+
 		rob.setKeyPosto(testeFim->getKey());
 		ra.remove(pos,temp);
 		ra.insere(pos,rob);
@@ -1138,6 +1141,57 @@ void Fabrica::imprimeEstado() const
 	fflush(stdin);
 	cin.get();	
 	system("cls");
+}
+
+void Fabrica::abasteceAutomatico(){
+	Abastecimento temp;
+	if(abast.vazia()){
+		cout << "Queue de abastecimentos vazia" << endl;
+		return;
+	}
+	while(!abast.vazia()){
+		resetPosRobot();
+		
+		verificaEstado();
+		abast.retira(temp);
+		resetPosRobot();
+		abasteceAuto(temp.getKey(),temp.getQnt());
+	}
+}
+
+void Fabrica::verificaEstado(){
+	for(int i=1; i<=fab.NumVert(); i++){
+		Vertice<Posto*,Transporte> *posto=fab.encvert_key(i);
+		if(strcmp("class Armazem",typeid(*posto->GetConteudo()).name())==0){
+			Posto *apposto = posto->GetConteudo();
+			float stock = dynamic_cast<Armazem*>(apposto)->getQntStock();
+			float seg = dynamic_cast<Armazem*>(apposto)->getQntSeg();
+			if(stock<seg)
+				abasteceArm(apposto->getKey());
+		}
+	}
+}
+
+void Fabrica::resetPosRobot(){
+	Queue<Posto*> aux=aa;
+	while(!aa.vazia()){
+		Posto *appostoQ;
+		aa.retira(appostoQ);
+		Vertice<Posto*,Transporte> *posto=fab.encvert_keyPosto(appostoQ->getKey());
+		Posto *postoV=posto->GetConteudo();		
+		if(strcmp("class Armazem",typeid(*posto->GetConteudo()).name())==0){
+			int keyR=dynamic_cast<Armazem*>(appostoQ)->getKeyRobot();
+			int keyP=postoV->getKey();
+			dynamic_cast<Armazem*>(postoV)->setKeyRobots(keyR);
+			for(int i=1;i<=ra.comprimento();i++){
+				Robot temp;
+				ra.remove(i,temp);
+				if(temp.getKey()==keyR)
+					temp.setKeyPosto(keyP);			
+				ra.insere(i,temp);
+			}
+		}
+	}
 }
 
 #endif
