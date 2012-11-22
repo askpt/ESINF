@@ -21,7 +21,7 @@ Fabrica fab;
 int op;
 
 void menu(){
-	
+
 	string nome;
 	int esc=0,opcao=0;
 	do{
@@ -34,7 +34,8 @@ void menu(){
 		cout << "7 - Valida o Grafo" << endl;
 		cout << "8 - Abastecer um posto automatico" << endl;
 		cout << "9 - Abastecer um posto armazem" << endl;
-		cout << "10 - Mostra estado fabrica" << endl;
+		cout << "10 - Abastecer Automaticamente" << endl;
+		cout << "11 - Mostra estado fabrica" << endl;
 		cout << "0 - Sair" << endl;
 		cin >> op;
 		switch(op){
@@ -138,13 +139,16 @@ void menu(){
 			fab.abasteceAuto(key,qnt);
 			break;
 		case 9:
-						
+
 			cout << "Insira o posto armazem que quer abastecer" << endl;
 			cin >> key;
-			
+
 			fab.abasteceArm(key);
 			break;
 		case 10:
+			fab.abasteceAutomatico();
+			break;
+		case 11:
 			fab.imprimeEstado();
 			break;
 
@@ -155,7 +159,8 @@ void menu(){
 			fab.lerFicheiroRobot();					
 			fab.lerFicheiroTransportes();					
 			fab.criaGrafo();			
-			
+			fab.lerFicheiroAbastecimento();
+
 			break;
 		case 0:
 			cout << "Programa Terminado" << endl;
@@ -168,7 +173,7 @@ void menu(){
 }
 
 void main(){
-	
+
 	menu();
-	
+
 }
