@@ -869,7 +869,6 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 		cout << ra;
 		Robot temp;
 
-
 		float movimentado=qnt;
 		if(rob.getQntStock()-qnt>=0){
 			float stock=rob.getQntStock()-qnt;
@@ -880,13 +879,12 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 			testeFim->setQntStock(stock);
 		}else if(rob.getQntStock()-qnt<0){
 			float stock=testeIni->getQntStock()+(rob.getQntStock()-rob.getLimite());
-			cout << stock << endl;
 			testeIni->setQntStock(stock);
 			if(strcmp("class Armazem",typeid(*testeIni).name())==0)
 				dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
-			float req=dynamic_cast<Automatico*>(testeFim)->getQntReq()-movimentado;
+			float req=dynamic_cast<Automatico*>(testeFim)->getQntReq()-rob.getLimite();
 			dynamic_cast<Automatico*>(testeFim)->setQntReq(req);
-			stock=dynamic_cast<Automatico*>(testeFim)->getQntStock()+movimentado;
+			stock=dynamic_cast<Automatico*>(testeFim)->getQntStock()+rob.getLimite();
 			dynamic_cast<Automatico*>(testeFim)->setQntStock(stock);
 			rob.setQntStock(0);
 		}
