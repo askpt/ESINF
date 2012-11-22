@@ -128,7 +128,7 @@ void menu(){
 			fab.validaGrafo();
 			break;
 		case 8:
-			fab.abasteceAuto(10,70);
+			fab.abasteceAuto(10,100);
 			break;
 		case 9:
 			fab.abasteceArm(1);
