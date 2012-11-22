@@ -869,7 +869,6 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 		cout << ra;
 		Robot temp;
 
-		float movimentado=qnt;
 		if(rob.getQntStock()-qnt>=0){
 			float stock=rob.getQntStock()-qnt;
 			rob.setQntStock(stock);
@@ -997,6 +996,7 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 			ini=fab.encvert_key(i);
 			cmDist(ini,fim,&distancia[i],false);
 		}
+		ini=NULL;
 		for(int i=1;i<=ra.comprimento();i++)
 		{
 			Robot tmp;
@@ -1013,8 +1013,12 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 
 	}
 	Posto *testeFim=fim->GetConteudo();
+	
+	if(ini==NULL){
+		cout << "Nao existem caminhos para o armazem " << fim->GetConteudo()->getKey() << endl;
+		return;
+	}
 	testeIni=ini->GetConteudo();
-
 	if(cmDist(ini,fim, distancia, true)){
 		int pos = 1, key=-1;
 		while (pos <= ra.comprimento())
@@ -1033,12 +1037,31 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 		cout << ra;
 		Robot temp;
 
-		float stock=testeIni->getQntStock()-qnt;
+		if(rob.getQntStock()-qnt>=0){
+			float stock=rob.getQntStock()-qnt;
+			rob.setQntStock(stock);
+			if(strcmp("class Armazem",typeid(*testeIni).name())==0)
+				dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
+			stock=testeFim->getQntStock()+qnt;
+			testeFim->setQntStock(stock);
+		}else if(rob.getQntStock()-qnt<0){
+			float stock=testeIni->getQntStock()+(rob.getQntStock()-rob.getLimite());
+			testeIni->setQntStock(stock);
+			if(strcmp("class Armazem",typeid(*testeIni).name())==0)
+				dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
+			float req=dynamic_cast<Automatico*>(testeFim)->getQntReq()-rob.getLimite();
+			dynamic_cast<Automatico*>(testeFim)->setQntReq(req);
+			stock=dynamic_cast<Automatico*>(testeFim)->getQntStock()+rob.getLimite();
+			dynamic_cast<Automatico*>(testeFim)->setQntStock(stock);
+			rob.setQntStock(0);
+		}
+
+		/*float stock=testeIni->getQntStock()-qnt;
 		testeIni->setQntStock(stock);
 		if(strcmp("class Armazem",typeid(*testeIni).name())==0)
 			dynamic_cast<Armazem*>(testeIni)->setKeyRobots(-1);
 		stock=testeFim->getQntStock()+qnt;
-		testeFim->setQntStock(stock);
+		testeFim->setQntStock(stock);*/
 
 		rob.setKeyPosto(testeFim->getKey());
 		ra.remove(pos,temp);
