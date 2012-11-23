@@ -837,6 +837,7 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 			ini=fab.encvert_key(i);
 			cmTempo(ini,f,&tempo[i],false);
 		}
+		ini=NULL;
 		for(int i=1;i<=ra.comprimento();i++)
 		{
 			Robot tmp;
@@ -851,6 +852,11 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 			}
 		}
 
+	}
+	if(ini==NULL)
+	{
+		cout << "Nao existem robots disponiveis" << endl;
+		return;
 	}
 	Posto *testeFim=f->GetConteudo();
 	testeIni=ini->GetConteudo();
@@ -908,7 +914,7 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 		tempo[ini->GetKey()]=9999;
 		float req=qnt-rob.getLimite();
 		Robot robTemp;
-		Vertice<Posto*,Transporte> *iniTemp;
+		Vertice<Posto*,Transporte> *iniTemp=NULL;
 		for(int i=1;i<=ra.comprimento();i++)
 		{
 			Robot tmp;
@@ -922,7 +928,13 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 				iniTemp=fab.encvert_key(key->GetKey());
 			}
 		}
-		caminhoMinimoTempo(iniTemp,f,req,tempo);
+		if(iniTemp!=NULL)
+			caminhoMinimoTempo(iniTemp,f,req,tempo);
+		else
+		{
+			cout << "Nao existem robots disponiveis!" << endl;
+			return;
+		}
 	}
 }
 
@@ -1151,7 +1163,7 @@ void Fabrica::abasteceAutomatico(){
 	}
 	while(!abast.vazia()){
 		resetPosRobot();
-		
+
 		verificaEstado();
 		abast.retira(temp);
 		resetPosRobot();
