@@ -36,6 +36,7 @@ public:
 	int grau_saida (const TV& vert) const;
 
 	void escreve_grafo() const ;
+	void escrevegrafo() const;
 
 };
 
@@ -365,6 +366,37 @@ void ListAdjGrafo<TV,TR>::escreve_grafo() const
 				r=r->apr;
 			}   
 			cout<<endl;
+			v=v->apvertice;
+		}
+	}
+}
+
+template<class TV, class TR>
+void ListAdjGrafo<TV,TR>::escrevegrafo() const 
+{
+	Vertice<TV,TR>* v=graf;
+	Ramo<TV,TR>* r ;
+
+	if (v == NULL)
+		cout << "Grafo nao definido !" << endl ; 
+	else
+	{
+		cout << "Numero de vertices " << nvertices  << endl ; 
+		cout << "Numero de ramos " << nramos  << endl ; 
+		cout << "________________________________________________________________________________" << endl;
+		while (v != NULL)
+		{
+			cout << "Vertice: " << v->vconteudo << endl;
+			cout << "Ligacoes: " << endl;
+			r=v->apramo;
+			while (r)
+			{
+				cout << r->apv->vconteudo << "  " ;
+				cout << r->rconteudo << endl;	
+				r=r->apr;
+			}   
+			cout<<endl;
+			cout << "________________________________________________________________________________" << endl;
 			v=v->apvertice;
 		}
 	}

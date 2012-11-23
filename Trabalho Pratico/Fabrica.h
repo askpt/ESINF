@@ -830,6 +830,9 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 			}
 
 		}
+		cout << "Segunda Movimentacao" << endl;
+
+
 	}else
 	{
 		int min=9999;
@@ -851,7 +854,7 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 				ini=fab.encvert_key(key->GetKey());
 			}
 		}
-
+		cout << "Primeira Movimentacao" << endl;
 	}
 	if(ini==NULL)
 	{
@@ -874,10 +877,13 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 				break;			
 			pos++;
 		}
-
+		cout << endl;
+		cout << "Estado inicial do abastecimento:" << endl;
+		cout << "________________________________________________________________________________" << endl;
 		cout << *testeIni;
 		cout << *testeFim;
 		cout << ra;
+		cout << "________________________________________________________________________________" << endl;
 		Robot temp;
 
 		if(rob.getQntStock()-qnt>=0){
@@ -903,13 +909,18 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 		ra.remove(pos,temp);
 		ra.insere(pos,rob);
 
+		cout << "Estado final do abastecimento: " << endl;
+		cout << "________________________________________________________________________________" << endl;
 		cout << *testeIni;
 		cout << *testeFim;
 		cout << ra;
+		cout << "________________________________________________________________________________" << endl;
 
 	}
 	if(rob.getLimite()<qnt)
 	{
+		fflush(stdin);
+		cin.get();
 		int min=9999;
 		tempo[ini->GetKey()]=9999;
 		float req=qnt-rob.getLimite();
@@ -932,7 +943,7 @@ void Fabrica::caminhoMinimoTempo(Vertice<Posto*,Transporte> *ini, Vertice<Posto*
 			caminhoMinimoTempo(iniTemp,f,req,tempo);
 		else
 		{
-			cout << "Nao existem robots disponiveis!" << endl;
+			cout << "Nao existem robots disponiveis para satisfazer o pedido!" << endl;
 			return;
 		}
 	}
@@ -1135,7 +1146,7 @@ void Fabrica::imprimeEstado() const
 {
 	system("cls");
 	cout << "Grafo da Fabrica" << endl;
-	fab.escreve_grafo();
+	fab.escrevegrafo();
 	fflush(stdin);
 	cin.get();
 	system("cls");
