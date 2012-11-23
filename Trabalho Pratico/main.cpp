@@ -106,27 +106,45 @@ void menu(){
 			cout << fab.getMatriz();
 			cout << endl;
 			cout << "------------------------------------------------------------------------------" << endl;
+			fflush(stdin);
+			cin.get();
+			system("cls");
 			break;
 		case 3:
 			cout << "Lista: "  << endl;
 			cout << "Robot: " << endl;
 			cout << fab.getLista();
 			cout << "------------------------------------------------------------------------------" << endl;
+			fflush(stdin);
+			cin.get();
+			system("cls");
 			break;
 		case 4:
 			cout << "Queue: " << endl;
 			cout << fab.getQueue();
 			cout << "------------------------------------------------------------------------------" << endl;
+			fflush(stdin);
+			cin.get();
+			system("cls");
 			break;
 		case 5:
 			cout << "Grafo: " << endl;
 			fab.getGrafo().escreve_grafo();
+			fflush(stdin);
+			cin.get();
+			system("cls");
 			break;
 		case 6:
 			fab.criaGrafo();
+			fflush(stdin);
+			cin.get();
+			system("cls");
 			break;
 		case 7:
 			fab.validaGrafo();
+			fflush(stdin);
+			cin.get();
+			system("cls");
 			break;
 		case 8:
 			int key;
@@ -137,6 +155,9 @@ void menu(){
 			cout << "Insira a quantidade de abastecimento" << endl;
 			cin >> qnt;
 			fab.abasteceAuto(key,qnt);
+			fflush(stdin);
+			cin.get();
+			system("cls");
 			break;
 		case 9:
 
@@ -144,9 +165,15 @@ void menu(){
 			cin >> key;
 
 			fab.abasteceArm(key);
+			fflush(stdin);
+			cin.get();
+			system("cls");
 			break;
 		case 10:
 			fab.abasteceAutomatico();
+			fflush(stdin);
+			cin.get();
+			system("cls");
 			break;
 		case 11:
 			fab.imprimeEstado();
