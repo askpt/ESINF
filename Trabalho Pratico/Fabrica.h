@@ -1017,6 +1017,7 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 			}
 
 		}
+		cout << "Segunda Movimentacao" << endl;
 	}else
 	{
 		int min=9999;
@@ -1038,7 +1039,7 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 				ini=fab.encvert_key(key->GetKey());
 			}
 		}
-
+		cout << "Primeira Movimentacao" << endl;
 	}
 	Posto *testeFim=fim->GetConteudo();
 
@@ -1060,12 +1061,21 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 		float movimentado=qnt-rob.getLimite();
 		if(movimentado<0)
 			movimentado=rob.getLimite();
+		cout << endl;
+		cout << "Estado inicial do abastecimento:" << endl;
+		cout << "________________________________________________________________________________" << endl;
+		cout << *testeIni;
+		cout << *testeFim;
+		cout << ra;
+		cout << "________________________________________________________________________________" << endl;
 		cout << *testeIni;
 		cout << *testeFim;
 		cout << ra;
 		Robot temp;
 
 		if(rob.getQntStock()-qnt>=0){
+			fflush(stdin);
+			cin.get();
 			float stock=rob.getQntStock()-qnt;
 			rob.setQntStock(stock);
 			if(strcmp("class Armazem",typeid(*testeIni).name())==0)
@@ -1086,6 +1096,12 @@ void Fabrica::caminhoMinimoDistancia(Vertice<Posto*,Transporte> *ini, Vertice<Po
 		ra.remove(pos,temp);
 		ra.insere(pos,rob);
 
+		cout << "Estado final do abastecimento: " << endl;
+		cout << "________________________________________________________________________________" << endl;
+		cout << *testeIni;
+		cout << *testeFim;
+		cout << ra;
+		cout << "________________________________________________________________________________" << endl;
 		cout << *testeIni;
 		cout << *testeFim;
 		cout << ra;
