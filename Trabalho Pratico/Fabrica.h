@@ -23,6 +23,7 @@ private:
 	Queue<Abastecimento> abast;
 	int numPostos;
 	bool veri;
+	int contador;
 	ListAdjGrafo<Posto*,Transporte> fab;
 	void procura_armazem(Vertice<Posto*,Transporte>* apinicio, int *vector, bool *chega);
 	void procura_automatico(Vertice<Posto*,Transporte>* apinicio, int *vector, bool *chega, int key);
@@ -46,6 +47,7 @@ public:
 	void lerFicheiroAbastecimento();
 
 	bool getVeri() const;
+	int getCont() const;
 	Matriz getMatriz();
 	Lista<Robot> getLista();
 	Queue<Posto*> getQueue();
@@ -101,6 +103,10 @@ ListAdjGrafo<Posto*,Transporte> Fabrica::getGrafo()
 bool Fabrica::getVeri()const
 {
 	return veri;
+}
+
+int Fabrica::getCont()const{
+	return contador;
 }
 
 void Fabrica::lerFicheiroRobot() {	
@@ -178,6 +184,7 @@ void Fabrica::lerFicheiroRobot() {
 	if(cont == numPostos){
 		cout << "Ficheiro Carregado Com Sucesso" << endl;
 		ra = auxi;
+		contador++;
 	}else if(cont < numPostos){
 		cout << "Falhou o carregamento do ficheiro. Numero de robots insuficientes!" << endl;
 	}else{
@@ -290,6 +297,7 @@ void Fabrica::lerFicheiroArmazem() {
 		aa.insere(at);
 	}while(aux.comprimento()>0);
 	veri=true;
+	contador++;
 	fx.close();
 }
 
@@ -377,6 +385,7 @@ void Fabrica::lerFicheiroAutomatico() {
 			aa.insere(at);
 		}while(aux.comprimento()>0);		
 		cout << "Ficheiro carregado com sucesso" << endl;
+		contador++;
 	}else if(cont > pow(2,numPostos)){
 		cout << "Importacao do ficheiro falhou. Postos Automaticos em demasia!" << endl;
 	}else{
@@ -461,6 +470,7 @@ void Fabrica::lerFicheiroTransportes() {
 		}
 		m = aux;
 		cout << "Ficheiro Carregado Com Sucesso" << endl;
+		contador++;
 	}
 
 	fx.close();
